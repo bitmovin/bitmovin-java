@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.encodings.live;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by dmoser on 27.10.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RtmpLiveEncodingInfo
 {
     String encodingId;

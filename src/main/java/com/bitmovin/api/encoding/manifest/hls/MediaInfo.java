@@ -1,10 +1,13 @@
 package com.bitmovin.api.encoding.manifest.hls;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 
 /**
  * Created by doweinberger on 8/12/16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MediaInfo
 {
     private String id;

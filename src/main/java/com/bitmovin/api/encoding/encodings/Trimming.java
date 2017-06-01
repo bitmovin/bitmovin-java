@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.encodings;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by dmoser on 09.01.17.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Trimming
 {
     private Double offset;

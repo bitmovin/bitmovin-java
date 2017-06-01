@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.manifest.dash;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by msmole on 13.10.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ContentProtection
 {
     private String id;

@@ -1,11 +1,14 @@
 package com.bitmovin.api.encoding.manifest.dash;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 import java.util.Set;
 
 /**
  * Created by msmole on 13.10.16.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AdaptationSet
 {
     private String               id;

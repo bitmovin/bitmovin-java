@@ -4,23 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bitmovin.api</groupId>
     <artifactId>bitmovin-java</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>Bitmovin Java Client</name>
     <url>https://github.com/bitmovin/bitmovin-java</url>
-    <description>The bitmovin API for Java is a seamless integration with the bitmovin.com cloud transcoding system. It enables the generation of MPEG-DASH and HLS content in just some minutes.</description>
+    <description>JAVA-Client which enables you to seamlessly integrate the all new Bitmovin API into your existing projects.</description>
     <organization>
         <name>bitmovin</name>
-        <url>http://www.bitmovin.net</url>
+        <url>http://www.bitmovin.com</url>
     </organization>
     <scm>
         <url>https://github.com/bitmovin/bitmovin-java.git</url>
     </scm>
-    <developers>
-        <developer>
-            <id>schellkenig</id>
-            <email>christopher.mueller@bitmovin.net</email>
-        </developer>
-    </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

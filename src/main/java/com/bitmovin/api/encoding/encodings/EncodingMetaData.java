@@ -1,7 +1,8 @@
 package com.bitmovin.api.encoding.encodings;
 
-import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.encoding.outputs.Output;
+import com.bitmovin.api.encoding.status.Task;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by akopper on 29.08.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EncodingMetaData
 {
 
