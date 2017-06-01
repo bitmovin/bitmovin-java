@@ -27,8 +27,8 @@ import com.bitmovin.api.encoding.manifest.hls.HlsManifest;
 import com.bitmovin.api.encoding.manifest.hls.MediaInfo;
 import com.bitmovin.api.encoding.manifest.hls.MediaInfoType;
 import com.bitmovin.api.encoding.manifest.hls.StreamInfo;
-import com.bitmovin.api.encoding.outputs.GcsOutput;
 import com.bitmovin.api.encoding.outputs.Output;
+import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
 import com.bitmovin.api.exceptions.BitmovinApiException;
@@ -74,11 +74,11 @@ public class CreateSimpleEncoding
         input.setHost(HTTPS_INPUT_HOST);
         input = bitmovinApi.input.https.create(input);
 
-        GcsOutput output = new GcsOutput();
-        output.setAccessKey(GCS_OUTPUT_ACCESSKEY);
-        output.setSecretKey(GCS_OUTPUT_SECRET_KEY);
-        output.setBucketName(GCS_OUTPUT_BUCKET_NAME);
-        output = bitmovinApi.output.gcs.create(output);
+        S3Output output = new S3Output();
+        output.setAccessKey(S3_OUTPUT_ACCESSKEY);
+        output.setSecretKey(S3_OUTPUT_ACCESSKEY);
+        output.setBucketName(S3_OUTPUT_ACCESSKEY);
+        output = bitmovinApi.output.s3.create(output);
 
         AACAudioConfig aacConfiguration = new AACAudioConfig();
         aacConfiguration.setBitrate(128000L);
