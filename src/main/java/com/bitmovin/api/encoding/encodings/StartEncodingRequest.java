@@ -2,6 +2,7 @@ package com.bitmovin.api.encoding.encodings;
 
 import com.bitmovin.api.encoding.encodings.live.LiveDashManifest;
 import com.bitmovin.api.encoding.encodings.live.LiveHlsManifest;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by Roland Kersche on 12/12/16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StartEncodingRequest
 {
     private Trimming trimming;

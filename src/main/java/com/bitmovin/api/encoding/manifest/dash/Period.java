@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.manifest.dash;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by akopper on 08.08.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Period
 {
 

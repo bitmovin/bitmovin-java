@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.manifest.dash;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by arudich on 09.01.17.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomAttribute
 {
     private String key;

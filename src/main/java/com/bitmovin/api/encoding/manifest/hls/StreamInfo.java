@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding.manifest.hls;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by doweinberger on 8/12/16.
  **/
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StreamInfo
 {
     private String id;

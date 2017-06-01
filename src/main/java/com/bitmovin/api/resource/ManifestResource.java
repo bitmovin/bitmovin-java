@@ -39,9 +39,9 @@ public class ManifestResource<T extends AbstractApiResponse> extends AbstractRes
         return RestClient.postDetail(newUrl, this.headers, manifest, ManifestCreationProcessResponse.class);
     }
 
-    public Status getGenerationStatus(T manifestDash) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    public Status getGenerationStatus(T manifest) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
-        String newUrl = this.status.replace("{manifestId}", manifestDash.getId());
+        String newUrl = this.status.replace("{manifestId}", manifest.getId());
         Map resultMap = RestClient.getDetailsFromResponse(newUrl, this.headers, Map.class);
         return Status.valueOf(resultMap.get("status").toString());
     }

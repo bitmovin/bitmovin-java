@@ -1,11 +1,14 @@
 package com.bitmovin.api.encoding.encodings.live;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by dmoser on 19.09.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StartLiveEncodingRequest
 {
     private String streamKey;

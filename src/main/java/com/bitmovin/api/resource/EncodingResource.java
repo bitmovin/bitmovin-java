@@ -8,7 +8,6 @@ import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.encoding.encodings.EncodingReport;
 import com.bitmovin.api.encoding.encodings.StartEncodingRequest;
 import com.bitmovin.api.encoding.encodings.Trimming;
-import com.bitmovin.api.encoding.encodings.encodinginformation.EncodingInformation;
 import com.bitmovin.api.encoding.encodings.live.LiveDetailsResponse;
 import com.bitmovin.api.encoding.encodings.live.StartLiveEncodingRequest;
 import com.bitmovin.api.encoding.encodings.live.StartLiveEncodingResponse;
@@ -204,12 +203,6 @@ public class EncodingResource extends AbstractResource<Encoding>
     {
         String newUrl = ApiUrls.encodingDelete.replace("{encoding_id}", encoding.getId());
         RestClient.delete(newUrl, this.headers);
-    }
-
-    public EncodingInformation getInformation(String encodingId) throws IOException, RestException, BitmovinApiException, UnirestException, URISyntaxException
-    {
-        String url = ApiUrls.encodingInformation.replace("{encoding_id}", encodingId);
-        return RestClient.get(url, this.headers, EncodingInformation.class);
     }
 
 }
