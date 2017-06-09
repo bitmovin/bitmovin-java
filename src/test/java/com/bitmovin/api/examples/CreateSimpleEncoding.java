@@ -76,8 +76,8 @@ public class CreateSimpleEncoding
 
         S3Output output = new S3Output();
         output.setAccessKey(S3_OUTPUT_ACCESSKEY);
-        output.setSecretKey(S3_OUTPUT_ACCESSKEY);
-        output.setBucketName(S3_OUTPUT_ACCESSKEY);
+        output.setSecretKey(S3_OUTPUT_SECRET_KEY);
+        output.setBucketName(S3_OUTPUT_BUCKET_NAME);
         output = bitmovinApi.output.s3.create(output);
 
         AACAudioConfig aacConfiguration = new AACAudioConfig();
