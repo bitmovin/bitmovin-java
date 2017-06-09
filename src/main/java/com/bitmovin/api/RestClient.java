@@ -31,6 +31,7 @@ import static com.bitmovin.api.constants.ApiUrls.API_ENDPOINT_WITH_PROTOCOL;
  **/
 public class RestClient
 {
+    private static boolean debug = false;
 
     public static JSONObject convertToJsonObject(Object object) throws JsonProcessingException
     {
@@ -53,7 +54,7 @@ public class RestClient
     private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws UnirestException, URISyntaxException, BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient();
+        JsonRestClient jRest = new JsonRestClient(isDebug());
         switch (method)
         {
             case POST:
@@ -91,7 +92,7 @@ public class RestClient
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient();
+        JsonRestClient jRest = new JsonRestClient(isDebug());
 
         switch (method)
         {
@@ -338,5 +339,15 @@ public class RestClient
         return item;
     }
 
+
+    public static boolean isDebug()
+    {
+        return debug;
+    }
+
+    public static void setDebug(boolean debug)
+    {
+        RestClient.debug = debug;
+    }
 
 }
