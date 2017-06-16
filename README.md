@@ -16,4 +16,4 @@ Add this to your pom.xml:
 ```
 
 ## Examples
-For examples go to our [example page](https://github.com/bitmovin/bitmovin-java/tree/develop/examples/).
+For examples go to our [example page](https://github.com/bitmovin/bitmovin-java/tree/develop/src/test/java/com/bitmovin/api/examples/).
