@@ -4,6 +4,7 @@ import com.bitmovin.api.AbstractApiResponse;
 import com.bitmovin.api.encoding.EncodingOutput;
 import com.bitmovin.api.encoding.InputStream;
 import com.bitmovin.api.encoding.StreamFilter;
+import com.bitmovin.api.encoding.encodings.conditions.AbstractCondition;
 import com.bitmovin.api.encoding.encodings.muxing.Muxing;
 import com.bitmovin.api.encoding.encodings.thumbnails.Sprite;
 import com.bitmovin.api.encoding.encodings.thumbnails.Thumbnail;
@@ -42,6 +43,8 @@ public class Stream extends AbstractApiResponse
     private String codecConfigId;
 
     private Integer segmentsEncoded;
+
+    private AbstractCondition conditions;
 
     public Stream()
     {
@@ -173,5 +176,15 @@ public class Stream extends AbstractApiResponse
     public void setSegmentsEncoded(Integer segmentsEncoded)
     {
         this.segmentsEncoded = segmentsEncoded;
+    }
+
+    public AbstractCondition getConditions()
+    {
+        return this.conditions;
+    }
+
+    public void setConditions(AbstractCondition conditions)
+    {
+        this.conditions = conditions;
     }
 }
