@@ -91,7 +91,6 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration240p.setProfile(ProfileH264.BASELINE);
         videoConfiguration240p.setMinGop(gop);
         videoConfiguration240p.setMaxGop(gop);
-        videoConfiguration240p.setRefFrames(3);
         videoConfiguration240p = bitmovinApi.configuration.videoH264.create(videoConfiguration240p);
 
         H264VideoConfiguration videoConfiguration360p = new H264VideoConfiguration();
@@ -100,7 +99,6 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration360p.setProfile(ProfileH264.MAIN);
         videoConfiguration360p.setMinGop(gop);
         videoConfiguration360p.setMaxGop(gop);
-        videoConfiguration240p.setRefFrames(3);
         videoConfiguration360p = bitmovinApi.configuration.videoH264.create(videoConfiguration360p);
 
         H264VideoConfiguration videoConfiguration480p = new H264VideoConfiguration();
@@ -109,7 +107,6 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration480p.setProfile(ProfileH264.MAIN);
         videoConfiguration480p.setMinGop(gop);
         videoConfiguration480p.setMaxGop(gop);
-        videoConfiguration240p.setRefFrames(3);
         videoConfiguration480p = bitmovinApi.configuration.videoH264.create(videoConfiguration480p);
 
         H264VideoConfiguration videoConfiguration720p = new H264VideoConfiguration();
@@ -118,7 +115,6 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration720p.setProfile(ProfileH264.HIGH);
         videoConfiguration720p.setMinGop(gop);
         videoConfiguration720p.setMaxGop(gop);
-        videoConfiguration240p.setRefFrames(3);
         videoConfiguration720p = bitmovinApi.configuration.videoH264.create(videoConfiguration720p);
 
         H264VideoConfiguration videoConfiguration1080p = new H264VideoConfiguration();
@@ -127,7 +123,6 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration1080p.setProfile(ProfileH264.HIGH);
         videoConfiguration1080p.setMinGop(gop);
         videoConfiguration1080p.setMaxGop(gop);
-        videoConfiguration240p.setRefFrames(3);
         videoConfiguration1080p = bitmovinApi.configuration.videoH264.create(videoConfiguration1080p);
 
         InputStream inputStreamVideo = new InputStream();
