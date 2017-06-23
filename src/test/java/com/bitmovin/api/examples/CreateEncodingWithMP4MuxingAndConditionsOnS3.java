@@ -53,12 +53,17 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
     private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
     private static String NOTIFICATION_URL = "<INSERT_YOUR_NOTIFICATION_URL>";
+    private static double INPUT_FPS = 23.98;
+    private static double KEYFRAME_INTERVAL = 0.5;
+
 
     private static BitmovinApi bitmovinApi;
 
     @Test
     public void testEncoding() throws IOException, BitmovinApiException, UnirestException, URISyntaxException, RestException, InterruptedException
     {
+        int gop = (int) Math.round(INPUT_FPS / KEYFRAME_INTERVAL);
+
         bitmovinApi = new BitmovinApi(API_KEY);
         Encoding encoding = new Encoding();
         encoding.setName("Encoding JAVA");
@@ -84,40 +89,45 @@ public class CreateEncodingWithMP4MuxingAndConditionsOnS3
         videoConfiguration240p.setHeight(240);
         videoConfiguration240p.setBitrate(195000L);
         videoConfiguration240p.setProfile(ProfileH264.BASELINE);
-        videoConfiguration240p.setMinGop(48);
-        videoConfiguration240p.setMaxGop(48);
+        videoConfiguration240p.setMinGop(gop);
+        videoConfiguration240p.setMaxGop(gop);
+        videoConfiguration240p.setRefFrames(3);
         videoConfiguration240p = bitmovinApi.configuration.videoH264.create(videoConfiguration240p);
 
         H264VideoConfiguration videoConfiguration360p = new H264VideoConfiguration();
         videoConfiguration360p.setHeight(360);
         videoConfiguration360p.setBitrate(750000L);
         videoConfiguration360p.setProfile(ProfileH264.MAIN);
-        videoConfiguration360p.setMinGop(48);
-        videoConfiguration360p.setMaxGop(48);
+        videoConfiguration360p.setMinGop(gop);
+        videoConfiguration360p.setMaxGop(gop);
+        videoConfiguration240p.setRefFrames(3);
         videoConfiguration360p = bitmovinApi.configuration.videoH264.create(videoConfiguration360p);
 
         H264VideoConfiguration videoConfiguration480p = new H264VideoConfiguration();
         videoConfiguration480p.setHeight(480);
         videoConfiguration480p.setBitrate(1750000L);
         videoConfiguration480p.setProfile(ProfileH264.MAIN);
-        videoConfiguration480p.setMinGop(48);
-        videoConfiguration480p.setMaxGop(48);
+        videoConfiguration480p.setMinGop(gop);
+        videoConfiguration480p.setMaxGop(gop);
+        videoConfiguration240p.setRefFrames(3);
         videoConfiguration480p = bitmovinApi.configuration.videoH264.create(videoConfiguration480p);
 
         H264VideoConfiguration videoConfiguration720p = new H264VideoConfiguration();
         videoConfiguration720p.setHeight(720);
         videoConfiguration720p.setBitrate(3000000L);
-        videoConfiguration720p.setProfile(ProfileH264.MAIN);
-        videoConfiguration720p.setMinGop(48);
-        videoConfiguration720p.setMaxGop(48);
+        videoConfiguration720p.setProfile(ProfileH264.HIGH);
+        videoConfiguration720p.setMinGop(gop);
+        videoConfiguration720p.setMaxGop(gop);
+        videoConfiguration240p.setRefFrames(3);
         videoConfiguration720p = bitmovinApi.configuration.videoH264.create(videoConfiguration720p);
 
         H264VideoConfiguration videoConfiguration1080p = new H264VideoConfiguration();
         videoConfiguration1080p.setHeight(1080);
         videoConfiguration1080p.setBitrate(4500000L);
-        videoConfiguration1080p.setProfile(ProfileH264.MAIN);
-        videoConfiguration1080p.setMinGop(48);
-        videoConfiguration1080p.setMaxGop(48);
+        videoConfiguration1080p.setProfile(ProfileH264.HIGH);
+        videoConfiguration1080p.setMinGop(gop);
+        videoConfiguration1080p.setMaxGop(gop);
+        videoConfiguration240p.setRefFrames(3);
         videoConfiguration1080p = bitmovinApi.configuration.videoH264.create(videoConfiguration1080p);
 
         InputStream inputStreamVideo = new InputStream();
