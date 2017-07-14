@@ -1,12 +1,14 @@
 package com.bitmovin.api.encoding;
 
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by
  * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
  * on 25.07.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class InputStream
 {
     String inputId;
