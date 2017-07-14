@@ -1,6 +1,6 @@
 package com.bitmovin.api.encoding.outputs;
 
-import com.bitmovin.api.encoding.inputs.Input;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import java.util.List;
  * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
  * on 27.07.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OutputList<T extends Output>
 {
     private int totalCount;

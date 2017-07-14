@@ -1,5 +1,7 @@
 package com.bitmovin.api.encoding;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
  * on 25.07.16.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EncodingOutput
 {
     private String outputId;

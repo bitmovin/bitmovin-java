@@ -1,8 +1,11 @@
 package com.bitmovin.api.encoding;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by Dominic Miglar [dominic.miglar@bitmovin.com] on 8/26/16 at 12:25 PM.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleApiDTO
 {
     public SimpleApiDTO()
