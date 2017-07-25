@@ -270,7 +270,7 @@ public class CreateEncodingWithDRM
         if (status.getStatus() != Status.FINISHED)
         {
             System.out.println("Encoding has status error ... can not create manifest");
-            return;
+            Assert.fail("Encoding has status error ... can not create manifest");
         }
 
         System.out.println("Creating DASH manifest");
@@ -323,7 +323,7 @@ public class CreateEncodingWithDRM
         if (dashStatus != Status.FINISHED)
         {
             System.out.println("Could not create DASH manifest");
-            return;
+            Assert.fail("Could not create DASH manifest");
         }
         System.out.println("Creating HLS manifest");
 
@@ -363,7 +363,7 @@ public class CreateEncodingWithDRM
         if (hlsStatus != Status.FINISHED)
         {
             System.out.println("Could not create HLS manifest");
-            return;
+            Assert.fail("Could not create HLS manifest");
         }
         System.out.println("Encoding completed successfully");
     }
