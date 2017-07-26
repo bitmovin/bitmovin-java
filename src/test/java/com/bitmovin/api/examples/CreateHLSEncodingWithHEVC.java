@@ -11,18 +11,10 @@ import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH265;
 import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
-import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
 import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.enums.CloudRegion;
-import com.bitmovin.api.encoding.enums.DashMuxingType;
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
 import com.bitmovin.api.encoding.inputs.HttpsInput;
-import com.bitmovin.api.encoding.manifest.dash.AdaptationSet;
-import com.bitmovin.api.encoding.manifest.dash.AudioAdaptationSet;
-import com.bitmovin.api.encoding.manifest.dash.DashFmp4Representation;
-import com.bitmovin.api.encoding.manifest.dash.DashManifest;
-import com.bitmovin.api.encoding.manifest.dash.Period;
-import com.bitmovin.api.encoding.manifest.dash.VideoAdaptationSet;
 import com.bitmovin.api.encoding.manifest.hls.HlsManifest;
 import com.bitmovin.api.encoding.manifest.hls.MediaInfo;
 import com.bitmovin.api.encoding.manifest.hls.MediaInfoType;
@@ -235,54 +227,6 @@ public class CreateHLSEncodingWithHEVC
         return bitmovinApi.manifest.hls.create(m);
     }
 
-    private void addDashRepresentationToAdaptationSet(DashMuxingType type, String encodingId, String muxingId,
-                                                      String segmentPath, DashManifest manifest, Period period,
-                                                      AdaptationSet adaptationSet)
-            throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException
-    {
-        DashFmp4Representation r = new DashFmp4Representation();
-        r.setType(type);
-        r.setEncodingId(encodingId);
-        r.setMuxingId(muxingId);
-        r.setSegmentPath(segmentPath);
-        bitmovinApi.manifest.dash.addRepresentationToAdaptationSet(manifest, period, adaptationSet, r);
-    }
-
-    private AudioAdaptationSet addAudioAdaptationSetToPeriodWithRoles(DashManifest manifest, Period period, String lang)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
-    {
-        AudioAdaptationSet a = new AudioAdaptationSet();
-        a.setLang(lang);
-        a = bitmovinApi.manifest.dash.addAudioAdaptationSetToPeriod(manifest, period, a);
-        return a;
-    }
-
-    private VideoAdaptationSet addVideoAdaptationSetToPeriod(DashManifest manifest, Period period)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
-    {
-        VideoAdaptationSet adaptationSet = new VideoAdaptationSet();
-        adaptationSet = bitmovinApi.manifest.dash.addVideoAdaptationSetToPeriod(manifest, period, adaptationSet);
-        return adaptationSet;
-    }
-
-    private DashManifest createDashManifest(String name, EncodingOutput output)
-            throws URISyntaxException, BitmovinApiException, UnirestException, IOException
-    {
-        DashManifest manifest = new DashManifest();
-        manifest.setName(name);
-        manifest.addOutput(output);
-        manifest = bitmovinApi.manifest.dash.create(manifest);
-        return manifest;
-    }
-
-    private Period addPeriodToDashManifest(DashManifest manifest)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
-    {
-        Period period = new Period();
-        period = bitmovinApi.manifest.dash.createPeriod(manifest, period);
-        return period;
-    }
-
     private EncodingOutput createEncodingOutput(Output output, String outputPath, AclPermission defaultAclPermission)
     {
         EncodingOutput encodingOutput = new EncodingOutput();
@@ -314,20 +258,6 @@ public class CreateHLSEncodingWithHEVC
         muxing.addStream(list);
         muxing.setSegmentLength(4.0);
         muxing = bitmovinApi.encoding.muxing.addFmp4MuxingToEncoding(encoding, muxing);
-        return muxing;
-    }
-
-    private TSMuxing createTSMuxing(Encoding encoding, Stream stream, Output output, String outputPath, AclPermission defaultAclPermission)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
-    {
-        EncodingOutput encodingOutput = this.createEncodingOutput(output, outputPath, defaultAclPermission);
-        TSMuxing muxing = new TSMuxing();
-        muxing.addOutput(encodingOutput);
-        MuxingStream list = new MuxingStream();
-        list.setStreamId(stream.getId());
-        muxing.addStream(list);
-        muxing.setSegmentLength(4.0);
-        muxing = bitmovinApi.encoding.muxing.addTSMuxingToEncoding(encoding, muxing);
         return muxing;
     }
 
