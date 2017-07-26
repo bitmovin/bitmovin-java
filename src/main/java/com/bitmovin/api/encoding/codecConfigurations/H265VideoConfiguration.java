@@ -31,7 +31,7 @@ public class H265VideoConfiguration extends VideoConfiguration
     private LevelH265 level;
 
 
-    private int rcLookahead;
+    private Integer rcLookahead;
 
 
     private BAdapt bAdapt = BAdapt.FULL;
@@ -52,11 +52,11 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Integer motionSearchRange;
 
-    private boolean weightPredictionOnPSlice;
+    private Boolean weightPredictionOnPSlice;
 
-    private boolean weightPredictionOnBSlice;
+    private Boolean weightPredictionOnBSlice;
 
-    private boolean sao;
+    private Boolean sao;
 
     public H265VideoConfiguration()
     {
@@ -83,62 +83,62 @@ public class H265VideoConfiguration extends VideoConfiguration
         this.crf = crf;
     }
 
-    public int getBframes()
+    public Integer getBframes()
     {
         return this.bframes;
     }
 
-    public void setBframes(int bframes)
+    public void setBframes(Integer bframes)
     {
         this.bframes = bframes;
     }
 
-    public int getRefFrames()
+    public Integer getRefFrames()
     {
         return this.refFrames;
     }
 
-    public void setRefFrames(int refFrames)
+    public void setRefFrames(Integer refFrames)
     {
         this.refFrames = refFrames;
     }
 
-    public int getQpMin()
+    public Integer getQpMin()
     {
         return this.qpMin;
     }
 
-    public void setQpMin(int qpMin)
+    public void setQpMin(Integer qpMin)
     {
         this.qpMin = qpMin;
     }
 
-    public int getQpMax()
+    public Integer getQpMax()
     {
         return this.qpMax;
     }
 
-    public void setQpMax(int qpMax)
+    public void setQpMax(Integer qpMax)
     {
         this.qpMax = qpMax;
     }
 
-    public long getMaxBitrate()
+    public Long getMaxBitrate()
     {
         return this.maxBitrate;
     }
 
-    public void setMaxBitrate(long maxBitrate)
+    public void setMaxBitrate(Long maxBitrate)
     {
         this.maxBitrate = maxBitrate;
     }
 
-    public long getMinBitrate()
+    public Long getMinBitrate()
     {
         return this.minBitrate;
     }
 
-    public void setMinBitrate(long minBitrate)
+    public void setMinBitrate(Long minBitrate)
     {
         this.minBitrate = minBitrate;
     }
@@ -153,12 +153,12 @@ public class H265VideoConfiguration extends VideoConfiguration
         this.level = level;
     }
 
-    public int getRcLookahead()
+    public Integer getRcLookahead()
     {
         return this.rcLookahead;
     }
 
-    public void setRcLookahead(int rcLookahead)
+    public void setRcLookahead(Integer rcLookahead)
     {
         this.rcLookahead = rcLookahead;
     }
@@ -213,52 +213,52 @@ public class H265VideoConfiguration extends VideoConfiguration
         this.motionSearch = motionSearch;
     }
 
-    public int getSubMe()
+    public Integer getSubMe()
     {
         return this.subMe;
     }
 
-    public void setSubMe(int subMe)
+    public void setSubMe(Integer subMe)
     {
         this.subMe = subMe;
     }
 
-    public int getMotionSearchRange()
+    public Integer getMotionSearchRange()
     {
         return this.motionSearchRange;
     }
 
-    public void setMotionSearchRange(int motionSearchRange)
+    public void setMotionSearchRange(Integer motionSearchRange)
     {
         this.motionSearchRange = motionSearchRange;
     }
 
-    public boolean isWeightPredictionOnPSlice()
+    public Boolean getWeightPredictionOnPSlice()
     {
         return this.weightPredictionOnPSlice;
     }
 
-    public void setWeightPredictionOnPSlice(boolean weightPredictionOnPSlice)
+    public void setWeightPredictionOnPSlice(Boolean weightPredictionOnPSlice)
     {
         this.weightPredictionOnPSlice = weightPredictionOnPSlice;
     }
 
-    public boolean isWeightPredictionOnBSlice()
+    public Boolean getWeightPredictionOnBSlice()
     {
         return this.weightPredictionOnBSlice;
     }
 
-    public void setWeightPredictionOnBSlice(boolean weightPredictionOnBSlice)
+    public void setWeightPredictionOnBSlice(Boolean weightPredictionOnBSlice)
     {
         this.weightPredictionOnBSlice = weightPredictionOnBSlice;
     }
 
-    public boolean isSao()
+    public Boolean getSao()
     {
         return this.sao;
     }
 
-    public void setSao(boolean sao)
+    public void setSao(Boolean sao)
     {
         this.sao = sao;
     }
