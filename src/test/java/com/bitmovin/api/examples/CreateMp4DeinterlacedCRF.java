@@ -24,8 +24,6 @@ import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
 import com.bitmovin.api.exceptions.BitmovinApiException;
-import com.bitmovin.api.helper.H264CodecConfigHelper;
-import com.bitmovin.api.helper.VideoCodecPresets;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
