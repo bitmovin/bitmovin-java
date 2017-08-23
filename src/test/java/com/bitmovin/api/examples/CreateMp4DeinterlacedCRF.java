@@ -75,17 +75,11 @@ public class CreateMp4DeinterlacedCRF
         output.setBucketName(S3_OUTPUT_BUCKET_NAME);
         output = bitmovinApi.output.s3.create(output);
 
-        H264VideoConfiguration videoConfig = H264CodecConfigHelper.getConfig(
-                "H264 Codec Config",
-                "H264 Codec Config",
-                ProfileH264.HIGH,
-                VideoCodecPresets.VERYSLOW,
-                1920,
-                1080,
-                12000000,
-                29.97f
-        );
-        videoConfig.setBitrate(null);
+        H264VideoConfiguration videoConfig = new H264VideoConfiguration();
+        videoConfig.setName("H264 Codec Config");
+        videoConfig.setDescription("H264 Codec Config with CRF");
+        videoConfig.setHeight(1080);
+        videoConfig.setProfile(ProfileH264.HIGH);
         videoConfig.setCrf(25.0f);
         videoConfig = bitmovinApi.configuration.videoH264.create(videoConfig);
 
