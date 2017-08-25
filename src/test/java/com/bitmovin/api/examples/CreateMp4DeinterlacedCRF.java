@@ -92,19 +92,21 @@ public class CreateMp4DeinterlacedCRF
         deinterlaceFilter.setMode(DeinterlaceMode.FRAME);
         deinterlaceFilter = bitmovinApi.filter.deinterlace.create(deinterlaceFilter);
 
-        List<StreamFilter> streamFilters = new ArrayList<>();
         StreamFilter streamFilter = new StreamFilter();
         streamFilter.setFilter(deinterlaceFilter);
-        streamFilters.add(streamFilter);
+        streamFilter.setId(deinterlaceFilter.getId());
+        streamFilter.setPosition(0);
 
         StreamFilterList streamFilterList = new StreamFilterList();
-        streamFilterList.setFilters(streamFilters);
+        streamFilterList.getFilters().add(streamFilter);
 
         Stream videoStream = new Stream();
         videoStream.setCodecConfigId(videoConfig.getId());
         videoStream.setInputStreams(new HashSet<>(Arrays.asList(videoInput)));
-        videoStream.setFilters(streamFilters);
+        videoStream.setFilters(streamFilterList.getFilters());
         videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
+
+        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream, streamFilterList);
 
         AACAudioConfig audioConfig = new AACAudioConfig();
         audioConfig.setBitrate(256000L);

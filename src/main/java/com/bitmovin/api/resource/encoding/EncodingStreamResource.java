@@ -3,6 +3,7 @@ package com.bitmovin.api.resource.encoding;
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
 import com.bitmovin.api.customData.CustomData;
+import com.bitmovin.api.encoding.StreamFilterList;
 import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.encoding.encodings.drms.CencDrm;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
@@ -62,6 +63,13 @@ public class EncodingStreamResource
     {
         String newUrl = ApiUrls.streams.replace("{encoding_id}", encoding.getId());
         return RestClient.post(this.headers, newUrl, stream, Stream.class);
+    }
+
+    public void addFiltersToStream(Encoding encoding, Stream stream, StreamFilterList filters) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.addFilterToStream.replace("{encoding_id}", encoding.getId());
+        newUrl = newUrl.replace("{stream_id}", stream.getId());
+        RestClient.postAndForget(newUrl, headers, filters.getFilters());
     }
 
     public CencDrm getCencDrm(Encoding encoding, Stream stream, FMP4Muxing fmp4Muxing, String cencDrmId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
