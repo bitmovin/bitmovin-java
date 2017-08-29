@@ -147,7 +147,8 @@ public class JsonRestClient
     {
         HttpRequest request = Unirest.get(resource.toString())
                                      .headers(headers)
-                                     .getHttpRequest();
+                                     .getHttpRequest()
+                ;
         this.logHttpRequest(request);
         HttpResponse<ResponseEnvelope> response =  request.asObject(ResponseEnvelope.class);
         this.logHttpResponse(response);
