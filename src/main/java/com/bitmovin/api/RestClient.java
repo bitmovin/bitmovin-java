@@ -69,6 +69,11 @@ public class RestClient
         throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
     }
 
+    public static void postAndForget(String resource, Map<String, String> headers, Object content) throws BitmovinApiException, RestException, IOException, UnirestException, URISyntaxException
+    {
+        request(resource, headers, content, RequestMethod.POST);
+    }
+
     private static <T> T post(String resource, Map<String, String> headers, Object content, Class<T> classOfT) throws BitmovinApiException, UnirestException, URISyntaxException
     {
         return request(resource, headers, content, classOfT, RequestMethod.POST);
