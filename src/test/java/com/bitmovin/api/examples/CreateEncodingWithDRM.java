@@ -58,19 +58,23 @@ public class CreateEncodingWithDRM
 {
     private static String ApiKey = "<INSERT_YOUR_APIKEY>";
 
-    private static CloudRegion cloudRegion = CloudRegion.AWS_EU_WEST_1;
+    private static CloudRegion cloudRegion = CloudRegion.AUTO;
     private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_HOST>"; // ex.: storage.googleapis.com/
     private static String HTTPS_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>";
     private static String S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
+
     private static String PLAYREADY_KID = "<INSERT_YOUR_PLAYREADY_KID>";
-    private static String PLAYREADY_KEYSEED = "<INSERT_YOUR_PLAYREADY_KEYSEED>";
+    private static String PLAYREADY_KEY = "<INSERT_YOUR_PLAYREADY_KEY>"; //Either KEY or KEYSEED is required
+    //private static String PLAYREADY_KEYSEED = "<INSERT_YOUR_PLAYREADY_KEYSEED>"; //Either KEY or KEYSEED is required (please see line 509 if you want to use keySeed)
     private static String PLAYREADY_LAURL = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx?UseSimpleNonPersistentLicense=1";
+
     private static String WIDEVINE_KID = "<INSERT_YOUR_WIDEVINE_KID>";
     private static String WIDEVINE_KEY = "<INSERT_YOUR_WIDEVINE_KEY>";
     private static String WIDEVINE_PSSH = "<INSERT_YOUR_WIDEVINE_PSSH>";
+
     private static String FAIRPLAY_KEY = "<INSERT_YOUR_FAIRPLAY_KEY>";
     private static String FAIRPLAY_IV = "<INSERT_YOUR_FAIRPLAY_IV>";
     private static String FAIRPLAY_URI = "skd://userspecifc?custom=information";
@@ -501,7 +505,8 @@ public class CreateEncodingWithDRM
     {
         PlayReadyDrm playReadyDrm = new PlayReadyDrm();
         playReadyDrm.setKid(PLAYREADY_KID);
-        playReadyDrm.setKeySeed(PLAYREADY_KEYSEED);
+        playReadyDrm.setKey(PLAYREADY_KEY);
+        //playReadyDrm.setKeySeed(PLAYREADY_KEYSEED); //Uncomment this line if needed
         playReadyDrm.setLaUrl(PLAYREADY_LAURL);
         playReadyDrm.setMethod(PlayReadyEncryptionMethod.MPEG_CENC);
 
