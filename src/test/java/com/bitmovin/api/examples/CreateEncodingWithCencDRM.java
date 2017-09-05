@@ -9,11 +9,11 @@ import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
+import com.bitmovin.api.encoding.encodings.drms.CencDrm;
 import com.bitmovin.api.encoding.encodings.drms.Drm;
 import com.bitmovin.api.encoding.encodings.drms.FairPlayDrm;
-import com.bitmovin.api.encoding.encodings.drms.PlayReadyDrm;
-import com.bitmovin.api.encoding.encodings.drms.WidevineDrm;
-import com.bitmovin.api.encoding.encodings.drms.enums.PlayReadyEncryptionMethod;
+import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencPlayReady;
+import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencWidevine;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
@@ -54,7 +54,7 @@ import java.util.List;
 /**
  * Created by Andreas Rudich on 25.07.17.
  **/
-public class CreateEncodingWithDRM
+public class CreateEncodingWithCencDRM
 {
     private static String ApiKey = "<INSERT_YOUR_APIKEY>";
 
@@ -66,13 +66,9 @@ public class CreateEncodingWithDRM
     private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
 
-    private static String PLAYREADY_KID = "<INSERT_YOUR_PLAYREADY_KID>";
-    private static String PLAYREADY_KEY = "<INSERT_YOUR_PLAYREADY_KEY>"; //Either KEY or KEYSEED is required
-    //private static String PLAYREADY_KEYSEED = "<INSERT_YOUR_PLAYREADY_KEYSEED>"; //Either KEY or KEYSEED is required (please see line 509 if you want to use keySeed)
+    private static String CENC_KEY = "<INSERT_YOUR_CENC_KEY>";
+    private static String CENC_KID = "<INSERT_YOUR_CENC_KID>";
     private static String PLAYREADY_LAURL = "http://playready.directtaps.net/pr/svc/rightsmanager.asmx?UseSimpleNonPersistentLicense=1";
-
-    private static String WIDEVINE_KID = "<INSERT_YOUR_WIDEVINE_KID>";
-    private static String WIDEVINE_KEY = "<INSERT_YOUR_WIDEVINE_KEY>";
     private static String WIDEVINE_PSSH = "<INSERT_YOUR_WIDEVINE_PSSH>";
 
     private static String FAIRPLAY_KEY = "<INSERT_YOUR_FAIRPLAY_KEY>";
@@ -87,7 +83,7 @@ public class CreateEncodingWithDRM
         bitmovinApi = new BitmovinApi(ApiKey);
 
         Encoding encoding = new Encoding();
-        encoding.setName("Encoding JAVA with DRM");
+        encoding.setName("Encoding JAVA with Cenc DRM");
         encoding.setCloudRegion(cloudRegion);
         encoding = bitmovinApi.encoding.create(encoding);
 
@@ -189,47 +185,26 @@ public class CreateEncodingWithDRM
         FMP4Muxing fmp4Muxing1080 = this.createFMP4MuxingNoOutput(encoding, videoStream1080p);
         FMP4Muxing fmp4Audio = this.createFMP4MuxingNoOutput(encoding, audioStream);
 
-        PlayReadyDrm videoPlayReadyDRM240p = this.getPlayReadyDRM();
-        PlayReadyDrm videoPlayReadyDRM360p = this.getPlayReadyDRM();
-        PlayReadyDrm videoPlayReadyDRM480p = this.getPlayReadyDRM();
-        PlayReadyDrm videoPlayReadyDRM720p = this.getPlayReadyDRM();
-        PlayReadyDrm videoPlayReadyDRM1080p = this.getPlayReadyDRM();
-        PlayReadyDrm audioPlayReadyDRM = this.getPlayReadyDRM();
+        CencDrm videoDRM240p = this.getCencDRMWithWidevineAndPlayready();
+        CencDrm videoDRM360p = this.getCencDRMWithWidevineAndPlayready();
+        CencDrm videoDRM480p = this.getCencDRMWithWidevineAndPlayready();
+        CencDrm videoDRM720p = this.getCencDRMWithWidevineAndPlayready();
+        CencDrm videoDRM1080p = this.getCencDRMWithWidevineAndPlayready();
+        CencDrm audioDRM = this.getCencDRMWithWidevineAndPlayready();
 
-        this.addOutputToDRM(videoPlayReadyDRM240p, output, OUTPUT_BASE_PATH + "/video/240p_dash/playready_drm");
-        this.addOutputToDRM(videoPlayReadyDRM360p, output, OUTPUT_BASE_PATH + "/video/360p_dash/playready_drm");
-        this.addOutputToDRM(videoPlayReadyDRM480p, output, OUTPUT_BASE_PATH + "/video/480p_dash/playready_drm");
-        this.addOutputToDRM(videoPlayReadyDRM720p, output, OUTPUT_BASE_PATH + "/video/720p_dash/playready_drm");
-        this.addOutputToDRM(videoPlayReadyDRM1080p, output, OUTPUT_BASE_PATH + "/video/1080p_dash/playready_drm");
-        this.addOutputToDRM(audioPlayReadyDRM, output, OUTPUT_BASE_PATH + "/audio/128kbps_dash/playready_drm");
+        this.addOutputToDRM(videoDRM240p, output, OUTPUT_BASE_PATH + "/video/240p_dash/drm");
+        this.addOutputToDRM(videoDRM360p, output, OUTPUT_BASE_PATH + "/video/360p_dash/drm");
+        this.addOutputToDRM(videoDRM480p, output, OUTPUT_BASE_PATH + "/video/480p_dash/drm");
+        this.addOutputToDRM(videoDRM720p, output, OUTPUT_BASE_PATH + "/video/720p_dash/drm");
+        this.addOutputToDRM(videoDRM1080p, output, OUTPUT_BASE_PATH + "/video/1080p_dash/drm");
+        this.addOutputToDRM(audioDRM, output, OUTPUT_BASE_PATH + "/audio/128kbps_dash/drm");
 
-        videoPlayReadyDRM240p = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing240, videoPlayReadyDRM240p);
-        videoPlayReadyDRM360p = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing360, videoPlayReadyDRM360p);
-        videoPlayReadyDRM480p = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing480, videoPlayReadyDRM480p);
-        videoPlayReadyDRM720p = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing720, videoPlayReadyDRM720p);
-        videoPlayReadyDRM1080p = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing1080, videoPlayReadyDRM1080p);
-        audioPlayReadyDRM = this.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Audio, audioPlayReadyDRM);
-
-        WidevineDrm videoWidevineDRM240p = this.getWidevineDRM();
-        WidevineDrm videoWidevineDRM360p = this.getWidevineDRM();
-        WidevineDrm videoWidevineDRM480p = this.getWidevineDRM();
-        WidevineDrm videoWidevineDRM720p = this.getWidevineDRM();
-        WidevineDrm videoWidevineDRM1080p = this.getWidevineDRM();
-        WidevineDrm audioWidevineDRM = this.getWidevineDRM();
-
-        this.addOutputToDRM(videoWidevineDRM240p, output, OUTPUT_BASE_PATH + "/video/240p_dash/widevine_drm");
-        this.addOutputToDRM(videoWidevineDRM360p, output, OUTPUT_BASE_PATH + "/video/360p_dash/widevine_drm");
-        this.addOutputToDRM(videoWidevineDRM480p, output, OUTPUT_BASE_PATH + "/video/480p_dash/widevine_drm");
-        this.addOutputToDRM(videoWidevineDRM720p, output, OUTPUT_BASE_PATH + "/video/720p_dash/widevine_drm");
-        this.addOutputToDRM(videoWidevineDRM1080p, output, OUTPUT_BASE_PATH + "/video/1080p_dash/widevine_drm");
-        this.addOutputToDRM(audioWidevineDRM, output, OUTPUT_BASE_PATH + "/audio/128kbps_dash/widevine_drm");
-
-        videoWidevineDRM240p = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing240, videoWidevineDRM240p);
-        videoWidevineDRM360p = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing360, videoWidevineDRM360p);
-        videoWidevineDRM480p = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing480, videoWidevineDRM480p);
-        videoWidevineDRM720p = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing720, videoWidevineDRM720p);
-        videoWidevineDRM1080p = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing1080, videoWidevineDRM1080p);
-        audioWidevineDRM = this.addWidevineDrmToFmp4Muxing(encoding, fmp4Audio, audioWidevineDRM);
+        videoDRM240p = this.addCencDrmToFmp4Muxing(encoding, fmp4Muxing240, videoDRM240p);
+        videoDRM360p = this.addCencDrmToFmp4Muxing(encoding, fmp4Muxing360, videoDRM360p);
+        videoDRM480p = this.addCencDrmToFmp4Muxing(encoding, fmp4Muxing480, videoDRM480p);
+        videoDRM720p = this.addCencDrmToFmp4Muxing(encoding, fmp4Muxing720, videoDRM720p);
+        videoDRM1080p = this.addCencDrmToFmp4Muxing(encoding, fmp4Muxing1080, videoDRM1080p);
+        audioDRM = this.addCencDrmToFmp4Muxing(encoding, fmp4Audio, audioDRM);
 
         TSMuxing tsMuxing240 = this.createTSMuxingNoOutput(encoding, videoStream240p);
         TSMuxing tsMuxing360 = this.createTSMuxingNoOutput(encoding, videoStream360p);
@@ -289,33 +264,19 @@ public class CreateEncodingWithDRM
         VideoAdaptationSet videoAdaptationSet = this.addVideoAdaptationSetToPeriod(manifest, period);
         AudioAdaptationSet audioAdaptationSet = this.addAudioAdaptationSetToPeriodWithRoles(manifest, period, "en");
 
-        DashDRMRepresentation playReadyDrmRepresentationVideo240 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoPlayReadyDRM240p.getId(), "video/240p_dash/playready_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation playReadyDrmRepresentationVideo360 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoPlayReadyDRM360p.getId(), "video/360p_dash/playready_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation playReadyDrmRepresentationVideo480 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoPlayReadyDRM480p.getId(), "video/480p_dash/playready_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation playReadyDrmRepresentationVideo720 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoPlayReadyDRM720p.getId(), "video/720p_dash/playready_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation playReadyDrmRepresentationVideo1080 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoPlayReadyDRM1080p.getId(), "video/1080p_dash/playready_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation playReadyDrmRepresentationAudio = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioPlayReadyDRM.getId(), "audio/128kbps_dash/playready_drm/", manifest, period, audioAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationVideo240 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoDRM240p.getId(), "video/240p_dash/drm/", manifest, period, videoAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationVideo360 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoDRM360p.getId(), "video/360p_dash/drm/", manifest, period, videoAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationVideo480 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoDRM480p.getId(), "video/480p_dash/drm/", manifest, period, videoAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationVideo720 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoDRM720p.getId(), "video/720p_dash/drm/", manifest, period, videoAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationVideo1080 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoDRM1080p.getId(), "video/1080p_dash/drm/", manifest, period, videoAdaptationSet);
+        DashDRMRepresentation playReadyDrmRepresentationAudio = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioDRM.getId(), "audio/128kbps_dash/drm/", manifest, period, audioAdaptationSet);
 
-        DashDRMRepresentation widevineDrmRepresentationVideo240 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoWidevineDRM240p.getId(), "video/240p_dash/widevine_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation widevineDrmRepresentationVideo360 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoWidevineDRM360p.getId(), "video/360p_dash/widevine_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation widevineDrmRepresentationVideo480 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoWidevineDRM480p.getId(), "video/480p_dash/widevine_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation widevineDrmRepresentationVideo720 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoWidevineDRM720p.getId(), "video/720p_dash/widevine_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation widevineDrmRepresentationVideo1080 = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoWidevineDRM1080p.getId(), "video/1080p_dash/widevine_drm/", manifest, period, videoAdaptationSet);
-        DashDRMRepresentation widevineDrmRepresentationAudio = this.addDashDRMRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioWidevineDRM.getId(), "audio/128kbps_dash/widevine_drm/", manifest, period, audioAdaptationSet);
-
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo240, this.getContentProtection(encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoPlayReadyDRM240p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo360, this.getContentProtection(encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoPlayReadyDRM360p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo480, this.getContentProtection(encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoPlayReadyDRM480p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo720, this.getContentProtection(encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoPlayReadyDRM720p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo1080, this.getContentProtection(encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoPlayReadyDRM1080p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, audioAdaptationSet, playReadyDrmRepresentationAudio, this.getContentProtection(encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioPlayReadyDRM.getId()));
-
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, widevineDrmRepresentationVideo240, this.getContentProtection(encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoWidevineDRM240p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, widevineDrmRepresentationVideo360, this.getContentProtection(encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoWidevineDRM360p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, widevineDrmRepresentationVideo480, this.getContentProtection(encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoWidevineDRM480p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, widevineDrmRepresentationVideo720, this.getContentProtection(encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoWidevineDRM720p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, widevineDrmRepresentationVideo1080, this.getContentProtection(encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoWidevineDRM1080p.getId()));
-        this.addContentProtectionToDRMfMP4Representation(manifest, period, audioAdaptationSet, widevineDrmRepresentationAudio, this.getContentProtection(encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioWidevineDRM.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo240, this.getContentProtection(encoding.getId(), videoStream240p.getId(), fmp4Muxing240.getId(), videoDRM240p.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo360, this.getContentProtection(encoding.getId(), videoStream360p.getId(), fmp4Muxing360.getId(), videoDRM360p.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo480, this.getContentProtection(encoding.getId(), videoStream480p.getId(), fmp4Muxing480.getId(), videoDRM480p.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo720, this.getContentProtection(encoding.getId(), videoStream720p.getId(), fmp4Muxing720.getId(), videoDRM720p.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, videoAdaptationSet, playReadyDrmRepresentationVideo1080, this.getContentProtection(encoding.getId(), videoStream1080p.getId(), fmp4Muxing1080.getId(), videoDRM1080p.getId()));
+        this.addContentProtectionToDRMfMP4Representation(manifest, period, audioAdaptationSet, playReadyDrmRepresentationAudio, this.getContentProtection(encoding.getId(), audioStream.getId(), fmp4Audio.getId(), audioDRM.getId()));
 
         bitmovinApi.manifest.dash.startGeneration(manifest);
         Status dashStatus = bitmovinApi.manifest.dash.getGenerationStatus(manifest);
@@ -330,7 +291,6 @@ public class CreateEncodingWithDRM
             Assert.fail("Could not create DASH manifest");
         }
         System.out.println("Creating HLS manifest");
-
         HlsManifest manifestHls = this.createHlsManifest("manifest.m3u8", manifestDestination);
 
         MediaInfo audioMediaInfo = new MediaInfo();
@@ -368,6 +328,7 @@ public class CreateEncodingWithDRM
             System.out.println("Could not create HLS manifest");
             Assert.fail("Could not create HLS manifest");
         }
+
         System.out.println("Encoding completed successfully");
     }
 
@@ -456,26 +417,6 @@ public class CreateEncodingWithDRM
         return period;
     }
 
-    private EncodingOutput createEncodingOutput(Output output, String outputPath, AclPermission defaultAclPermission)
-    {
-        EncodingOutput encodingOutput = new EncodingOutput();
-        encodingOutput.setOutputPath(outputPath);
-        encodingOutput.setOutputId(output.getId());
-
-        if (output.getAcl() != null && output.getAcl().size() > 0)
-        {
-            encodingOutput.setAcl(output.getAcl());
-        }
-        else
-        {
-            ArrayList<AclEntry> aclEntries = new ArrayList<>();
-            aclEntries.add(new AclEntry(defaultAclPermission));
-            encodingOutput.setAcl(aclEntries);
-        }
-
-        return encodingOutput;
-    }
-
     private FMP4Muxing createFMP4MuxingNoOutput(Encoding encoding, Stream stream)
             throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
     {
@@ -500,26 +441,28 @@ public class CreateEncodingWithDRM
         return muxing;
     }
 
-    private PlayReadyDrm getPlayReadyDRM()
-    {
-        PlayReadyDrm playReadyDrm = new PlayReadyDrm();
-        playReadyDrm.setKid(PLAYREADY_KID);
-        playReadyDrm.setKey(PLAYREADY_KEY);
-        //playReadyDrm.setKeySeed(PLAYREADY_KEYSEED); //Uncomment this line if needed
-        playReadyDrm.setLaUrl(PLAYREADY_LAURL);
-        playReadyDrm.setMethod(PlayReadyEncryptionMethod.MPEG_CENC);
+    private CencDrm getCencDRMWithWidevineAndPlayready() {
+        CencPlayReady cencPlayReady = this.getCencPlayReady();
+        CencWidevine cencWidevine = this.getCencWidevine();
+        CencDrm cencDrm = new CencDrm();
 
-        return playReadyDrm;
+        cencDrm.setKey(CENC_KEY);
+        cencDrm.setKid(CENC_KID);
+        cencDrm.setWidevine(cencWidevine);
+        cencDrm.setPlayReady(cencPlayReady);
+        return cencDrm;
     }
 
-    private WidevineDrm getWidevineDRM()
-    {
-        WidevineDrm widevineDrm = new WidevineDrm();
-        widevineDrm.setKid(WIDEVINE_KID);
-        widevineDrm.setKey(WIDEVINE_KEY);
-        widevineDrm.setPssh(WIDEVINE_PSSH);
+    private CencWidevine getCencWidevine() {
+        CencWidevine cencWidevine = new CencWidevine();
+        cencWidevine.setPssh(WIDEVINE_PSSH);
+        return cencWidevine;
+    }
 
-        return widevineDrm;
+    private CencPlayReady getCencPlayReady() {
+        CencPlayReady cencPlayReady = new CencPlayReady();
+        cencPlayReady.setLaUrl(PLAYREADY_LAURL);
+        return cencPlayReady;
     }
 
     private FairPlayDrm getFairPlayDRM()
@@ -528,7 +471,6 @@ public class CreateEncodingWithDRM
         fairPlayDrm.setKey(FAIRPLAY_KEY);
         fairPlayDrm.setIv(FAIRPLAY_IV);
         fairPlayDrm.setUri(FAIRPLAY_URI);
-
         return fairPlayDrm;
     }
 
@@ -548,19 +490,10 @@ public class CreateEncodingWithDRM
         drmOutputs.add(drmOutput);
     }
 
-    private PlayReadyDrm addPlayReadyDrmToFmp4Muxing(Encoding encoding, FMP4Muxing fmp4Muxing, PlayReadyDrm playReadyDrm)
+    private CencDrm addCencDrmToFmp4Muxing(Encoding encoding, FMP4Muxing fmp4Muxing, CencDrm cencDrm)
             throws BitmovinApiException, IOException, RestException, UnirestException, URISyntaxException
     {
-        PlayReadyDrm result = bitmovinApi.encoding.muxing.addPlayReadyDrmToFmp4Muxing(encoding, fmp4Muxing, playReadyDrm);
-        Assert.assertNotNull(result.getId());
-        fmp4Muxing.getDrmConfigs().add(result);
-        return result;
-    }
-
-    private WidevineDrm addWidevineDrmToFmp4Muxing(Encoding encoding, FMP4Muxing fmp4Muxing, WidevineDrm widevineDrm)
-            throws BitmovinApiException, IOException, RestException, UnirestException, URISyntaxException
-    {
-        WidevineDrm result = bitmovinApi.encoding.muxing.addWidevineDrmToFmp4Muxing(encoding, fmp4Muxing, widevineDrm);
+        CencDrm result = bitmovinApi.encoding.muxing.addCencDrmToFmp4Muxing(encoding, fmp4Muxing, cencDrm);
         Assert.assertNotNull(result.getId());
         fmp4Muxing.getDrmConfigs().add(result);
         return result;
@@ -583,10 +516,10 @@ public class CreateEncodingWithDRM
             throws BitmovinApiException, IOException, RestException, UnirestException, URISyntaxException
     {
         return bitmovinApi.manifest.dash.addContentProtectionToDRMfMP4Representation(manifestDash,
-                                                                                     period,
-                                                                                     adaptationSet,
-                                                                                     representation,
-                                                                                     contentProtection);
+                period,
+                adaptationSet,
+                representation,
+                contentProtection);
     }
 
     private ContentProtection getContentProtection(String encodingId, String streamId, String muxingId, String drmId)
