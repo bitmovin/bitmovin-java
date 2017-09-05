@@ -10,8 +10,18 @@ public class PlayReadyDrm extends Drm
     private String keySeed;
     private String laUrl;
     private PlayReadyEncryptionMethod method;
+    private String key;
     private String kid;
-    private String pssh;
+
+    public String getKey()
+    {
+        return this.key;
+    }
+
+    public void setKey(String key)
+    {
+        this.key = key;
+    }
 
     public String getKeySeed()
     {
@@ -51,15 +61,5 @@ public class PlayReadyDrm extends Drm
     public void setKid(String kid)
     {
         this.kid = kid;
-    }
-
-    public String getPssh()
-    {
-        return this.pssh;
-    }
-
-    public void setPssh(String pssh)
-    {
-        this.pssh = pssh;
     }
 }
