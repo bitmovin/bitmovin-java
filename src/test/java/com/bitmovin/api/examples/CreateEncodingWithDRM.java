@@ -344,10 +344,9 @@ public class CreateEncodingWithDRM
         audioMediaInfo.setDrmId(audioFairPlayDRM.getId());
         audioMediaInfo.setLanguage("en");
         audioMediaInfo.setAssocLanguage("en");
-        audioMediaInfo.setAutoselect(false);
-        audioMediaInfo.setDefault(false);
+        audioMediaInfo.setAutoselect(true);
+        audioMediaInfo.setDefault(true);
         audioMediaInfo.setForced(false);
-        audioMediaInfo.addCharacteristic("public.accessibility.describes-audio");
         audioMediaInfo.setSegmentPath("audio/128kbps_hls/fairplay_drm");
         audioMediaInfo = bitmovinApi.manifest.hls.createMediaInfo(manifestHls, audioMediaInfo);
 
