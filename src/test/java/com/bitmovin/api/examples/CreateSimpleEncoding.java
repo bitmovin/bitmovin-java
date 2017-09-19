@@ -240,7 +240,7 @@ public class CreateSimpleEncoding
         audioMediaInfo.setLanguage("en");
         audioMediaInfo.setAssocLanguage("en");
         audioMediaInfo.setAutoselect(false);
-        audioMediaInfo.setDefault(false);
+        audioMediaInfo.setIsDefault(false);
         audioMediaInfo.setForced(false);
         audioMediaInfo.setSegmentPath("audio/128kbps_hls");
         bitmovinApi.manifest.hls.createMediaInfo(manifestHls, audioMediaInfo);
