@@ -16,6 +16,7 @@ public class Thumbnail extends AbstractApiResponse
 
     private Set<Double> positions;
     private Set<EncodingOutput> outputs;
+    private ThumbnailUnit unit = ThumbnailUnit.SECONDS;
 
     public Thumbnail()
     {
@@ -73,4 +74,13 @@ public class Thumbnail extends AbstractApiResponse
         this.positions.add(position);
     }
 
+    public ThumbnailUnit getUnit()
+    {
+        return this.unit;
+    }
+
+    public void setUnit(ThumbnailUnit unit)
+    {
+        this.unit = unit;
+    }
 }

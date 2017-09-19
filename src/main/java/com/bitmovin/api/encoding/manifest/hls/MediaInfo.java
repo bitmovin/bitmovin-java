@@ -104,12 +104,12 @@ public class MediaInfo
         this.name = name;
     }
 
-    public Boolean getDefault()
+    public Boolean getIsDefault()
     {
         return this.isDefault;
     }
 
-    public void setDefault(Boolean aDefault)
+    public void setIsDefault(Boolean aDefault)
     {
         this.isDefault = aDefault;
     }

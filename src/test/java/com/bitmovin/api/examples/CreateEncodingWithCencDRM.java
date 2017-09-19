@@ -305,7 +305,7 @@ public class CreateEncodingWithCencDRM
         audioMediaInfo.setLanguage("en");
         audioMediaInfo.setAssocLanguage("en");
         audioMediaInfo.setAutoselect(true);
-        audioMediaInfo.setDefault(true);
+        audioMediaInfo.setIsDefault(true);
         audioMediaInfo.setForced(false);
         audioMediaInfo.setSegmentPath("audio/128kbps_hls/fairplay_drm");
         audioMediaInfo = bitmovinApi.manifest.hls.createMediaInfo(manifestHls, audioMediaInfo);
