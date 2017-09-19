@@ -3,6 +3,7 @@ package com.bitmovin.api.http;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -90,6 +91,15 @@ public class JsonRestClient
         if (response.getBody() instanceof ResponseEnvelope)
         {
             ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getBody();
+            try
+            {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.enable(SerializationFeature.INDENT_OUTPUT);
+                System.out.println("Error Response: " + mapper.writeValueAsString(responseEnvelope));
+            }
+            catch (Exception ignore)
+            {
+            }
             throw new BitmovinApiException(response.getStatus(), responseEnvelope);
         }
         throw new BitmovinApiException(response.getStatus());
