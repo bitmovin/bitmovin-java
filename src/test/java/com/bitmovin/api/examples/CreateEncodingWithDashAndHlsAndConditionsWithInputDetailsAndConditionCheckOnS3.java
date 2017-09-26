@@ -191,6 +191,9 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         Stream audioStream = new Stream();
         audioStream.setCodecConfigId(aacConfiguration.getId());
         audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
+        AndConjunction andConjunctionAudio = new AndConjunction();
+        andConjunctionAudio.setConditions(Collections.singletonList(new Condition(ConditionAttribute.INPUTSTREAM, "==", "true")));
+        audioStream.setConditions(andConjunctionAudio);
         audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
 
         FMP4Muxing muxingFmp4_240p = this.createFMP4Muxing(encoding, output, "/video/dash/240p/", videoStream240p);
@@ -225,6 +228,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         System.out.println("Input details:");
         System.out.println(objectMapper.writeValueAsString(streamInputAnalysisList));
         System.out.println("");
+        Thread.sleep(2500);
 
         for(Stream s : streams)
         {
