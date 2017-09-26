@@ -51,6 +51,7 @@ public class ApiUrls
     public static final String encodingInformation = "encoding/encodings/{encoding_id}/information";
     public static final String streams = "encoding/encodings/{encoding_id}/streams";
     public static final String streamsWithId = "encoding/encodings/{encoding_id}/streams/{stream_id}";
+    public static final String streamsInputDetails = "encoding/encodings/{encoding_id}/streams/{stream_id}/inputs";
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
     public static final String addFilterToStream = "encoding/encodings/{encoding_id}/streams/{stream_id}/filters";

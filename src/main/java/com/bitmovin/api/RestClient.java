@@ -270,6 +270,13 @@ public class RestClient
         return convertFromJsonObjectToPojo(resultObject, classOfT);
     }
 
+    private static <T> T getDetailsFromResponse(ResponseEnvelope responseEnvelope, TypeReference<T> classOfT) throws IOException
+    {
+        JSONObject responseObject = convertToJsonObject(responseEnvelope);
+        JSONObject resultObject = responseObject.getJSONObject("data").getJSONObject("result");
+        return convertFromJsonObjectToPojo(resultObject, classOfT);
+    }
+
 
     public static <T> T getDetailsFromResponse(String url, Map<String, String> headers, Class<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
