@@ -46,6 +46,8 @@ public class Stream extends AbstractApiResponse
 
     private AbstractCondition conditions;
 
+    private List<Ignoring> ignoredBy;
+
     public Stream()
     {
         this.inputStreams = new HashSet<>();
@@ -55,7 +57,7 @@ public class Stream extends AbstractApiResponse
         this.filters = new ArrayList<>();
 
         this.thumbnails = new HashSet<>();
-        this.sprites    = new HashSet<>();
+        this.sprites = new HashSet<>();
     }
 
     public Set<InputStream> getInputStreams()
@@ -187,4 +189,15 @@ public class Stream extends AbstractApiResponse
     {
         this.conditions = conditions;
     }
+
+    public List<Ignoring> getIgnoredBy()
+    {
+        return this.ignoredBy;
+    }
+
+    public void setIgnoredBy(List<Ignoring> ignoredBy)
+    {
+        this.ignoredBy = ignoredBy;
+    }
+
 }

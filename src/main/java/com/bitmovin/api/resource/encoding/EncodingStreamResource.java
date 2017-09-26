@@ -8,6 +8,7 @@ import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.encoding.encodings.drms.CencDrm;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.streams.Stream;
+import com.bitmovin.api.encoding.encodings.streams.StreamInputAnalysis;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -86,6 +87,18 @@ public class EncodingStreamResource
         String newUrl = ApiUrls.streamsWithId.replace("{encoding_id}", encoding.getId());
         newUrl = newUrl.replace("{stream_id}", stream.getId());
         RestClient.delete(newUrl, this.headers);
+    }
+
+    public List<StreamInputAnalysis> getStreamInputDetails(Encoding encoding, Stream stream) throws URISyntaxException, BitmovinApiException, UnirestException, IOException
+    {
+        return this.getStreamInputDetails(encoding.getId(), stream.getId());
+    }
+
+    public List<StreamInputAnalysis> getStreamInputDetails(String encodingId, String streamId) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.streamsInputDetails.replace("{encoding_id}", encodingId);
+        newUrl = newUrl.replace("{stream_id}", streamId);
+        return RestClient.getItems(newUrl, this.headers, StreamInputAnalysis.class);
     }
 
 }
