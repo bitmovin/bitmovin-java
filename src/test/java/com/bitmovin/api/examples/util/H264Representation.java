@@ -1,21 +1,38 @@
 package com.bitmovin.api.examples.util;
 
+import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
+import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
+import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
+import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
+import com.bitmovin.api.encoding.encodings.streams.Stream;
+
 /**
  * Created by Roland Kersche on 22.06.17.
  */
 public class H264Representation
 {
     private Integer width;
-    private Integer heigth;
+    private Integer height;
     private Float rate;
     private Long bitrate;
+    private ProfileH264 profile;
+    private H264VideoConfiguration configuration;
+    private Stream stream;
+    private TSMuxing tsMuxing;
+    private FMP4Muxing fmp4Muxing;
 
-    public H264Representation(Integer width, Integer heigth, Float rate, Long bitrate)
+    public H264Representation(Integer width, Integer height, Float rate, Long bitrate)
+    {
+        this(width, height, rate, bitrate, ProfileH264.HIGH);
+    }
+
+    public H264Representation(Integer width, Integer height, Float rate, Long bitrate, ProfileH264 profile)
     {
         this.width = width;
-        this.heigth = heigth;
+        this.height = height;
         this.rate = rate;
         this.bitrate = bitrate;
+        this.profile = profile;
     }
 
     public Integer getWidth()
@@ -28,14 +45,14 @@ public class H264Representation
         this.width = width;
     }
 
-    public Integer getHeigth()
+    public Integer getHeight()
     {
-        return this.heigth;
+        return this.height;
     }
 
-    public void setHeigth(Integer heigth)
+    public void setHeight(Integer height)
     {
-        this.heigth = heigth;
+        this.height = height;
     }
 
     public Float getRate()
@@ -56,5 +73,55 @@ public class H264Representation
     public void setBitrate(Long bitrate)
     {
         this.bitrate = bitrate;
+    }
+
+    public H264VideoConfiguration getConfiguration()
+    {
+        return this.configuration;
+    }
+
+    public void setConfiguration(H264VideoConfiguration configuration)
+    {
+        this.configuration = configuration;
+    }
+
+    public ProfileH264 getProfile()
+    {
+        return this.profile;
+    }
+
+    public void setProfile(ProfileH264 profile)
+    {
+        this.profile = profile;
+    }
+
+    public Stream getStream()
+    {
+        return this.stream;
+    }
+
+    public void setStream(Stream stream)
+    {
+        this.stream = stream;
+    }
+
+    public TSMuxing getTsMuxing()
+    {
+        return this.tsMuxing;
+    }
+
+    public void setTsMuxing(TSMuxing tsMuxing)
+    {
+        this.tsMuxing = tsMuxing;
+    }
+
+    public FMP4Muxing getFmp4Muxing()
+    {
+        return this.fmp4Muxing;
+    }
+
+    public void setFmp4Muxing(FMP4Muxing fmp4Muxing)
+    {
+        this.fmp4Muxing = fmp4Muxing;
     }
 }
