@@ -16,14 +16,16 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 /**
  * Created by Germano Fronza on 27.11.17.
  **/
-public class StopLiveStream {
+public class StopLiveStream
+{
 	private static final String API_KEY = "<INSERT_YOUR_API_KEY>";
 
 	private static BitmovinApi bitmovinApi;
 
 	@Test
 	public void testStopLiveStream() throws IOException, BitmovinApiException, UnirestException, URISyntaxException,
-			RestException, InterruptedException {
+			RestException, InterruptedException
+	{
 		bitmovinApi = new BitmovinApi(API_KEY);
 
 		Encoding encoding = bitmovinApi.encoding.get("<YOUR_ENCODING_ID>");
@@ -32,7 +34,8 @@ public class StopLiveStream {
 
 		Task status = bitmovinApi.encoding.getStatus(encoding);
 
-		while (status.getStatus() != Status.FINISHED && status.getStatus() != Status.ERROR) {
+		while (status.getStatus() != Status.FINISHED && status.getStatus() != Status.ERROR)
+		{
 			status = bitmovinApi.encoding.getStatus(encoding);
 			Thread.sleep(2500);
 		}
