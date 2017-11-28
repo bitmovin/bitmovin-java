@@ -45,15 +45,16 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 /**
  * Created by Germano Fronza on 27.11.17.
  **/
-public class CreateAndStartLiveStreamWithVP9 {
+public class CreateAndStartLiveStreamWithVP9
+{
 	private static final int ERROR_CODE_LIVE_STREAM_NOT_READY = 2023;
 
 	private static final String API_KEY = "<INSERT_YOUR_API_KEY>";
 	private static final CloudRegion CLOUD_REGION = CloudRegion.AWS_EU_WEST_1;
 
-	// please set here the duration of each segment (audio and video). 
+	// please set here the duration of each segment (audio and video).
 	private static final double MUXING_SEGMENT_DURATION = 4.0;
-	
+
 	// please set here your secret stream key.
 	private static final String STREAM_KEY = "<INSERT_YOUR_STREAM_KEY>";
 
@@ -62,8 +63,10 @@ public class CreateAndStartLiveStreamWithVP9 {
 	private static final String S3_OUTPUT_BUCKET_NAME = "<YOUR_OUTPUT_S3_BUCKET_NAME>";
 	private static final String OUTPUT_BASE_PATH = "path/to/output/";
 
-	// please set here the encoding profiles. You can modify height, width, bitrate and fps.
-	private static final VideoProfile[] VIDEO_ENCODING_PROFILES = new VideoProfile[] {
+	// please set here the encoding profiles. You can modify height, width, bitrate
+	// and fps.
+	private static final VideoProfile[] VIDEO_ENCODING_PROFILES = new VideoProfile[]
+	{
 			new VideoProfile(1280, 720, 3000, 30.0f),
 			new VideoProfile(858, 480, 1200, 30.0f),
 			new VideoProfile(640, 360, 800, 30.0f),
@@ -71,15 +74,17 @@ public class CreateAndStartLiveStreamWithVP9 {
 	};
 
 	// please set here the encoding profiles. You can modify bitrate and rate.
-	private static final AudioProfile[] AUDIO_ENCODING_PROFILES = new AudioProfile[] {
+	private static final AudioProfile[] AUDIO_ENCODING_PROFILES = new AudioProfile[]
+	{
 			new AudioProfile(128, 48000f),
 	};
 
 	private static BitmovinApi bitmovinApi;
 
 	@Test
-	public void testCreateAndStartLiveStreamWithVP9() throws IOException, BitmovinApiException, UnirestException, URISyntaxException,
-			RestException, InterruptedException {
+	public void testCreateAndStartLiveStreamWithVP9() throws IOException, BitmovinApiException, UnirestException,
+			URISyntaxException, RestException, InterruptedException
+	{
 		bitmovinApi = new BitmovinApi(API_KEY);
 
 		Encoding encoding = new Encoding();
@@ -107,7 +112,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 		audioInputStream.setSelectionMode(StreamSelectionMode.AUTO);
 		audioInputStream.setPosition(1);
 
-		for (VideoProfile videoProfile : VIDEO_ENCODING_PROFILES) {
+		for (VideoProfile videoProfile : VIDEO_ENCODING_PROFILES)
+		{
 			VP9VideoConfiguration videoConfig = createVP9VideoConfiguration(videoProfile);
 			Stream videoStream = createStream(encoding, videoInputStream, videoConfig.getId());
 			Muxing muxing = this.createWebmMuxing(encoding, output,
@@ -117,7 +123,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 			videoProfile.muxing = muxing;
 		}
 
-		for (AudioProfile audioProfile : AUDIO_ENCODING_PROFILES) {
+		for (AudioProfile audioProfile : AUDIO_ENCODING_PROFILES)
+		{
 			AACAudioConfig audioConfig = createAACAudioConfig(audioProfile);
 			Stream audioStream = createStream(encoding, audioInputStream, audioConfig.getId());
 			Muxing muxing = this.createFMP4Muxing(encoding, output,
@@ -131,7 +138,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 		EncodingOutput manifestOutput = new EncodingOutput();
 		manifestOutput.setOutputId(output.getId());
 		manifestOutput.setOutputPath(OUTPUT_BASE_PATH);
-		manifestOutput.setAcl(new ArrayList<AclEntry>() {
+		manifestOutput.setAcl(new ArrayList<AclEntry>()
+		{
 			{
 				this.add(new AclEntry(AclPermission.PUBLIC_READ));
 			}
@@ -147,17 +155,19 @@ public class CreateAndStartLiveStreamWithVP9 {
 		VideoAdaptationSet videoAdaptationSet = bitmovinApi.manifest.dash.addVideoAdaptationSetToPeriod(dashManifest,
 				period, new VideoAdaptationSet());
 
-		for (VideoProfile videoProfile : VIDEO_ENCODING_PROFILES) {
+		for (VideoProfile videoProfile : VIDEO_ENCODING_PROFILES)
+		{
 			this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(),
 					videoProfile.stream.getId(), videoProfile.muxing.getId(),
 					String.format("video/%dp_%d_dash", videoProfile.height, videoProfile.bitrate), dashManifest, period,
 					videoAdaptationSet);
 		}
 
-		AudioAdaptationSet audioAdaptationSet = bitmovinApi.manifest.dash.addAudioAdaptationSetToPeriod(dashManifest, period,
-				new AudioAdaptationSet());
+		AudioAdaptationSet audioAdaptationSet = bitmovinApi.manifest.dash.addAudioAdaptationSetToPeriod(dashManifest,
+				period, new AudioAdaptationSet());
 
-		for (AudioProfile audioProfile : AUDIO_ENCODING_PROFILES) {
+		for (AudioProfile audioProfile : AUDIO_ENCODING_PROFILES)
+		{
 			this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(),
 					audioProfile.stream.getId(), audioProfile.muxing.getId(),
 					String.format("audio/%d_dash", audioProfile.bitrate), dashManifest, period, audioAdaptationSet);
@@ -165,18 +175,18 @@ public class CreateAndStartLiveStreamWithVP9 {
 
 		LiveDashManifest liveDashManifest = new LiveDashManifest();
 		liveDashManifest.setManifestId(dashManifest.getId());
-		
+
 		StartLiveEncodingRequest liveEncodingRequest = new StartLiveEncodingRequest();
 		liveEncodingRequest.setStreamKey(STREAM_KEY);
 		liveEncodingRequest.setDashManifests(Collections.singletonList(liveDashManifest));
-		
+
 		// start live encoding with dash manifest.
 		bitmovinApi.encoding.startLive(encoding, liveEncodingRequest);
 
-		// wait until live encoding is running 
+		// wait until live encoding is running
 		waitUntilRunning(encoding);
-		
-		// retrieve live encoding details. 
+
+		// retrieve live encoding details.
 		LiveDetailsResponse liveDetails = getLiveDetails(encoding);
 
 		System.out.println("-----------------------------------------------------");
@@ -188,32 +198,42 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private void waitUntilRunning(Encoding encoding) throws BitmovinApiException, IOException, RestException,
-			URISyntaxException, UnirestException, InterruptedException {
+			URISyntaxException, UnirestException, InterruptedException
+	{
 		Task status = bitmovinApi.encoding.getStatus(encoding);
 
-		while (status.getStatus() != Status.RUNNING && status.getStatus() != Status.ERROR) {
+		while (status.getStatus() != Status.RUNNING && status.getStatus() != Status.ERROR)
+		{
 			status = bitmovinApi.encoding.getStatus(encoding);
 			Thread.sleep(2500);
-			
+
 			System.out.println(String.format("Encoding configuration status: %s", status.getStatus().toString()));
 		}
 	}
 
 	private LiveDetailsResponse getLiveDetails(Encoding encoding) throws IOException, RestException, URISyntaxException,
-			UnirestException, BitmovinApiException, InterruptedException {
+			UnirestException, BitmovinApiException, InterruptedException
+	{
 		LiveDetailsResponse liveDetails = null;
-		
-		while (liveDetails == null) {
-			try {
+
+		while (liveDetails == null)
+		{
+			try
+			{
 				liveDetails = bitmovinApi.encoding.getLiveDetails(encoding.getId());
-			} catch (BitmovinApiException e) {
-				if (e.getCode() == ERROR_CODE_LIVE_STREAM_NOT_READY) {
+			}
+			catch (BitmovinApiException e)
+			{
+				if (e.getCode() == ERROR_CODE_LIVE_STREAM_NOT_READY)
+				{
 					System.out.println(String.format("Live encoding details are not available yet."));
-				} else {
+				}
+				else
+				{
 					System.out.println(String.format("Got unexpected exception with code %d", e.getCode()));
 					throw e;
 				}
-				
+
 				Thread.sleep(2500);
 			}
 		}
@@ -221,7 +241,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private AACAudioConfig createAACAudioConfig(AudioProfile audioProfile)
-			throws BitmovinApiException, UnirestException, IOException, URISyntaxException {
+			throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+	{
 		AACAudioConfig audioConfig = new AACAudioConfig();
 		audioConfig.setBitrate(audioProfile.bitrate * 1000);
 		audioConfig.setRate(audioProfile.rate);
@@ -230,7 +251,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private Stream createStream(Encoding encoding, InputStream inputStream, String codecConfigId)
-			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException {
+			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+	{
 		Stream stream = new Stream();
 		stream.setCodecConfigId(codecConfigId);
 		stream.setInputStreams(Collections.singleton(inputStream));
@@ -239,7 +261,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private VP9VideoConfiguration createVP9VideoConfiguration(VideoProfile videoProfile)
-			throws BitmovinApiException, UnirestException, IOException, URISyntaxException {
+			throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+	{
 		VP9VideoConfiguration videoConfig = new VP9VideoConfiguration();
 		videoConfig.setName(String.format("StreamDemoVP9%dp", videoProfile.height));
 		videoConfig.setBitrate(videoProfile.bitrate * 1000);
@@ -252,11 +275,13 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private FMP4Muxing createFMP4Muxing(Encoding encoding, Output output, String path, Stream videoStream)
-			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException {
+			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+	{
 		EncodingOutput encodingOutput = new EncodingOutput();
 		encodingOutput.setOutputId(output.getId());
 		encodingOutput.setOutputPath(OUTPUT_BASE_PATH + path);
-		encodingOutput.setAcl(new ArrayList<AclEntry>() {
+		encodingOutput.setAcl(new ArrayList<AclEntry>()
+		{
 			{
 				this.add(new AclEntry(AclPermission.PUBLIC_READ));
 			}
@@ -280,11 +305,13 @@ public class CreateAndStartLiveStreamWithVP9 {
 	}
 
 	private WebmMuxing createWebmMuxing(Encoding encoding, Output output, String path, Stream videoStream)
-			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException {
+			throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+	{
 		EncodingOutput encodingOutput = new EncodingOutput();
 		encodingOutput.setOutputId(output.getId());
 		encodingOutput.setOutputPath(OUTPUT_BASE_PATH + path);
-		encodingOutput.setAcl(new ArrayList<AclEntry>() {
+		encodingOutput.setAcl(new ArrayList<AclEntry>()
+		{
 			{
 				this.add(new AclEntry(AclPermission.PUBLIC_READ));
 			}
@@ -309,7 +336,8 @@ public class CreateAndStartLiveStreamWithVP9 {
 
 	private void addDashRepresentationToAdaptationSet(DashMuxingType type, String encodingId, String streamId,
 			String muxingId, String segmentPath, DashManifest manifest, Period period, AdaptationSet adaptationSet)
-			throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException {
+			throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException
+	{
 		DashFmp4Representation r = new DashFmp4Representation();
 		r.setType(type);
 		r.setEncodingId(encodingId);
@@ -319,18 +347,21 @@ public class CreateAndStartLiveStreamWithVP9 {
 		bitmovinApi.manifest.dash.addRepresentationToAdaptationSet(manifest, period, adaptationSet, r);
 	}
 
-	private static class MediaProfile {
+	private static class MediaProfile
+	{
 		protected Stream stream;
 		protected Muxing muxing;
 	}
 
-	private static class VideoProfile extends MediaProfile {
+	private static class VideoProfile extends MediaProfile
+	{
 		private int width;
 		private int height;
 		private long bitrate;
 		private float fps;
 
-		public VideoProfile(int width, int height, long bitrate, float fps) {
+		public VideoProfile(int width, int height, long bitrate, float fps)
+		{
 			super();
 			this.width = width;
 			this.height = height;
@@ -339,11 +370,13 @@ public class CreateAndStartLiveStreamWithVP9 {
 		}
 	}
 
-	private static class AudioProfile extends MediaProfile {
+	private static class AudioProfile extends MediaProfile
+	{
 		private long bitrate;
 		private float rate;
 
-		public AudioProfile(long bitrate, float rate) {
+		public AudioProfile(long bitrate, float rate)
+		{
 			super();
 			this.bitrate = bitrate;
 			this.rate = rate;
