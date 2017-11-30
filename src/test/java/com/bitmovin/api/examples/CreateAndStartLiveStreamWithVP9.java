@@ -269,7 +269,6 @@ public class CreateAndStartLiveStreamWithVP9
 		videoConfig.setRate(videoProfile.fps);
 		videoConfig.setWidth(videoProfile.width);
 		videoConfig.setHeight(videoProfile.height);
-		videoConfig.setId(String.format("vp9_%dp", videoProfile.height));
 		videoConfig = bitmovinApi.configuration.videoVP9.create(videoConfig);
 		return videoConfig;
 	}
