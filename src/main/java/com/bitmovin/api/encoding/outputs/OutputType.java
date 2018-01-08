@@ -11,6 +11,7 @@ public enum OutputType
 {
     S3("S3"),
     GCS("GCS"),
+    AKAMAI_NETSTORAGE("AKAMAI_NETSTORAGE"),
     AZURE("AZURE"),
     FTP("FTP"),
     SFTP("SFTP"),
@@ -42,6 +43,7 @@ public enum OutputType
         map = new HashMap<String, OutputType>(7);
         map.put("S3", S3);
         map.put("GCS", GCS);
+        map.put("AKAMAI_NETSTORAGE", AKAMAI_NETSTORAGE);
         map.put("AZURE", AZURE);
         map.put("FTP", FTP);
         map.put("SFTP", SFTP);
