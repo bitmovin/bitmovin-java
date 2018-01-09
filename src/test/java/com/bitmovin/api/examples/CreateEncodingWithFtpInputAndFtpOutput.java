@@ -111,7 +111,7 @@ public class CreateEncodingWithFtpInputAndFtpOutput
         for (H264Representation representation : representations)
         {
             H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
-            videoConfiguration.setHeight(representation.getHeigth());
+            videoConfiguration.setHeight(representation.getHeight());
             videoConfiguration.setWidth(representation.getWidth());
             videoConfiguration.setBitrate(representation.getBitrate());
             videoConfiguration.setRate(representation.getRate());
@@ -123,7 +123,7 @@ public class CreateEncodingWithFtpInputAndFtpOutput
             videoStream.setInputStreams(Collections.singleton(inputStreamVideo));
             videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
 
-            this.createMP4Muxing(encoding, output, videoStream, audioStream, String.format("video_audio_%sp_%s.mp4", representation.getHeigth(), representation.getBitrate() / 1000));
+            this.createMP4Muxing(encoding, output, videoStream, audioStream, String.format("video_audio_%sp_%s.mp4", representation.getHeight(), representation.getBitrate() / 1000));
         }
 
         bitmovinApi.encoding.start(encoding);

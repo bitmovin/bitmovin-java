@@ -36,6 +36,7 @@ public class ApiUrls
     public static final String outputS3 = "encoding/outputs/s3";
     public static final String outputGenericS3 = "encoding/outputs/generic-s3";
     public static final String outputBitmovinS3 = "encoding/outputs/bitmovins3";
+    public static final String outputAkamaiNetStorage = "encoding/outputs/akamai-netstorage";
     public static final String outputAzure = "encoding/outputs/azure";
     public static final String outputFtp = "encoding/outputs/ftp";
     public static final String outputSftp = "encoding/outputs/sftp";

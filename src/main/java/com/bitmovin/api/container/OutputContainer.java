@@ -2,6 +2,7 @@ package com.bitmovin.api.container;
 
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
+import com.bitmovin.api.encoding.outputs.AkamaiNetStorageOutput;
 import com.bitmovin.api.encoding.outputs.AzureOutput;
 import com.bitmovin.api.encoding.outputs.BitmovinGcsOutput;
 import com.bitmovin.api.encoding.outputs.BitmovinS3Output;
@@ -31,6 +32,7 @@ import java.util.Map;
 public class OutputContainer
 {
 
+    public OutputResource<AkamaiNetStorageOutput> akamaiNetStorage;
     public OutputResource<AzureOutput> azure;
     public OutputResource<BitmovinGcsOutput> bitmovinGcsOutput;
     public OutputResource<BitmovinS3Output> bitmovinS3Output;
@@ -46,6 +48,7 @@ public class OutputContainer
     public OutputContainer(Map<String, String> headers)
     {
         this.headers = headers;
+        this.akamaiNetStorage = new OutputResource<>(headers, ApiUrls.outputAkamaiNetStorage, AkamaiNetStorageOutput.class);
         this.azure = new OutputResource<>(headers, ApiUrls.outputAzure, AzureOutput.class);
         this.bitmovinGcsOutput = new OutputResource<>(headers, ApiUrls.outputBitmovinGcs, BitmovinGcsOutput.class);
         this.bitmovinS3Output = new OutputResource<>(headers, ApiUrls.outputBitmovinS3, BitmovinS3Output.class);
@@ -84,6 +87,8 @@ public class OutputContainer
                 return new Tuple<>(outputType, this.sftp.get(outputId));
             case LOCAL:
                 return new Tuple<>(outputType, this.local.get(outputId));
+            case AKAMAI_NETSTORAGE:
+                return new Tuple<>(outputType, this.akamaiNetStorage.get(outputId));
             case AZURE:
                 return new Tuple<>(outputType, this.azure.get(outputId));
             case GENERIC_S3:
