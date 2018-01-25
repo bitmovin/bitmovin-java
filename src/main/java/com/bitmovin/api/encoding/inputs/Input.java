@@ -12,6 +12,9 @@ public class Input extends AbstractApiResponse
 {
     @JsonIgnore
     private InputType type;
+    
+    private String name;
+    private String description;
 
     public Input()
     {
@@ -26,6 +29,26 @@ public class Input extends AbstractApiResponse
     public void setType(InputType type)
     {
         this.type = type;
+    }
+
+    public String getName()
+    {
+    		return this.name;
+    }
+    
+    public void setName(String name)
+    {
+    		this.name = name;
+    }
+    
+    public String getDescription()
+    {
+    		return this.description;
+    }
+    
+    public void setDesciption(String description)
+    {
+    		this.description = description;
     }
 
 }

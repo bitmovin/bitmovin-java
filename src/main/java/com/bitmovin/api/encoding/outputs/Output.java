@@ -16,8 +16,11 @@ public class Output extends AbstractApiResponse
 {
     @JsonIgnore
     protected OutputType type;
-
+    
     protected List<AclEntry> acl;
+    
+    private String name;
+    private String description;
 
     public Output()
     {
@@ -47,5 +50,25 @@ public class Output extends AbstractApiResponse
     public void addAclElement(AclEntry aclElement)
     {
         this.acl.add(aclElement);
+    }
+    
+    public String getName()
+    {
+    		return this.name;
+    }
+    
+    public void setName(String name)
+    {
+    		this.name = name;
+    }
+    
+    public String getDescription()
+    {
+    		return this.description;
+    }
+    
+    public void setDesciption(String description)
+    {
+    		this.description = description;
     }
 }
