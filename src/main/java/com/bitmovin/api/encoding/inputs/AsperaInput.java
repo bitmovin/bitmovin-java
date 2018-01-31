@@ -27,6 +27,8 @@ public class AsperaInput extends Input
 
     private String password;
 
+    private String token;
+
     public AsperaInput()
     {
         this.setType(InputType.ASPERA);
@@ -82,6 +84,16 @@ public class AsperaInput extends Input
         this.password = password;
     }
 
+    public String getToken()
+    {
+        return this.token;
+    }
+
+    public void setToken(String token)
+    {
+        this.token = token;
+    }
+
     public Date getCreatedAt()
     {
         return this.createdAt;
@@ -121,4 +133,5 @@ public class AsperaInput extends Input
     {
         this.description = description;
     }
+
 }
