@@ -54,6 +54,8 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private H264Trellis trellis;
 
+    private PixelFormat pixelFormat;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
@@ -227,5 +229,13 @@ public class H264VideoConfiguration extends VideoConfiguration
     public void setTrellis(H264Trellis trellis)
     {
         this.trellis = trellis;
+    }
+    public PixelFormat getPixelFormat()
+    {
+        return pixelFormat;
+    }
+    public void setPixelFormat(PixelFormat pixelFormat)
+    {
+        this.pixelFormat = pixelFormat;
     }
 }

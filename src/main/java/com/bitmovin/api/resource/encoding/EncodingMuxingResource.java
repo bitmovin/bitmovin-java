@@ -14,6 +14,7 @@ import com.bitmovin.api.encoding.encodings.drms.PrimeTimeDrm;
 import com.bitmovin.api.encoding.encodings.drms.WidevineDrm;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MP4Muxing;
+import com.bitmovin.api.encoding.encodings.muxing.ProgressiveMOVMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveTSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.WebmMuxing;
@@ -208,6 +209,12 @@ public class EncodingMuxingResource
         String newUrl = ApiUrls.addAESEncryptionToTssMuxing.replace("{encoding_id}", encoding.getId());
         newUrl = newUrl.replace("{muxing_id}", tsMuxing.getId());
         return RestClient.post(this.headers, newUrl, aesEncryptionDrm, AesEncryptionDrm.class);
+    }
+
+    public ProgressiveMOVMuxing addProgressiveMOVMuxingToEncoding(Encoding encoding, ProgressiveMOVMuxing progressiveMOVMuxing) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.progressiveMovMuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.post(this.headers, newUrl, progressiveMOVMuxing);
     }
 
 }
