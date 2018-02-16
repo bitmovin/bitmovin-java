@@ -99,8 +99,7 @@ public class CreateMp4AndMovEncoding
         videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
 
         AACAudioConfig audioConfig = new AACAudioConfig();
-        audioConfig.setBitrate(256000L);
-        audioConfig.setRate(48000F);
+        audioConfig.setBitrate(128000L);
         audioConfig = bitmovinApi.configuration.audioAAC.create(audioConfig);
 
         InputStream audioInputStream = new InputStream();
