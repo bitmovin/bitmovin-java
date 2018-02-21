@@ -47,6 +47,7 @@ public class ApiUrls
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
     public static final String codecConfigAAc = "encoding/configurations/audio/aac";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
+    public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
 
     public static final String encodings = "encoding/encodings/";
     public static final String encodingInformation = "encoding/encodings/{encoding_id}/information";
@@ -62,6 +63,7 @@ public class ApiUrls
     public static final String tsmuxings = "encoding/encodings/{encoding_id}/muxings/ts";
     public static final String mp4muxings = "encoding/encodings/{encoding_id}/muxings/mp4";
     public static final String webmmuxings = "encoding/encodings/{encoding_id}/muxings/webm";
+    public static final String progressiveMovMuxings = "encoding/encodings/{encoding_id}/muxings/progressive-mov";
 
     public static final String widevineDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/widevine";
     public static final String playReadyDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/playready";
