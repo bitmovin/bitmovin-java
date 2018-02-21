@@ -31,7 +31,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class CreateMp4AndMovEncoding
+public class CreateMp4EncodingAndKeyframeArchive
 {
     private static String API_KEY = "<YOUR BITMOVIN API KEY>";
 
@@ -170,9 +170,10 @@ public class CreateMp4AndMovEncoding
 
         System.out.println(String.format("Encoding finished with status %s", status.getStatus().toString()));
 
-        if (status.getStatus() != Status.FINISHED)
+        if (status.getStatus() == Status.ERROR)
         {
             System.out.println("Encoding has status error");
+            return;
         }
 
         System.out.println("Encoding finished successfully!");
