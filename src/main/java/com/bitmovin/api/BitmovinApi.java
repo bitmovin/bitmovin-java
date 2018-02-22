@@ -101,11 +101,6 @@ public class BitmovinApi
 
     public BitmovinApi(String apiKey) throws IOException
     {
-        this(apiKey, false);
-    }
-
-    public BitmovinApi(String apiKey, boolean useHttps) throws IOException
-    {
         this();
         this.apiKey = apiKey;
         this.apiUrl = ApiUrls.API_ENDPOINT_WITH_PROTOCOL + "/v1/";
