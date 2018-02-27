@@ -232,9 +232,11 @@ public class CreateEncodingWithAudioMixFilter
             Thread.sleep(2500);
         }
 
-        System.out.println(String.format("Encoding finished with status %s", status.getStatus().toString()));
         if (status.getStatus() == Status.ERROR)
+        {
+            System.out.println("\nEncoding finished with status ERROR");
             return;
+        }
 
         System.out.print("[OK]\n");
         this.createDashManifest(output.getId(), encoding.getId(), videoMuxingIdOutputPathMap, audioMuxingIdOutputPathMap);
