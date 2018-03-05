@@ -78,25 +78,25 @@ public class OutputContainer
         switch (outputType)
         {
             case S3:
-                return new Tuple<>(outputType, this.s3.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.s3.get(outputId));
             case GCS:
-                return new Tuple<>(outputType, this.gcs.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.gcs.get(outputId));
             case FTP:
-                return new Tuple<>(outputType, this.ftp.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.ftp.get(outputId));
             case SFTP:
-                return new Tuple<>(outputType, this.sftp.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.sftp.get(outputId));
             case LOCAL:
-                return new Tuple<>(outputType, this.local.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.local.get(outputId));
             case AKAMAI_NETSTORAGE:
-                return new Tuple<>(outputType, this.akamaiNetStorage.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.akamaiNetStorage.get(outputId));
             case AZURE:
-                return new Tuple<>(outputType, this.azure.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.azure.get(outputId));
             case GENERIC_S3:
-                return new Tuple<>(outputType, this.genericS3.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.genericS3.get(outputId));
             case BITMOVIN_GCS:
-                return new Tuple<>(outputType, this.bitmovinGcsOutput.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.bitmovinGcsOutput.get(outputId));
             case BITMOVIN_S3:
-                return new Tuple<>(outputType, this.bitmovinS3Output.get(outputId));
+                return new Tuple<OutputType, Output>(outputType, this.bitmovinS3Output.get(outputId));
         }
         return null;
     }

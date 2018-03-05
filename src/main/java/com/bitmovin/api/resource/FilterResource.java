@@ -30,10 +30,9 @@ public class FilterResource<T extends Filter> extends AbstractResource<T>
         List<String> ids = this.getAllIds();
         for (String id : ids)
         {
-            simpleApiDTOs.add(new SimpleApiDTO()
-            {{
-                this.setId(id);
-            }});
+            SimpleApiDTO dto = new SimpleApiDTO();
+            dto.setId(id);
+            simpleApiDTOs.add(dto);
         }
 
         return simpleApiDTOs;
