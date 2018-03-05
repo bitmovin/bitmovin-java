@@ -9,6 +9,7 @@ import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
+import com.bitmovin.api.encoding.encodings.conditions.AbstractCondition;
 import com.bitmovin.api.encoding.encodings.conditions.AndConjunction;
 import com.bitmovin.api.encoding.encodings.conditions.Condition;
 import com.bitmovin.api.encoding.encodings.conditions.ConditionAttribute;
@@ -47,6 +48,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -147,7 +149,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         videoStream240p.setCodecConfigId(videoConfiguration240p.getId());
         videoStream240p.setInputStreams(Collections.singleton(inputStreamVideo));
         AndConjunction andConjunction240 = new AndConjunction();
-        andConjunction240.setConditions(Collections.singletonList(new Condition(ConditionAttribute.HEIGHT, ">=", "240")));
+        andConjunction240.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "240"); }});
         videoStream240p.setConditions(andConjunction240);
         videoStream240p = bitmovinApi.encoding.stream.addStream(encoding, videoStream240p);
         streams.add(videoStream240p);
@@ -156,7 +158,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         videoStream360p.setCodecConfigId(videoConfiguration360p.getId());
         videoStream360p.setInputStreams(Collections.singleton(inputStreamVideo));
         AndConjunction andConjunction360 = new AndConjunction();
-        andConjunction360.setConditions(Collections.singletonList(new Condition(ConditionAttribute.HEIGHT, ">=", "360")));
+        andConjunction360.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "360"); }});
         videoStream360p.setConditions(andConjunction360);
         videoStream360p = bitmovinApi.encoding.stream.addStream(encoding, videoStream360p);
         streams.add(videoStream360p);
@@ -165,7 +167,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         videoStream480p.setCodecConfigId(videoConfiguration480p.getId());
         videoStream480p.setInputStreams(Collections.singleton(inputStreamVideo));
         AndConjunction andConjunction480 = new AndConjunction();
-        andConjunction480.setConditions(Collections.singletonList(new Condition(ConditionAttribute.HEIGHT, ">=", "480")));
+        andConjunction480.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "480"); }});
         videoStream480p.setConditions(andConjunction480);
         videoStream480p = bitmovinApi.encoding.stream.addStream(encoding, videoStream480p);
         streams.add(videoStream480p);
@@ -174,7 +176,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         videoStream720p.setCodecConfigId(videoConfiguration720p.getId());
         videoStream720p.setInputStreams(Collections.singleton(inputStreamVideo));
         AndConjunction andConjunction720 = new AndConjunction();
-        andConjunction720.setConditions(Collections.singletonList(new Condition(ConditionAttribute.HEIGHT, ">=", "720")));
+        andConjunction720.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "720"); }});
         videoStream720p.setConditions(andConjunction720);
         videoStream720p = bitmovinApi.encoding.stream.addStream(encoding, videoStream720p);
         streams.add(videoStream720p);
@@ -183,7 +185,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         videoStream1080p.setCodecConfigId(videoConfiguration1080p.getId());
         videoStream1080p.setInputStreams(Collections.singleton(inputStreamVideo));
         AndConjunction andConjunction1080 = new AndConjunction();
-        andConjunction1080.setConditions(Collections.singletonList(new Condition(ConditionAttribute.HEIGHT, ">=", "1080")));
+        andConjunction1080.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "1080"); }});
         videoStream1080p.setConditions(andConjunction1080);
         videoStream1080p = bitmovinApi.encoding.stream.addStream(encoding, videoStream1080p);
         streams.add(videoStream1080p);
@@ -192,7 +194,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsWithInputDetailsAndConditi
         audioStream.setCodecConfigId(aacConfiguration.getId());
         audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
         AndConjunction andConjunctionAudio = new AndConjunction();
-        andConjunctionAudio.setConditions(Collections.singletonList(new Condition(ConditionAttribute.INPUTSTREAM, "==", "true")));
+        andConjunctionAudio.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.INPUTSTREAM, "==", "true"); }});
         audioStream.setConditions(andConjunctionAudio);
         audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
 
