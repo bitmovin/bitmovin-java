@@ -64,7 +64,7 @@ public class CreateEncodingWithAudioMixFilter
     private static BitmovinApi bitmovinApi;
 
     @Test
-    public void testCreateEncodingWithAudioMuxFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException, RestException, InterruptedException
+    public void testCreateEncodingWithAudioMixFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException, RestException, InterruptedException
     {
         bitmovinApi = new BitmovinApi(API_KEY);
 
