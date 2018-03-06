@@ -56,6 +56,8 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private PixelFormat pixelFormat;
 
+    private Integer sceneCutThreshold;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
@@ -237,5 +239,15 @@ public class H264VideoConfiguration extends VideoConfiguration
     public void setPixelFormat(PixelFormat pixelFormat)
     {
         this.pixelFormat = pixelFormat;
+    }
+
+    public Integer getSceneCutThreshold()
+    {
+        return this.sceneCutThreshold;
+    }
+
+    public void setSceneCutThreshold(Integer sceneCutThreshold)
+    {
+        this.sceneCutThreshold = sceneCutThreshold;
     }
 }

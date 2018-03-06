@@ -60,6 +60,8 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Boolean sao;
 
+    private Integer sceneCutThreshold;
+
     public H265VideoConfiguration()
     {
         this.setType(ConfigType.H265);
@@ -267,5 +269,15 @@ public class H265VideoConfiguration extends VideoConfiguration
     public void setSao(Boolean sao)
     {
         this.sao = sao;
+    }
+
+    public Integer getSceneCutThreshold()
+    {
+        return this.sceneCutThreshold;
+    }
+
+    public void setSceneCutThreshold(Integer sceneCutThreshold)
+    {
+        this.sceneCutThreshold = sceneCutThreshold;
     }
 }
