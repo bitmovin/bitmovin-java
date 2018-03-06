@@ -28,6 +28,8 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Long minBitrate;
 
+    private Long bufsize;
+
     private LevelH265 level;
 
 
@@ -142,6 +144,10 @@ public class H265VideoConfiguration extends VideoConfiguration
     {
         this.minBitrate = minBitrate;
     }
+
+    public Long getBufsize() { return this.bufsize; }
+
+    public void setBufsize(Long bufsize) { this.bufsize = bufsize; }
 
     public LevelH265 getLevel()
     {
