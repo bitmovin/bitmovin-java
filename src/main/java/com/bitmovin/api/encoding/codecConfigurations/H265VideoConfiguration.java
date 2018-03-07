@@ -60,6 +60,10 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Boolean sao;
 
+    private Double minKeyframeInterval;
+
+    private Double maxKeyframeInterval;
+
     private Integer sceneCutThreshold;
 
     public H265VideoConfiguration()
@@ -269,6 +273,26 @@ public class H265VideoConfiguration extends VideoConfiguration
     public void setSao(Boolean sao)
     {
         this.sao = sao;
+    }
+
+    public Double getMinKeyframeInterval()
+    {
+        return this.minKeyframeInterval;
+    }
+
+    public void setMinKeyframeInterval(Double minKeyframeInterval)
+    {
+        this.minKeyframeInterval = minKeyframeInterval;
+    }
+
+    public Double getMaxKeyframeInterval()
+    {
+        return this.maxKeyframeInterval;
+    }
+
+    public void setMaxKeyframeInterval(Double maxKeyframeInterval)
+    {
+        this.maxKeyframeInterval = maxKeyframeInterval;
     }
 
     public Integer getSceneCutThreshold()
