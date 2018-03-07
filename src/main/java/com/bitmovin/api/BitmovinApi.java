@@ -68,7 +68,7 @@ public class BitmovinApi
     public NotificationContainer notifications;
     public InfrastructureContainer infrastructure;
 
-    private BitmovinApi()
+    private BitmovinApi() throws IOException
     {
         this.jacksonObjectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.jacksonObjectMapper.setDateFormat(ISO8601DateFormat.getDateTimeInstance());
@@ -117,7 +117,7 @@ public class BitmovinApi
             }
             catch (KeyManagementException | NoSuchAlgorithmException e)
             {
-                e.printStackTrace();
+                throw new IOException(e);
             }
         }
     }
