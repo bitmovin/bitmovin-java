@@ -90,7 +90,10 @@ public class EncodingThumbnailResource extends AbstractResource
         List<SimpleApiDTO> simpleApiDTOs = new ArrayList<>();
 
         List<String> ids = this.getAllIds();
-        ids.forEach(s -> simpleApiDTOs.add(new SimpleApiDTO(s)));
+        for(String id : ids)
+        {
+            simpleApiDTOs.add(new SimpleApiDTO(id));
+        }
 
         return simpleApiDTOs;
     }
