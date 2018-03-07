@@ -5,10 +5,12 @@ import com.bitmovin.api.encoding.codecConfigurations.enums.ColorPrimaries;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ColorRange;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ColorSpace;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ColorTransfer;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by Roland Kersche on 27.09.17.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ColorConfig
 {
     private Boolean copyChromaLocationFlag;
