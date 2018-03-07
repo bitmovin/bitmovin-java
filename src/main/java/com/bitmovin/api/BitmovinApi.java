@@ -22,10 +22,15 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -63,7 +68,7 @@ public class BitmovinApi
     public NotificationContainer notifications;
     public InfrastructureContainer infrastructure;
 
-    private BitmovinApi()
+    private BitmovinApi() throws IOException
     {
         this.jacksonObjectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         this.jacksonObjectMapper.setDateFormat(ISO8601DateFormat.getDateTimeInstance());
@@ -97,14 +102,27 @@ public class BitmovinApi
                 }
             }
         });
+        String version = Runtime.class.getPackage().getImplementationVersion();
+        if (version != null && version.startsWith("1.7.0"))
+        {
+            try
+            {
+                SSLContext context = SSLContext.getInstance("TLSv1.2");
+                context.init(null, null, null);
+                HttpClient httpClient = HttpClientBuilder
+                        .create()
+                        .setSSLContext(context)
+                        .build();
+                Unirest.setHttpClient(httpClient);
+            }
+            catch (KeyManagementException | NoSuchAlgorithmException e)
+            {
+                throw new IOException(e);
+            }
+        }
     }
 
     public BitmovinApi(String apiKey) throws IOException
-    {
-        this(apiKey, false);
-    }
-
-    public BitmovinApi(String apiKey, boolean useHttps) throws IOException
     {
         this();
         this.apiKey = apiKey;
