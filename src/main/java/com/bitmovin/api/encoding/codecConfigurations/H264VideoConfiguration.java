@@ -56,6 +56,10 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private PixelFormat pixelFormat;
 
+    private Double minKeyframeInterval;
+
+    private Double maxKeyframeInterval;
+
     private Integer sceneCutThreshold;
 
     public H264VideoConfiguration()
@@ -232,6 +236,27 @@ public class H264VideoConfiguration extends VideoConfiguration
     {
         this.trellis = trellis;
     }
+
+    public Double getMinKeyframeInterval()
+    {
+        return this.minKeyframeInterval;
+    }
+
+    public void setMinKeyframeInterval(Double minKeyframeInterval)
+    {
+        this.minKeyframeInterval = minKeyframeInterval;
+    }
+
+    public Double getMaxKeyframeInterval()
+    {
+        return this.maxKeyframeInterval;
+    }
+
+    public void setMaxKeyframeInterval(Double maxKeyframeInterval)
+    {
+        this.maxKeyframeInterval = maxKeyframeInterval;
+    }
+
     public PixelFormat getPixelFormat()
     {
         return pixelFormat;
