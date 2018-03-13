@@ -167,5 +167,7 @@ public class ApiUrls
     public static final String storageStatistics = "storage/statistics";
 
     public static final String kubernetesUrl = "encoding/infrastructure/kubernetes";
+    public static final String infrastructureAws = "encoding/infrastructure/aws";
+    public static final String infrastructureAwsRegionSettings = "encoding/infrastructure/aws/{awsAccountId}/regions";
 
 }
