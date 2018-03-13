@@ -147,6 +147,7 @@ public class ApiUrls
     public static final String filterRotate = "encoding/filters/rotate";
     public static final String filterWatermark = "encoding/filters/watermark";
     public static final String filterDeinterlace = "encoding/filters/deinterlace";
+    public static final String filterAudioMix = "encoding/filters/audio-mix";
 
     public static final String customDataSuffix = "/customData";
 

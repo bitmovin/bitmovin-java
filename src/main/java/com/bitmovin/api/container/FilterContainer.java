@@ -2,6 +2,7 @@ package com.bitmovin.api.container;
 
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
+import com.bitmovin.api.encoding.filters.AudioMixFilter;
 import com.bitmovin.api.encoding.filters.CropFilter;
 import com.bitmovin.api.encoding.filters.DeinterlaceFilter;
 import com.bitmovin.api.encoding.filters.Filter;
@@ -28,6 +29,7 @@ public class FilterContainer
     public FilterResource<RotateFilter> rotate;
     public FilterResource<WatermarkFilter> watermark;
     public FilterResource<DeinterlaceFilter> deinterlace;
+    public FilterResource<AudioMixFilter> audioMix;
     public FilterResource<Filter> all;
     private Map<String, String> headers;
 
@@ -39,6 +41,7 @@ public class FilterContainer
         this.rotate = new FilterResource<>(headers, ApiUrls.filterRotate, RotateFilter.class);
         this.watermark = new FilterResource<>(headers, ApiUrls.filterWatermark, WatermarkFilter.class);
         this.deinterlace = new FilterResource<>(headers, ApiUrls.filterDeinterlace, DeinterlaceFilter.class);
+        this.audioMix = new FilterResource<>(headers, ApiUrls.filterAudioMix, AudioMixFilter.class);
         this.all = new FilterResource<>(headers, ApiUrls.filters, Filter.class);
     }
 
