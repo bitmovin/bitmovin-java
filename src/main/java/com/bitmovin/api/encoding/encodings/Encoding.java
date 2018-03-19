@@ -25,6 +25,8 @@ public class Encoding extends AbstractApiResponse
 
     private String infrastructureId;
 
+    private InfrastructureSettings infrastructure;
+
     @JsonIgnore
     private List<Stream> streams;
     @JsonIgnore
@@ -120,5 +122,15 @@ public class Encoding extends AbstractApiResponse
     public void setInfrastructureId(String infrastructureId)
     {
         this.infrastructureId = infrastructureId;
+    }
+
+    public InfrastructureSettings getInfrastructure()
+    {
+        return this.infrastructure;
+    }
+
+    public void setInfrastructure(InfrastructureSettings infrastructure)
+    {
+        this.infrastructure = infrastructure;
     }
 }
