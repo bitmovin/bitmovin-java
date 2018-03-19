@@ -39,6 +39,7 @@ public enum CloudRegion
     AWS,
     GOOGLE,
     KUBERNETES,
+    EXTERNAL,
 
     AUTO
 
