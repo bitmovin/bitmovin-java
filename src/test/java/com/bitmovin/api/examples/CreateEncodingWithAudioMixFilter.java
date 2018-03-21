@@ -5,11 +5,14 @@ import com.bitmovin.api.encoding.AclEntry;
 import com.bitmovin.api.encoding.AclPermission;
 import com.bitmovin.api.encoding.EncodingOutput;
 import com.bitmovin.api.encoding.InputStream;
+import com.bitmovin.api.encoding.StreamFilter;
+import com.bitmovin.api.encoding.StreamFilterList;
 import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
+import com.bitmovin.api.encoding.encodings.muxing.MP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
 import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.enums.CloudRegion;
@@ -181,6 +184,16 @@ public class CreateEncodingWithAudioMixFilter
         audioMuxingIdOutputPathMap.put(muxingAudio.getId(), "audio");
         System.out.print("[OK]\n");
 
+        MP4Muxing mp4Muxing = new MP4Muxing();
+        mp4Muxing.addOutput(new EncodingOutput(
+                output.getId(),
+                OUTPUT_BASE_PATH
+        ));
+        mp4Muxing.setFilename("muxed.mp4");
+        mp4Muxing.addStream(new MuxingStream(videoStream1080p.getId()));
+        mp4Muxing.addStream(new MuxingStream(audioStream.getId()));
+        bitmovinApi.encoding.muxing.addMp4MuxingToEncoding(encoding, mp4Muxing);
+
         /*
         Filter configuration
          */
@@ -199,7 +212,7 @@ public class CreateEncodingWithAudioMixFilter
         );
         audioMixChannels.add(
                 new AudioMixChannel(
-                        1,
+                        0,
                         Collections.singletonList(
                                 new SourceChannel(
                                         SourceChannelType.CHANNEL_NUMBER,
@@ -216,8 +229,20 @@ public class CreateEncodingWithAudioMixFilter
                 audioMixChannels
         );
 
-        bitmovinApi.filter.audioMix.create(audioMixFilter);
+        audioMixFilter = bitmovinApi.filter.audioMix.create(audioMixFilter);
         System.out.print("[OK]\n");
+
+        List<StreamFilter> streamFilters = new ArrayList<>();
+        StreamFilter streamFilter = new StreamFilter();
+        streamFilter.setId(audioMixFilter.getId());
+        streamFilter.setPosition(0);
+        streamFilters.add(streamFilter);
+
+        StreamFilterList streamFilterList = new StreamFilterList();
+        streamFilterList.setFilters(
+                streamFilters
+        );
+        bitmovinApi.encoding.stream.addFiltersToStream(encoding, audioStream, streamFilterList);
 
         System.out.print("Starting encoding...");
         bitmovinApi.encoding.start(encoding);
