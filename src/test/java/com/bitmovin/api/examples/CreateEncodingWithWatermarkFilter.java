@@ -34,17 +34,17 @@ import com.bitmovin.api.encoding.outputs.Output;
 import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
+import com.bitmovin.api.examples.util.H264Representation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+import java.util.List;
 
 public class CreateEncodingWithWatermarkFilter
 {
@@ -55,10 +55,18 @@ public class CreateEncodingWithWatermarkFilter
     private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_HOST>"; // ex.: storage.googleapis.com/
     private static String HTTPS_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>";
 
-    private static String S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
-    private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
-    private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
-    private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
+    private static String S3_OUTPUT_ACCESSKEY = "<YOUR S3 OUTPUT ACCESS KEY>";
+    private static String S3_OUTPUT_SECRET_KEY = "<YOUR S3 OUTPUT SECRET KEY>";
+    private static String S3_OUTPUT_BUCKET_NAME = "<YOUR OUTPUT BUCKET>";
+    private static String OUTPUT_BASE_PATH = "/your/output/base/path";
+
+    private List<H264Representation> h264Representations = new ArrayList<H264Representation>() {{
+        add(new H264Representation(240, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"));
+        add(new H264Representation(360, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"));
+        add(new H264Representation(480, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"));
+        add(new H264Representation(720, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"));
+        add(new H264Representation(1080, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p"));
+    }};
 
     private static BitmovinApi bitmovinApi;
 
@@ -68,7 +76,7 @@ public class CreateEncodingWithWatermarkFilter
         bitmovinApi = new BitmovinApi(ApiKey);
 
         Encoding encoding = new Encoding();
-        encoding.setName("Encoding JAVA");
+        encoding.setName("Encoding with watermark filter");
         encoding.setCloudRegion(cloudRegion);
         encoding = bitmovinApi.encoding.create(encoding);
 
@@ -87,35 +95,18 @@ public class CreateEncodingWithWatermarkFilter
         aacConfiguration.setRate(48000f);
         aacConfiguration = bitmovinApi.configuration.audioAAC.create(aacConfiguration);
 
-        H264VideoConfiguration videoConfiguration240p = new H264VideoConfiguration();
-        videoConfiguration240p.setHeight(240);
-        videoConfiguration240p.setBitrate(400000L);
-        videoConfiguration240p.setProfile(ProfileH264.HIGH);
-        videoConfiguration240p = bitmovinApi.configuration.videoH264.create(videoConfiguration240p);
+        for (H264Representation representation : h264Representations)
+        {
+            H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
+            videoConfiguration.setHeight(representation.getHeight());
+            videoConfiguration.setWidth(representation.getWidth());
+            videoConfiguration.setBitrate(representation.getBitrate());
+            videoConfiguration.setRate(representation.getRate());
+            videoConfiguration.setProfile(ProfileH264.HIGH);
+            videoConfiguration = bitmovinApi.configuration.videoH264.create(videoConfiguration);
 
-        H264VideoConfiguration videoConfiguration360p = new H264VideoConfiguration();
-        videoConfiguration360p.setHeight(360);
-        videoConfiguration360p.setBitrate(800000L);
-        videoConfiguration360p.setProfile(ProfileH264.HIGH);
-        videoConfiguration360p = bitmovinApi.configuration.videoH264.create(videoConfiguration360p);
-
-        H264VideoConfiguration videoConfiguration480p = new H264VideoConfiguration();
-        videoConfiguration480p.setHeight(480);
-        videoConfiguration480p.setBitrate(1200000L);
-        videoConfiguration480p.setProfile(ProfileH264.HIGH);
-        videoConfiguration480p = bitmovinApi.configuration.videoH264.create(videoConfiguration480p);
-
-        H264VideoConfiguration videoConfiguration720p = new H264VideoConfiguration();
-        videoConfiguration720p.setHeight(720);
-        videoConfiguration720p.setBitrate(2400000L);
-        videoConfiguration720p.setProfile(ProfileH264.HIGH);
-        videoConfiguration720p = bitmovinApi.configuration.videoH264.create(videoConfiguration720p);
-
-        H264VideoConfiguration videoConfiguration1080p = new H264VideoConfiguration();
-        videoConfiguration1080p.setHeight(1080);
-        videoConfiguration1080p.setBitrate(4800000L);
-        videoConfiguration1080p.setProfile(ProfileH264.HIGH);
-        videoConfiguration1080p = bitmovinApi.configuration.videoH264.create(videoConfiguration1080p);
+            representation.setConfiguration(videoConfiguration);
+        }
 
         InputStream inputStreamAudio = new InputStream();
         inputStreamAudio.setInputPath(HTTPS_INPUT_PATH);
@@ -123,18 +114,32 @@ public class CreateEncodingWithWatermarkFilter
         inputStreamAudio.setSelectionMode(StreamSelectionMode.AUTO);
         inputStreamAudio.setPosition(0);
 
+        Stream audioStream = new Stream();
+        audioStream.setCodecConfigId(aacConfiguration.getId());
+        audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
+        audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
+
         InputStream inputStreamVideo = new InputStream();
         inputStreamVideo.setInputPath(HTTPS_INPUT_PATH);
         inputStreamVideo.setInputId(input.getId());
         inputStreamVideo.setSelectionMode(StreamSelectionMode.AUTO);
         inputStreamVideo.setPosition(0);
 
+        for (H264Representation representation : h264Representations)
+        {
+            Stream videoStream = new Stream();
+            videoStream.setCodecConfigId(representation.getConfiguration().getId());
+            videoStream.setInputStreams(Collections.singleton(inputStreamVideo));
+            videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
+
+            representation.setStream(videoStream);
+        }
+
+        /*
+        Create watermark filter
+         */
         WatermarkFilter watermarkFilter = this.createWaterMarkFilter();
-
-        final StreamFilter streamFilter = new StreamFilter();
-        streamFilter.setId(watermarkFilter.getId());
-        streamFilter.setPosition(0);
-
+        final StreamFilter streamFilter = new StreamFilter(watermarkFilter.getId(), 0);
         StreamFilterList streamFilterList = new StreamFilterList();
         streamFilterList.setFilters(
                 new ArrayList<StreamFilter>(){{
@@ -142,58 +147,49 @@ public class CreateEncodingWithWatermarkFilter
                 }}
         );
 
-        Stream audioStream = new Stream();
-        audioStream.setCodecConfigId(aacConfiguration.getId());
-        audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
-        audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
-
-        Stream videoStream240p = new Stream();
-        videoStream240p.setCodecConfigId(videoConfiguration240p.getId());
-        videoStream240p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream240p = bitmovinApi.encoding.stream.addStream(encoding, videoStream240p);
-        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream240p, streamFilterList);
-
-        Stream videoStream360p = new Stream();
-        videoStream360p.setCodecConfigId(videoConfiguration360p.getId());
-        videoStream360p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream360p = bitmovinApi.encoding.stream.addStream(encoding, videoStream360p);
-        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream360p, streamFilterList);
-
-        Stream videoStream480p = new Stream();
-        videoStream480p.setCodecConfigId(videoConfiguration480p.getId());
-        videoStream480p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream480p = bitmovinApi.encoding.stream.addStream(encoding, videoStream480p);
-        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream480p, streamFilterList);
-
-        Stream videoStream720p = new Stream();
-        videoStream720p.setCodecConfigId(videoConfiguration720p.getId());
-        videoStream720p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream720p = bitmovinApi.encoding.stream.addStream(encoding, videoStream720p);
-        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream720p, streamFilterList);
-
-        Stream videoStream1080p = new Stream();
-        videoStream1080p.setCodecConfigId(videoConfiguration1080p.getId());
-        videoStream1080p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream1080p = bitmovinApi.encoding.stream.addStream(encoding, videoStream1080p);
-        bitmovinApi.encoding.stream.addFiltersToStream(encoding, videoStream1080p, streamFilterList);
+        /*
+        Add filters to video streams
+         */
+        for (H264Representation representation : h264Representations)
+        {
+            bitmovinApi.encoding.stream.addFiltersToStream(encoding, representation.getStream(), streamFilterList);
+        }
 
         EncodingOutput encodingOutput = new EncodingOutput();
         encodingOutput.setOutputId(output.getId());
         encodingOutput.setOutputPath(OUTPUT_BASE_PATH);
 
-        FMP4Muxing fmp4Muxing240 = this.createFMP4Muxing(encoding, videoStream240p, output, OUTPUT_BASE_PATH + "/video/240p_dash", AclPermission.PUBLIC_READ);
-        FMP4Muxing fmp4Muxing360 = this.createFMP4Muxing(encoding, videoStream360p, output, OUTPUT_BASE_PATH + "/video/360p_dash", AclPermission.PUBLIC_READ);
-        FMP4Muxing fmp4Muxing480 = this.createFMP4Muxing(encoding, videoStream480p, output, OUTPUT_BASE_PATH + "/video/480p_dash", AclPermission.PUBLIC_READ);
-        FMP4Muxing fmp4Muxing720 = this.createFMP4Muxing(encoding, videoStream720p, output, OUTPUT_BASE_PATH + "/video/720p_dash", AclPermission.PUBLIC_READ);
-        FMP4Muxing fmp4Muxing1080 = this.createFMP4Muxing(encoding, videoStream1080p, output, OUTPUT_BASE_PATH + "/video/1080p_dash", AclPermission.PUBLIC_READ);
-        FMP4Muxing fmp4Audio = this.createFMP4Muxing(encoding, audioStream, output, OUTPUT_BASE_PATH + "/audio/128kbps_dash", AclPermission.PUBLIC_READ);
+        /*
+         * Create fmp4 muxings
+         */
+        for (H264Representation representation : h264Representations)
+        {
+            FMP4Muxing muxing = this.createFMP4Muxing(
+                    encoding,
+                    representation.getStream(),
+                    output,
+                    representation.getOutputBasePath() + "/" + representation.getRelativeOutputPath() + "_dash",
+                    AclPermission.PUBLIC_READ
+            );
 
-        TSMuxing tsMuxing240 = this.createTSMuxing(encoding, videoStream240p, output, OUTPUT_BASE_PATH + "/video/240p_hls", AclPermission.PUBLIC_READ);
-        TSMuxing tsMuxing360 = this.createTSMuxing(encoding, videoStream360p, output, OUTPUT_BASE_PATH + "/video/360p_hls", AclPermission.PUBLIC_READ);
-        TSMuxing tsMuxing480 = this.createTSMuxing(encoding, videoStream480p, output, OUTPUT_BASE_PATH + "/video/480p_hls", AclPermission.PUBLIC_READ);
-        TSMuxing tsMuxing720 = this.createTSMuxing(encoding, videoStream720p, output, OUTPUT_BASE_PATH + "/video/720p_hls", AclPermission.PUBLIC_READ);
-        TSMuxing tsMuxing1080 = this.createTSMuxing(encoding, videoStream1080p, output, OUTPUT_BASE_PATH + "/video/1080p_hls", AclPermission.PUBLIC_READ);
-        TSMuxing tsAudio = this.createTSMuxing(encoding, audioStream, output, OUTPUT_BASE_PATH + "/audio/128kbps_hls", AclPermission.PUBLIC_READ);
+            representation.setFmp4Muxing(muxing);
+        }
+        FMP4Muxing audioFmp4Muxing = this.createFMP4Muxing(encoding, audioStream, output, OUTPUT_BASE_PATH + "/audio/128kbps_dash", AclPermission.PUBLIC_READ);
+
+
+        for (H264Representation representation : h264Representations)
+        {
+            TSMuxing tsMuxing = this.createTSMuxing(
+                    encoding,
+                    representation.getStream(),
+                    output,
+                    representation.getOutputBasePath() + "/" + representation.getRelativeOutputPath() + "_hls",
+                    AclPermission.PUBLIC_READ
+            );
+
+            representation.setTsMuxing(tsMuxing);
+        }
+        TSMuxing audioTsMuxing = this.createTSMuxing(encoding, audioStream, output, OUTPUT_BASE_PATH + "/audio/128kbps_hls", AclPermission.PUBLIC_READ);
 
         bitmovinApi.encoding.start(encoding);
 
@@ -225,13 +221,28 @@ public class CreateEncodingWithWatermarkFilter
         VideoAdaptationSet videoAdaptationSet = this.addVideoAdaptationSetToPeriod(manifest, period);
         AudioAdaptationSet audioAdaptationSet = this.addAudioAdaptationSetToPeriodWithRoles(manifest, period, "en");
 
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Muxing1080.getId(), "video/1080p_dash", manifest, period, videoAdaptationSet);
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Muxing720.getId(), "video/720p_dash", manifest, period, videoAdaptationSet);
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Muxing480.getId(), "video/480p_dash", manifest, period, videoAdaptationSet);
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Muxing360.getId(), "video/360p_dash", manifest, period, videoAdaptationSet);
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Muxing240.getId(), "video/240p_dash", manifest, period, videoAdaptationSet);
+        for (H264Representation representation : h264Representations)
+        {
+            this.addDashRepresentationToAdaptationSet(
+                    DashMuxingType.TEMPLATE,
+                    encoding.getId(),
+                    representation.getFmp4Muxing().getId(),
+                    representation.getRelativeOutputPath() + "_dash",
+                    manifest,
+                    period,
+                    videoAdaptationSet
+            );
 
-        this.addDashRepresentationToAdaptationSet(DashMuxingType.TEMPLATE, encoding.getId(), fmp4Audio.getId(), "audio/128kbps_dash", manifest, period, audioAdaptationSet);
+        }
+        this.addDashRepresentationToAdaptationSet(
+                DashMuxingType.TEMPLATE,
+                encoding.getId(),
+                audioFmp4Muxing.getId(),
+                "audio/128kbps_dash",
+                manifest,
+                period,
+                audioAdaptationSet
+        );
 
         bitmovinApi.manifest.dash.startGeneration(manifest);
         Status dashStatus = bitmovinApi.manifest.dash.getGenerationStatus(manifest);
@@ -256,7 +267,7 @@ public class CreateEncodingWithWatermarkFilter
         audioMediaInfo.setType(MediaInfoType.AUDIO);
         audioMediaInfo.setEncodingId(encoding.getId());
         audioMediaInfo.setStreamId(audioStream.getId());
-        audioMediaInfo.setMuxingId(tsAudio.getId());
+        audioMediaInfo.setMuxingId(audioTsMuxing.getId());
         audioMediaInfo.setLanguage("en");
         audioMediaInfo.setAssocLanguage("en");
         audioMediaInfo.setAutoselect(false);
@@ -265,11 +276,18 @@ public class CreateEncodingWithWatermarkFilter
         audioMediaInfo.setSegmentPath("audio/128kbps_hls");
         bitmovinApi.manifest.hls.createMediaInfo(manifestHls, audioMediaInfo);
 
-        this.addStreamInfoToHlsManifest("video_1080p.m3u8", encoding.getId(), videoStream1080p.getId(), tsMuxing1080.getId(), "audio","video/1080p_hls", manifestHls);
-        this.addStreamInfoToHlsManifest("video_720p.m3u8", encoding.getId(), videoStream720p.getId(), tsMuxing720.getId(), "audio","video/720p_hls", manifestHls);
-        this.addStreamInfoToHlsManifest("video_480p.m3u8", encoding.getId(), videoStream480p.getId(), tsMuxing480.getId(), "audio","video/480p_hls", manifestHls);
-        this.addStreamInfoToHlsManifest("video_360p.m3u8", encoding.getId(), videoStream360p.getId(), tsMuxing360.getId(), "audio","video/360p_hls", manifestHls);
-        this.addStreamInfoToHlsManifest("video_240p.m3u8", encoding.getId(), videoStream240p.getId(), tsMuxing240.getId(), "audio","video/240p_hls", manifestHls);
+        for (H264Representation representation : h264Representations)
+        {
+            this.addStreamInfoToHlsManifest(
+                    "video_" + representation.getBitrate() + ".m3u8",
+                    encoding.getId(),
+                    representation.getStream().getId(),
+                    representation.getTsMuxing().getId(),
+                    "audio",
+                    representation.getRelativeOutputPath() + "_hls",
+                    manifestHls
+            );
+        }
 
         bitmovinApi.manifest.hls.startGeneration(manifestHls);
         Status hlsStatus = bitmovinApi.manifest.hls.getGenerationStatus(manifestHls);
@@ -287,8 +305,13 @@ public class CreateEncodingWithWatermarkFilter
 
     }
 
-    private StreamInfo addStreamInfoToHlsManifest(String uri, String encodingId, String streamId, String muxingId,
-                                                  String audioGroupId, String segmentPath, HlsManifest manifest) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
+    private StreamInfo addStreamInfoToHlsManifest(String uri,
+                                                  String encodingId,
+                                                  String streamId,
+                                                  String muxingId,
+                                                  String audioGroupId,
+                                                  String segmentPath,
+                                                  HlsManifest manifest) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
     {
         StreamInfo s = new StreamInfo();
         s.setUri(uri);
@@ -301,7 +324,6 @@ public class CreateEncodingWithWatermarkFilter
         return s;
     }
 
-
     private HlsManifest createHlsManifest(String name, EncodingOutput output) throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
         HlsManifest m = new HlsManifest();
@@ -310,8 +332,12 @@ public class CreateEncodingWithWatermarkFilter
         return bitmovinApi.manifest.hls.create(m);
     }
 
-    private void addDashRepresentationToAdaptationSet(DashMuxingType type, String encodingId, String muxingId,
-                                                      String segmentPath, DashManifest manifest, Period period,
+    private void addDashRepresentationToAdaptationSet(DashMuxingType type,
+                                                      String encodingId,
+                                                      String muxingId,
+                                                      String segmentPath,
+                                                      DashManifest manifest,
+                                                      Period period,
                                                       AdaptationSet adaptationSet) throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException
     {
         DashFmp4Representation r = new DashFmp4Representation();
@@ -322,27 +348,14 @@ public class CreateEncodingWithWatermarkFilter
         bitmovinApi.manifest.dash.addRepresentationToAdaptationSet(manifest, period, adaptationSet, r);
     }
 
-    private AudioAdaptationSet addAudioAdaptationSetToPeriodWithRoles(DashManifest manifest, Period period, String lang) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
+    private AudioAdaptationSet addAudioAdaptationSetToPeriodWithRoles(DashManifest manifest,
+                                                                      Period period,
+                                                                      String lang) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
     {
         AudioAdaptationSet a = new AudioAdaptationSet();
         a.setLang(lang);
         a = bitmovinApi.manifest.dash.addAudioAdaptationSetToPeriod(manifest, period, a);
         return a;
-    }
-
-    private AudioAdaptationSet addAudioAdaptationSet(DashManifest manifest, Period period, AudioAdaptationSet audioAdaptationSet)
-    {
-        try
-        {
-        }
-        catch (Exception e)
-        {
-            Assert.fail(e.getMessage());
-        }
-
-        Assert.assertNotNull("Null audio adaptation set created", audioAdaptationSet);
-        Assert.assertNotNull("Null audio adaptation set ID created", audioAdaptationSet.getId());
-        return audioAdaptationSet;
     }
 
     private VideoAdaptationSet addVideoAdaptationSetToPeriod(DashManifest manifest, Period period) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
@@ -388,8 +401,11 @@ public class CreateEncodingWithWatermarkFilter
         return encodingOutput;
     }
 
-    private FMP4Muxing createFMP4Muxing(Encoding encoding, Stream stream, Output output, String outputPath, AclPermission defaultAclPermission)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
+    private FMP4Muxing createFMP4Muxing(Encoding encoding,
+                                        Stream stream,
+                                        Output output,
+                                        String outputPath,
+                                        AclPermission defaultAclPermission) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
     {
         EncodingOutput encodingOutput = this.createEncodingOutput(output, outputPath, defaultAclPermission);
         FMP4Muxing muxing = new FMP4Muxing();
@@ -402,8 +418,11 @@ public class CreateEncodingWithWatermarkFilter
         return muxing;
     }
 
-    private TSMuxing createTSMuxing(Encoding encoding, Stream stream, Output output, String outputPath, AclPermission defaultAclPermission)
-            throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
+    private TSMuxing createTSMuxing(Encoding encoding,
+                                    Stream stream,
+                                    Output output,
+                                    String outputPath,
+                                    AclPermission defaultAclPermission) throws URISyntaxException, BitmovinApiException, RestException, UnirestException, IOException
     {
         EncodingOutput encodingOutput = this.createEncodingOutput(output, outputPath, defaultAclPermission);
         TSMuxing muxing = new TSMuxing();
