@@ -7,6 +7,7 @@ import com.bitmovin.api.encoding.filters.CropFilter;
 import com.bitmovin.api.encoding.filters.DeinterlaceFilter;
 import com.bitmovin.api.encoding.filters.Filter;
 import com.bitmovin.api.encoding.filters.RotateFilter;
+import com.bitmovin.api.encoding.filters.TextFilter;
 import com.bitmovin.api.encoding.filters.WatermarkFilter;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.resource.FilterResource;
@@ -30,6 +31,7 @@ public class FilterContainer
     public FilterResource<WatermarkFilter> watermark;
     public FilterResource<DeinterlaceFilter> deinterlace;
     public FilterResource<AudioMixFilter> audioMix;
+    public FilterResource<TextFilter> text;
     public FilterResource<Filter> all;
     private Map<String, String> headers;
 
@@ -42,6 +44,7 @@ public class FilterContainer
         this.watermark = new FilterResource<>(headers, ApiUrls.filterWatermark, WatermarkFilter.class);
         this.deinterlace = new FilterResource<>(headers, ApiUrls.filterDeinterlace, DeinterlaceFilter.class);
         this.audioMix = new FilterResource<>(headers, ApiUrls.filterAudioMix, AudioMixFilter.class);
+        this.text = new FilterResource<>(headers, ApiUrls.filterText, TextFilter.class);
         this.all = new FilterResource<>(headers, ApiUrls.filters, Filter.class);
     }
 
