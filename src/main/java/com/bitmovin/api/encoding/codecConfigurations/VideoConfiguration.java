@@ -1,5 +1,7 @@
 package com.bitmovin.api.encoding.codecConfigurations;
 
+import com.bitmovin.api.encoding.codecConfigurations.enums.PixelFormat;
+
 /**
  * Created by
  * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
@@ -20,6 +22,10 @@ public class VideoConfiguration extends CodecConfig
     private Integer minGop;
 
     private Integer maxGop;
+
+    private ColorConfig colorConfig;
+
+    private PixelFormat pixelFormat;
 
 
     public Integer getWidth()
@@ -70,4 +76,8 @@ public class VideoConfiguration extends CodecConfig
     {
         this.maxGop = maxGop;
     }
+    public ColorConfig getColorConfig() { return this.colorConfig; }
+    public void setColorConfig(ColorConfig colorConfig) { this.colorConfig = colorConfig; }
+    public PixelFormat getPixelFormat() { return this.pixelFormat; }
+    public void setPixelFormat(PixelFormat pixelFormat) { this.pixelFormat = pixelFormat; }
 }

@@ -28,6 +28,8 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Long minBitrate;
 
+    private Long bufsize;
+
     private LevelH265 level;
 
 
@@ -57,6 +59,12 @@ public class H265VideoConfiguration extends VideoConfiguration
     private Boolean weightPredictionOnBSlice;
 
     private Boolean sao;
+
+    private Double minKeyframeInterval;
+
+    private Double maxKeyframeInterval;
+
+    private Integer sceneCutThreshold;
 
     public H265VideoConfiguration()
     {
@@ -142,6 +150,10 @@ public class H265VideoConfiguration extends VideoConfiguration
     {
         this.minBitrate = minBitrate;
     }
+
+    public Long getBufsize() { return this.bufsize; }
+
+    public void setBufsize(Long bufsize) { this.bufsize = bufsize; }
 
     public LevelH265 getLevel()
     {
@@ -261,5 +273,35 @@ public class H265VideoConfiguration extends VideoConfiguration
     public void setSao(Boolean sao)
     {
         this.sao = sao;
+    }
+
+    public Double getMinKeyframeInterval()
+    {
+        return this.minKeyframeInterval;
+    }
+
+    public void setMinKeyframeInterval(Double minKeyframeInterval)
+    {
+        this.minKeyframeInterval = minKeyframeInterval;
+    }
+
+    public Double getMaxKeyframeInterval()
+    {
+        return this.maxKeyframeInterval;
+    }
+
+    public void setMaxKeyframeInterval(Double maxKeyframeInterval)
+    {
+        this.maxKeyframeInterval = maxKeyframeInterval;
+    }
+
+    public Integer getSceneCutThreshold()
+    {
+        return this.sceneCutThreshold;
+    }
+
+    public void setSceneCutThreshold(Integer sceneCutThreshold)
+    {
+        this.sceneCutThreshold = sceneCutThreshold;
     }
 }

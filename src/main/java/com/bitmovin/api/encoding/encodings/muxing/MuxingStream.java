@@ -11,6 +11,15 @@ public class MuxingStream
 
     private String streamId;
 
+    public MuxingStream()
+    {
+    }
+
+    public MuxingStream(String streamId)
+    {
+        this.streamId = streamId;
+    }
+
     public String getStreamId()
     {
         return this.streamId;

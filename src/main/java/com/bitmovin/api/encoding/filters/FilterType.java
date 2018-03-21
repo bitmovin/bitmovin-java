@@ -9,7 +9,8 @@ public enum FilterType
 {
     CROP("CROP"),
     WATERMARK("WATERMARK"),
-    ROTATE("ROTATE");
+    ROTATE("ROTATE"),
+    AUDIO_MIX("AUDIO_MIX");
 
     private final String name;
     private static HashMap<String, FilterType> map;
@@ -31,9 +32,10 @@ public enum FilterType
 
     static
     {
-        map = new HashMap<String, FilterType>(3);
+        map = new HashMap<String, FilterType>(4);
         map.put("CROP", CROP);
         map.put("WATERMARK", WATERMARK);
         map.put("ROTATE", ROTATE);
+        map.put("AUDIO_MIX", AUDIO_MIX);
     }
 }
