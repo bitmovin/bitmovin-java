@@ -12,6 +12,7 @@ public class LiveHlsManifest
 {
     private String manifestId;
     private Double timeshift;
+    private Double liveEdgeOffset;
 
     public String getManifestId()
     {
@@ -31,5 +32,15 @@ public class LiveHlsManifest
     public void setTimeshift(Double timeshift)
     {
         this.timeshift = timeshift;
+    }
+
+    public Double getLiveEdgeOffset()
+    {
+        return this.liveEdgeOffset;
+    }
+
+    public void setLiveEdgeOffset(Double liveEdgeOffset)
+    {
+        this.liveEdgeOffset = liveEdgeOffset;
     }
 }
