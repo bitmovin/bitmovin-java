@@ -435,7 +435,7 @@ public class CreateEncodingWithBurnInTextFilter
     private TextFilter createTextFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
         TextFilter textFilter = new TextFilter();
-        textFilter.setText("Bitmovin is great! - ");
+        textFilter.setText("Bitmovin is great! Time:");
         textFilter.setX("main_w/2-text_w/2");
         textFilter.setY("10");
         textFilter.setFontColor("#FFFFFF");
