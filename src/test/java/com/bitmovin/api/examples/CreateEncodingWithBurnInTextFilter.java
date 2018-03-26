@@ -61,13 +61,13 @@ public class CreateEncodingWithBurnInTextFilter
     private static String S3_OUTPUT_BUCKET_NAME = "<YOUR OUTPUT BUCKET>";
     private static String OUTPUT_BASE_PATH = "/your/output/base/path";
 
-    private List<H264Representation> h264Representations = new ArrayList<H264Representation>() {{
-        add(new H264Representation(352, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"));
-        add(new H264Representation(640, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"));
-        add(new H264Representation(704, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"));
-        add(new H264Representation(1280, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"));
-        add(new H264Representation(1920, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p"));
-    }};
+    private List<H264Representation> h264Representations = Arrays.asList(
+            new H264Representation(426, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"),
+            new H264Representation(480, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"),
+            new H264Representation(858, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"),
+            new H264Representation(1280, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"),
+            new H264Representation(1920, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p")
+    );
 
     private static BitmovinApi bitmovinApi;
 
