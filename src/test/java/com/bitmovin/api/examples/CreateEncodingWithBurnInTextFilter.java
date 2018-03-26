@@ -44,6 +44,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,11 +62,11 @@ public class CreateEncodingWithBurnInTextFilter
     private static String OUTPUT_BASE_PATH = "/your/output/base/path";
 
     private List<H264Representation> h264Representations = new ArrayList<H264Representation>() {{
-        add(new H264Representation(240, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"));
-        add(new H264Representation(360, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"));
-        add(new H264Representation(480, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"));
-        add(new H264Representation(720, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"));
-        add(new H264Representation(1080, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p"));
+        add(new H264Representation(352, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"));
+        add(new H264Representation(640, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"));
+        add(new H264Representation(704, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"));
+        add(new H264Representation(1280, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"));
+        add(new H264Representation(1920, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p"));
     }};
 
     private static BitmovinApi bitmovinApi;
@@ -141,11 +142,7 @@ public class CreateEncodingWithBurnInTextFilter
         TextFilter textFilter = this.createTextFilter();
         final StreamFilter streamFilter = new StreamFilter(textFilter.getId(), 0);
         StreamFilterList streamFilterList = new StreamFilterList();
-        streamFilterList.setFilters(
-                new ArrayList<StreamFilter>(){{
-                    add(streamFilter);
-                }}
-        );
+        streamFilterList.setFilters(Arrays.asList(streamFilter));
 
         /*
         Add filters to video streams
@@ -261,7 +258,7 @@ public class CreateEncodingWithBurnInTextFilter
         HlsManifest manifestHls = this.createHlsManifest("manifest.m3u8", manifestDestination);
 
         MediaInfo audioMediaInfo = new MediaInfo();
-        audioMediaInfo.setName("audio.m3u8");
+        audioMediaInfo.setName("audio");
         audioMediaInfo.setUri("audio.m3u8");
         audioMediaInfo.setGroupId("audio");
         audioMediaInfo.setType(MediaInfoType.AUDIO);
@@ -439,7 +436,7 @@ public class CreateEncodingWithBurnInTextFilter
     {
         TextFilter textFilter = new TextFilter();
         textFilter.setText("Bitmovin is great!");
-        textFilter.setX("10");
+        textFilter.setX("main_w/2-text_w/2");
         textFilter.setY("10");
         textFilter.setFontColor("#FFFFFF");
         textFilter.setFontSize(48);
