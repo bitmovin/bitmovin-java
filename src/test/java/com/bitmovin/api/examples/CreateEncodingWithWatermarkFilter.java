@@ -43,6 +43,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,13 +61,13 @@ public class CreateEncodingWithWatermarkFilter
     private static String S3_OUTPUT_BUCKET_NAME = "<YOUR OUTPUT BUCKET>";
     private static String OUTPUT_BASE_PATH = "/your/output/base/path";
 
-    private List<H264Representation> h264Representations = new ArrayList<H264Representation>() {{
-        add(new H264Representation(240, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"));
-        add(new H264Representation(360, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"));
-        add(new H264Representation(480, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"));
-        add(new H264Representation(720, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"));
-        add(new H264Representation(1080, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p"));
-    }};
+    private List<H264Representation> h264Representations = Arrays.asList(
+            new H264Representation(null, 240, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"),
+            new H264Representation(null, 360, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"),
+            new H264Representation(null, 480, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"),
+            new H264Representation(null, 720, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"),
+            new H264Representation(null, 1080, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p")
+    );
 
     private static BitmovinApi bitmovinApi;
 
@@ -141,11 +142,7 @@ public class CreateEncodingWithWatermarkFilter
         WatermarkFilter watermarkFilter = this.createWaterMarkFilter();
         final StreamFilter streamFilter = new StreamFilter(watermarkFilter.getId(), 0);
         StreamFilterList streamFilterList = new StreamFilterList();
-        streamFilterList.setFilters(
-                new ArrayList<StreamFilter>(){{
-                    add(streamFilter);
-                }}
-        );
+        streamFilterList.setFilters(Arrays.asList(streamFilter));
 
         /*
         Add filters to video streams
@@ -261,7 +258,7 @@ public class CreateEncodingWithWatermarkFilter
         HlsManifest manifestHls = this.createHlsManifest("manifest.m3u8", manifestDestination);
 
         MediaInfo audioMediaInfo = new MediaInfo();
-        audioMediaInfo.setName("audio.m3u8");
+        audioMediaInfo.setName("audio");
         audioMediaInfo.setUri("audio.m3u8");
         audioMediaInfo.setGroupId("audio");
         audioMediaInfo.setType(MediaInfoType.AUDIO);

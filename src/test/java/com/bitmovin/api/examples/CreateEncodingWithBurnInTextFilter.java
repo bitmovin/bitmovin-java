@@ -62,11 +62,11 @@ public class CreateEncodingWithBurnInTextFilter
     private static String OUTPUT_BASE_PATH = "/your/output/base/path";
 
     private List<H264Representation> h264Representations = Arrays.asList(
-            new H264Representation(426, null, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"),
-            new H264Representation(480, null, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"),
-            new H264Representation(858, null, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"),
-            new H264Representation(1280, null, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"),
-            new H264Representation(1920, null, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p")
+            new H264Representation(null, 240, null, 400000L , ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/240p"),
+            new H264Representation(null, 360, null, 800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/360p"),
+            new H264Representation(null, 480, null, 1200000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/480p"),
+            new H264Representation(null, 720, null, 2400000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/720p"),
+            new H264Representation(null, 1080, null, 4800000L, ProfileH264.HIGH, OUTPUT_BASE_PATH, "video/1080p")
     );
 
     private static BitmovinApi bitmovinApi;
@@ -435,7 +435,7 @@ public class CreateEncodingWithBurnInTextFilter
     private TextFilter createTextFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
         TextFilter textFilter = new TextFilter();
-        textFilter.setText("Bitmovin is great!");
+        textFilter.setText("Bitmovin is great! - ");
         textFilter.setX("main_w/2-text_w/2");
         textFilter.setY("10");
         textFilter.setFontColor("#FFFFFF");
@@ -446,6 +446,7 @@ public class CreateEncodingWithBurnInTextFilter
         textFilter.setShadowX(3);
         textFilter.setShadowY(3);
         textFilter.setFont(TextFilterFont.DEJAVUSANS);
+        textFilter.setTimecode("hh:mm:ss");
         return bitmovinApi.filter.text.create(textFilter);
     }
 }
