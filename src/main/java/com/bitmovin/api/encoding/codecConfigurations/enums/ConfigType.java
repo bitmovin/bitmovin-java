@@ -8,7 +8,8 @@ public enum ConfigType
     AAC("AAC"),
     H264("H264"),
     H265("H265"),
-    VP9("VP9");
+    VP9("VP9"),
+    MP3("MP3");
 
     private final String name;
 
