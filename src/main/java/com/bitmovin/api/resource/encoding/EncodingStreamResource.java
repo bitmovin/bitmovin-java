@@ -66,11 +66,11 @@ public class EncodingStreamResource
         return RestClient.post(this.headers, newUrl, stream, Stream.class);
     }
 
-    public StreamFilterList addFiltersToStream(Encoding encoding, Stream stream, StreamFilterList filters) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    public void addFiltersToStream(Encoding encoding, Stream stream, StreamFilterList filters) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = ApiUrls.addFilterToStream.replace("{encoding_id}", encoding.getId());
         newUrl = newUrl.replace("{stream_id}", stream.getId());
-        return RestClient.post(this.headers, newUrl, filters, StreamFilterList.class);
+        RestClient.postAndForget(newUrl, headers, filters.getFilters());
     }
 
     public CencDrm getCencDrm(Encoding encoding, Stream stream, FMP4Muxing fmp4Muxing, String cencDrmId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
