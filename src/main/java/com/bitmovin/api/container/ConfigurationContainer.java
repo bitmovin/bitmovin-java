@@ -13,7 +13,6 @@ import com.bitmovin.api.encoding.codecConfigurations.MP2AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.OpusAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.VP8VideoConfiguration;
-import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VP9VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VorbisAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ConfigType;

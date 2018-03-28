@@ -7,7 +7,7 @@ import com.bitmovin.api.encoding.EncodingOutput;
 import com.bitmovin.api.encoding.InputStream;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.MJPEGCodecConfiguration;
-import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfiguration;
+import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.enums.PixelFormat;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
@@ -98,10 +98,10 @@ public class CreateMp4EncodingAndKeyframeArchiveWithMP3Audio
         videoStream.setInputStreams(new HashSet<>(Collections.singletonList(videoInput)));
         videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
 
-        MP3AudioConfiguration audioConfig = new MP3AudioConfiguration();
+        MP3AudioConfig audioConfig = new MP3AudioConfig();
         audioConfig.setBitrate(128000L);
         audioConfig.setRate(44100F);
-        audioConfig = bitmovinApi.configuration.mp3.create(audioConfig);
+        audioConfig = bitmovinApi.configuration.audioMP3.create(audioConfig);
 
         InputStream audioInputStream = new InputStream();
         audioInputStream.setInputId(input.getId());
