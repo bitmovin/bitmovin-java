@@ -4,6 +4,8 @@ import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
 import com.bitmovin.api.encoding.analysis.AnalysisDetails;
 import com.bitmovin.api.encoding.analysis.AnalysisStartRequest;
+import com.bitmovin.api.encoding.inputs.AkamaiNetstorageInput;
+import com.bitmovin.api.encoding.inputs.ZixiInput;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.encoding.inputs.AsperaInput;
 import com.bitmovin.api.encoding.inputs.AzureInput;
@@ -46,6 +48,8 @@ public class InputContainer
     public InputResource<RtmpInput> rtmp;
     public InputResource<GenericS3Input> genericS3;
     public InputResource<LocalInput> local;
+    public InputResource<AkamaiNetstorageInput> akamaiNetstorage;
+    public InputResource<ZixiInput> zixi;
     public InputResource<Input> all;
     private Map<String, String> headers;
 
@@ -65,6 +69,8 @@ public class InputContainer
         this.local = new InputResource<>(headers, ApiUrls.inputLocal, LocalInput.class);
         this.all = new InputResource<>(headers, ApiUrls.inputs, Input.class);
         this.genericS3 = new InputResource<>(headers, ApiUrls.inputGenericS3, GenericS3Input.class);
+        this.akamaiNetstorage = new InputResource<>(headers, ApiUrls.inputAkamaiNetstorage, AkamaiNetstorageInput.class);
+        this.zixi = new InputResource<>(headers, ApiUrls.inputZixi, ZixiInput.class);
     }
 
     public InputType getType(String inputId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException

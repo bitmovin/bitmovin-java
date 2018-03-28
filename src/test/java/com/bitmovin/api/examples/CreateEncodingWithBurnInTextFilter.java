@@ -18,7 +18,8 @@ import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.enums.CloudRegion;
 import com.bitmovin.api.encoding.enums.DashMuxingType;
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
-import com.bitmovin.api.encoding.filters.WatermarkFilter;
+import com.bitmovin.api.encoding.filters.TextFilter;
+import com.bitmovin.api.encoding.filters.enums.TextFilterFont;
 import com.bitmovin.api.encoding.inputs.HttpsInput;
 import com.bitmovin.api.encoding.manifest.dash.AdaptationSet;
 import com.bitmovin.api.encoding.manifest.dash.AudioAdaptationSet;
@@ -47,14 +48,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CreateEncodingWithWatermarkFilter
+public class CreateEncodingWithBurnInTextFilter
 {
-
-    private static String ApiKey = "<INSERT_YOUR_APIKEY>";
+    private static String ApiKey = "<INSERT YOUR API KEY>";
 
     private static CloudRegion cloudRegion = CloudRegion.AWS_EU_WEST_1;
-    private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_HOST>"; // ex.: storage.googleapis.com/
-    private static String HTTPS_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>";
+    private static String HTTPS_INPUT_HOST = "input.host.com";
+    private static String HTTPS_INPUT_PATH = "path/to/your/input/file.mkv";
 
     private static String S3_OUTPUT_ACCESSKEY = "<YOUR S3 OUTPUT ACCESS KEY>";
     private static String S3_OUTPUT_SECRET_KEY = "<YOUR S3 OUTPUT SECRET KEY>";
@@ -77,7 +77,7 @@ public class CreateEncodingWithWatermarkFilter
         bitmovinApi = new BitmovinApi(ApiKey);
 
         Encoding encoding = new Encoding();
-        encoding.setName("Encoding with watermark filter");
+        encoding.setName("Encoding with text filter");
         encoding.setCloudRegion(cloudRegion);
         encoding = bitmovinApi.encoding.create(encoding);
 
@@ -137,10 +137,10 @@ public class CreateEncodingWithWatermarkFilter
         }
 
         /*
-        Create watermark filter
+        Create text filter
          */
-        WatermarkFilter watermarkFilter = this.createWaterMarkFilter();
-        final StreamFilter streamFilter = new StreamFilter(watermarkFilter.getId(), 0);
+        TextFilter textFilter = this.createTextFilter();
+        final StreamFilter streamFilter = new StreamFilter(textFilter.getId(), 0);
         StreamFilterList streamFilterList = new StreamFilterList();
         streamFilterList.setFilters(Arrays.asList(streamFilter));
 
@@ -432,13 +432,20 @@ public class CreateEncodingWithWatermarkFilter
         return muxing;
     }
 
-
-    private WatermarkFilter createWaterMarkFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException
+    private TextFilter createTextFilter() throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
-        WatermarkFilter watermarkFilter = new WatermarkFilter();
-        watermarkFilter.setImage("https://dummyimage.com/300x60/00a2ff/ffffff.png&text=Bitmovin+is+great!");
-        watermarkFilter.setTop(10);
-        watermarkFilter.setRight(10);
-        return bitmovinApi.filter.watermark.create(watermarkFilter);
+        TextFilter textFilter = new TextFilter();
+        textFilter.setX("main_w/2-text_w/2");
+        textFilter.setY("10");
+        textFilter.setFontColor("#FFFFFF");
+        textFilter.setFontSize(48);
+        textFilter.setBox(true);
+        textFilter.setBoxColor("#32A9E1");
+        textFilter.setShadowColor("#218ECD");
+        textFilter.setShadowX(3);
+        textFilter.setShadowY(3);
+        textFilter.setFont(TextFilterFont.DEJAVUSANS);
+        textFilter.setTimecode("hh:mm:ss");
+        return bitmovinApi.filter.text.create(textFilter);
     }
 }
