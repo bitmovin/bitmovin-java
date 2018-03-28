@@ -100,6 +100,7 @@ public class CreateMp4EncodingAndKeyframeArchiveWithMP3Audio
 
         MP3AudioConfiguration audioConfig = new MP3AudioConfiguration();
         audioConfig.setBitrate(128000L);
+        audioConfig.setRate(44100F);
         audioConfig = bitmovinApi.configuration.mp3.create(audioConfig);
 
         InputStream audioInputStream = new InputStream();
