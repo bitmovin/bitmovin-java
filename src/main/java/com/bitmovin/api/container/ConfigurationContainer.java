@@ -13,6 +13,7 @@ import com.bitmovin.api.encoding.codecConfigurations.MP2AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.OpusAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.VP8VideoConfiguration;
+import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VP9VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VorbisAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ConfigType;
@@ -51,12 +52,12 @@ public class ConfigurationContainer
     public ConfigurationContainer(Map<String, String> headers)
     {
         this.headers = headers;
-        this.audioAAC = new ConfigurationResource<>(headers, ApiUrls.codecConfigAAc, AACAudioConfig.class);
         this.videoH264 = new ConfigurationResource<>(headers, ApiUrls.codecConfigH264, H264VideoConfiguration.class);
         this.videoH265 = new ConfigurationResource<>(headers, ApiUrls.codecConfigH265, H265VideoConfiguration.class);
         this.videoVP9 = new ConfigurationResource<>(headers, ApiUrls.codecConfigVP9, VP9VideoConfiguration.class);
         this.videoVP8 = new ConfigurationResource<>(headers, ApiUrls.codecConfigVP8, VP8VideoConfiguration.class);
         this.mjpeg = new ConfigurationResource<>(headers, ApiUrls.codecConfigMjpeg, MJPEGCodecConfiguration.class);
+        this.audioAAC = new ConfigurationResource<>(headers, ApiUrls.codecConfigAAc, AACAudioConfig.class);
         this.audioAC3 = new ConfigurationResource<>(headers, ApiUrls.codecConfigAC3, AC3AudioConfig.class);
         this.audioEAC3 = new ConfigurationResource<>(headers, ApiUrls.codecConfigEAC3, EAC3AudioConfig.class);
         this.audioMP2 = new ConfigurationResource<>(headers, ApiUrls.codecConfigMP2, MP2AudioConfig.class);

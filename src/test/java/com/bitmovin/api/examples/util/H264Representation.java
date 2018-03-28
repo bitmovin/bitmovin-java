@@ -11,6 +11,9 @@ import com.bitmovin.api.encoding.encodings.streams.Stream;
  */
 public class H264Representation
 {
+    private String outputBasePath;
+    private String relativeOutputPath;
+
     private Integer width;
     private Integer height;
     private Float rate;
@@ -33,6 +36,33 @@ public class H264Representation
         this.rate = rate;
         this.bitrate = bitrate;
         this.profile = profile;
+    }
+
+    public H264Representation(Integer width, Integer height, Float rate, Long bitrate, ProfileH264 profile, String outputBasePath, String relativeOutputPath)
+    {
+        this(width, height, rate, bitrate, profile);
+        this.relativeOutputPath = relativeOutputPath;
+        this.outputBasePath = outputBasePath;
+    }
+
+    public String getOutputBasePath()
+    {
+        return outputBasePath;
+    }
+
+    public void setOutputBasePath(String outputBasePath)
+    {
+        this.outputBasePath = outputBasePath;
+    }
+
+    public String getRelativeOutputPath()
+    {
+        return relativeOutputPath;
+    }
+
+    public void setRelativeOutputPath(String relativeOutputPath)
+    {
+        this.relativeOutputPath = relativeOutputPath;
     }
 
     public Integer getWidth()

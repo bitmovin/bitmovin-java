@@ -17,6 +17,16 @@ public class StreamFilter
 
     private Integer position;
 
+    public StreamFilter()
+    {
+    }
+
+    public StreamFilter(String id, Integer position)
+    {
+        this.id = id;
+        this.position = position;
+    }
+
     public String getId()
     {
         return this.id;

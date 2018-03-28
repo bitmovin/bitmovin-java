@@ -47,10 +47,10 @@ public class ApiUrls
     public static final String codecConfigLimitOffset = "encoding/configurations?offset={offset}&limit={limit}";
     public static final String codecConfigH264 = "encoding/configurations/video/h264";
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
-    public static final String codecConfigAAc = "encoding/configurations/audio/aac";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
     public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
+    public static final String codecConfigAAc = "encoding/configurations/audio/aac";
     public static final String codecConfigAC3 = "encoding/configurations/audio/ac3";
     public static final String codecConfigEAC3 = "encoding/configurations/audio/eac3";
     public static final String codecConfigMP2 = "encoding/configurations/audio/mp2";
@@ -157,6 +157,7 @@ public class ApiUrls
     public static final String filterWatermark = "encoding/filters/watermark";
     public static final String filterDeinterlace = "encoding/filters/deinterlace";
     public static final String filterAudioMix = "encoding/filters/audio-mix";
+    public static final String filterText = "encoding/filters/text";
 
     public static final String customDataSuffix = "/customData";
 
