@@ -19,7 +19,9 @@ public enum InputType
     RTMP("RTMP"),
     S3("S3"),
     GENERIC_S3("GENERIC_S3"),
-    LOCAL("LOCAL");
+    LOCAL("LOCAL"),
+    AKAMAI_NETSTORAGE("AKAMAI_NETSTORAGE"),
+    ZIXI("ZIXI");
 
     private final String name;
     private static HashMap<String, InputType> map;
@@ -39,8 +41,9 @@ public enum InputType
         return this.name;
     }
 
-    static {
-        map = new HashMap<String, InputType>(9);
+    static
+    {
+        map = new HashMap<>();
         map.put("ASPERA", ASPERA);
         map.put("AZURE", AZURE);
         map.put("FTP", FTP);
@@ -50,7 +53,9 @@ public enum InputType
         map.put("HTTPS", HTTPS);
         map.put("RTMP", RTMP);
         map.put("S3", S3);
-        map.put("LOCAL", LOCAL);
         map.put("GENERIC_S3", GENERIC_S3);
+        map.put("LOCAL", LOCAL);
+        map.put("AKAMAI_NETSTORAGE", AKAMAI_NETSTORAGE);
+        map.put("ZIXI", ZIXI);
     }
 }

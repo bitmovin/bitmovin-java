@@ -5,16 +5,15 @@ package com.bitmovin.api.encoding.codecConfigurations.enums;
  */
 public enum ConfigType
 {
-    AAC("AAC"),
-    H264("H264"),
-    H265("H265"),
-    VP9("VP9"),
-    MP3("MP3");
-
-    private final String name;
-
-    ConfigType(String s)
-    {
-        this.name = s;
-    }
+    AAC,
+    H264,
+    H265,
+    VP9,
+    VP8,
+    MP2,
+    MP3,
+    AC3,
+    EAC3,
+    OPUS,
+    VORBIS
 }

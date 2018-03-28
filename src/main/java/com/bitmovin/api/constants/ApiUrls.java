@@ -23,6 +23,8 @@ public class ApiUrls
     public static final String inputAspera = "encoding/inputs/aspera";
     public static final String inputRtmp = "encoding/inputs/rtmp";
     public static final String inputLocal = "encoding/inputs/local";
+    public static final String inputAkamaiNetstorage = "encoding/inputs/akamai-netstorage";
+    public static final String inputZixi =   "encoding/inputs/zixi";
 
     public static final String analysisStart = "encoding/inputs/{inputType}/{inputId}/analysis";
     public static final String analysisStatus = "encoding/inputs/{inputType}/{inputId}/analysis/{analysisId}/status";
@@ -46,9 +48,15 @@ public class ApiUrls
     public static final String codecConfigH264 = "encoding/configurations/video/h264";
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
+    public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
     public static final String codecConfigAAc = "encoding/configurations/audio/aac";
+    public static final String codecConfigAC3 = "encoding/configurations/audio/ac3";
+    public static final String codecConfigEAC3 = "encoding/configurations/audio/eac3";
+    public static final String codecConfigMP2 = "encoding/configurations/audio/mp2";
     public static final String codecConfigMP3 = "encoding/configurations/audio/mp3";
+    public static final String codecConfigOpus = "encoding/configurations/audio/opus";
+    public static final String codecConfigVorbis = "encoding/configurations/audio/vorbis";
 
     public static final String encodings = "encoding/encodings/";
     public static final String encodingInformation = "encoding/encodings/{encoding_id}/information";
