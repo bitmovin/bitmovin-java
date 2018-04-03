@@ -27,6 +27,10 @@ public class VideoConfiguration extends CodecConfig
 
     private PixelFormat pixelFormat;
 
+    private Integer sampleAspectRatioNumerator;
+
+    private Integer sampleAspectRatioDenominator;
+
 
     public Integer getWidth()
     {
@@ -80,4 +84,20 @@ public class VideoConfiguration extends CodecConfig
     public void setColorConfig(ColorConfig colorConfig) { this.colorConfig = colorConfig; }
     public PixelFormat getPixelFormat() { return this.pixelFormat; }
     public void setPixelFormat(PixelFormat pixelFormat) { this.pixelFormat = pixelFormat; }
+    public Integer getSampleAspectRatioNumerator()
+    {
+        return this.sampleAspectRatioNumerator;
+    }
+    public void setSampleAspectRatioNumerator(Integer sampleAspectRatioNumerator)
+    {
+        this.sampleAspectRatioNumerator = sampleAspectRatioNumerator;
+    }
+    public Integer getSampleAspectRatioDenominator()
+    {
+        return this.sampleAspectRatioDenominator;
+    }
+    public void setSampleAspectRatioDenominator(Integer sampleAspectRatioDenominator)
+    {
+        this.sampleAspectRatioDenominator = sampleAspectRatioDenominator;
+    }
 }
