@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public enum CloudRegion
 {
     AWS_US_EAST_1,
+    AWS_US_EAST_2,
     AWS_US_WEST_1,
     AWS_US_WEST_2,
     AWS_EU_WEST_1,
