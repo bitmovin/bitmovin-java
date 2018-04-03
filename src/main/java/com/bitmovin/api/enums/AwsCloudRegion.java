@@ -11,6 +11,7 @@ import java.util.Map;
 
 public enum AwsCloudRegion {
     US_EAST_1("US_EAST_1"),
+    US_EAST_2("US_EAST_2"),
     US_WEST_1("US_WEST_1"),
     US_WEST_2("US_WEST_2"),
     EU_WEST_1("EU_WEST_1"),
@@ -41,6 +42,7 @@ public enum AwsCloudRegion {
 
     static {
         map.put("US_EAST_1", US_EAST_1);
+        map.put("US_EAST_2", US_EAST_2);
         map.put("US_WEST_1", US_WEST_1);
         map.put("US_WEST_2", US_WEST_2);
         map.put("EU_WEST_1", EU_WEST_1);
