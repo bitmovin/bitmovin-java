@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.bitmovin.api</groupId>
     <artifactId>bitmovin-java</artifactId>
-    <version>1.15.0</version>
+    <version>1.16.0</version>
     <name>Bitmovin Java Client</name>
     <url>https://github.com/bitmovin/bitmovin-java</url>
     <description>JAVA-Client which enables you to seamlessly integrate the all new Bitmovin API into your existing projects.</description>
