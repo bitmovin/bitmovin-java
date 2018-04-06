@@ -74,6 +74,8 @@ public class ApiUrls
     public static final String webmmuxings = "encoding/encodings/{encoding_id}/muxings/webm";
     public static final String progressiveMovMuxings = "encoding/encodings/{encoding_id}/muxings/progressive-mov";
 
+    public static final String keyframes = "encoding/encodings/{encoding_id}/keyframes";
+
     public static final String widevineDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/widevine";
     public static final String playReadyDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/playready";
     public static final String primeTimeDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/primetime";
