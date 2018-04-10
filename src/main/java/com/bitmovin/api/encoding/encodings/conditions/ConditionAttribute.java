@@ -9,5 +9,6 @@ public enum ConditionAttribute
     WIDTH,
     FPS,
     BITRATE,
-    INPUTSTREAM
+    INPUTSTREAM,
+    DURATION
 }
