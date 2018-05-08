@@ -6,6 +6,8 @@ package com.bitmovin.api.encoding.codecConfigurations.enums;
 public enum ConfigType
 {
     AAC,
+    HE_AAC_V1,
+    HE_AAC_V2,
     H264,
     H265,
     VP9,
