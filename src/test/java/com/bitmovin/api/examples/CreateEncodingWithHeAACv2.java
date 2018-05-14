@@ -70,7 +70,6 @@ public class CreateEncodingWithHeAACv2
         Encoding encoding = new Encoding();
         encoding.setName("Encoding JAVA with HE-AACv2");
         encoding.setCloudRegion(cloudRegion);
-        encoding.setEncoderVersion("NIGHTLY");
         encoding = bitmovinApi.encoding.create(encoding);
 
         HttpsInput input = new HttpsInput();
