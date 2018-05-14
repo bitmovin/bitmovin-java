@@ -8,6 +8,8 @@ import com.bitmovin.api.encoding.codecConfigurations.CodecConfig;
 import com.bitmovin.api.encoding.codecConfigurations.EAC3AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.H265VideoConfiguration;
+import com.bitmovin.api.encoding.codecConfigurations.HeAACv1AudioConfig;
+import com.bitmovin.api.encoding.codecConfigurations.HeAACv2AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.MJPEGCodecConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.MP2AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.MP3AudioConfig;
@@ -34,6 +36,8 @@ public class ConfigurationContainer
 {
 
     public ConfigurationResource<AACAudioConfig> audioAAC;
+    public ConfigurationResource<HeAACv1AudioConfig> heAACv1;
+    public ConfigurationResource<HeAACv2AudioConfig> heAACv2;
     public ConfigurationResource<H264VideoConfiguration> videoH264;
     public ConfigurationResource<H265VideoConfiguration> videoH265;
     public ConfigurationResource<VP9VideoConfiguration> videoVP9;
@@ -57,6 +61,8 @@ public class ConfigurationContainer
         this.videoVP8 = new ConfigurationResource<>(headers, ApiUrls.codecConfigVP8, VP8VideoConfiguration.class);
         this.mjpeg = new ConfigurationResource<>(headers, ApiUrls.codecConfigMjpeg, MJPEGCodecConfiguration.class);
         this.audioAAC = new ConfigurationResource<>(headers, ApiUrls.codecConfigAAc, AACAudioConfig.class);
+        this.heAACv1 = new ConfigurationResource<>(headers, ApiUrls.codecConfigHeAACv1, HeAACv1AudioConfig.class);
+        this.heAACv2 = new ConfigurationResource<>(headers, ApiUrls.codecConfigHeAACv2, HeAACv2AudioConfig.class);
         this.audioAC3 = new ConfigurationResource<>(headers, ApiUrls.codecConfigAC3, AC3AudioConfig.class);
         this.audioEAC3 = new ConfigurationResource<>(headers, ApiUrls.codecConfigEAC3, EAC3AudioConfig.class);
         this.audioMP2 = new ConfigurationResource<>(headers, ApiUrls.codecConfigMP2, MP2AudioConfig.class);
