@@ -24,6 +24,16 @@ public class Sprite extends AbstractApiResponse
         this.outputs = new HashSet<>();
     }
 
+    public Sprite(Integer height, Integer width, Double distance, String spriteName, String vttName, Set<EncodingOutput> outputs)
+    {
+        this.height = height;
+        this.width = width;
+        this.distance = distance;
+        this.spriteName = spriteName;
+        this.vttName = vttName;
+        this.outputs = outputs;
+    }
+
     public Integer getHeight()
     {
         return this.height;
