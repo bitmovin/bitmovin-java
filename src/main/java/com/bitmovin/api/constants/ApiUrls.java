@@ -51,6 +51,8 @@ public class ApiUrls
     public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
     public static final String codecConfigAAc = "encoding/configurations/audio/aac";
+    public static final String codecConfigHeAACv1 = "encoding/configurations/audio/he-aac-v1";
+    public static final String codecConfigHeAACv2 = "encoding/configurations/audio/he-aac-v2";
     public static final String codecConfigAC3 = "encoding/configurations/audio/ac3";
     public static final String codecConfigEAC3 = "encoding/configurations/audio/eac3";
     public static final String codecConfigMP2 = "encoding/configurations/audio/mp2";
