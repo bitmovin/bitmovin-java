@@ -62,6 +62,10 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private Integer sceneCutThreshold;
 
+    private H264NalHrd nalHrd;
+
+    private H264BPyramid bPyramid;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
@@ -274,5 +278,25 @@ public class H264VideoConfiguration extends VideoConfiguration
     public void setSceneCutThreshold(Integer sceneCutThreshold)
     {
         this.sceneCutThreshold = sceneCutThreshold;
+    }
+
+    public H264NalHrd getNalHrd()
+    {
+        return nalHrd;
+    }
+
+    public void setNalHrd(H264NalHrd nalHrd)
+    {
+        this.nalHrd = nalHrd;
+    }
+
+    public H264BPyramid getbPyramid()
+    {
+        return bPyramid;
+    }
+
+    public void setbPyramid(H264BPyramid bPyramid)
+    {
+        this.bPyramid = bPyramid;
     }
 }
