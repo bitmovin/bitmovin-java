@@ -16,7 +16,8 @@ public enum MuxingType
     MP4("MP4"),
     TS("TS"),
     WEBM("WEBM"),
-    PROGRESSIVE_TS("PROGRESSIVE_TS");
+    PROGRESSIVE_TS("PROGRESSIVE_TS"),
+    BROADCAST_TS("BROADCAST_TS");
 
     private final String name;
     private static HashMap<String, MuxingType> map;
@@ -40,11 +41,12 @@ public enum MuxingType
 
     static
     {
-        map = new HashMap(4);
+        map = new HashMap();
         map.put("FMP4", FMP4);
         map.put("MP4", MP4);
         map.put("TS", TS);
         map.put("WEBM", WEBM);
         map.put("PROGRESSIVE_TS", PROGRESSIVE_TS);
+        map.put("BROADCAST_TS", BROADCAST_TS);
     }
 }
