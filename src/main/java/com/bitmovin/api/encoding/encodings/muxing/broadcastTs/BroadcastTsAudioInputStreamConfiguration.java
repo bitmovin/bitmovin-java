@@ -1,11 +1,11 @@
 package com.bitmovin.api.encoding.encodings.muxing.broadcastTs;
 
-public class AudioInputStreamConfiguration extends InputStreamConfiguration
+public class BroadcastTsAudioInputStreamConfiguration extends BroadcastTsInputStreamConfiguration
 {
     private Boolean useATSCBufferModel;
     private String language;
 
-    public AudioInputStreamConfiguration()
+    public BroadcastTsAudioInputStreamConfiguration()
     {
         super();
     }

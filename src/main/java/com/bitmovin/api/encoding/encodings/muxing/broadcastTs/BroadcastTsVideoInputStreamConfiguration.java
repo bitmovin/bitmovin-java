@@ -1,12 +1,12 @@
 package com.bitmovin.api.encoding.encodings.muxing.broadcastTs;
 
-public class VideoInputStreamConfiguration extends InputStreamConfiguration
+public class BroadcastTsVideoInputStreamConfiguration extends BroadcastTsInputStreamConfiguration
 {
     private Boolean insertAccessUnitDelimiterInAvc;
 
     private Integer maxDecodeDelay;
 
-    public VideoInputStreamConfiguration()
+    public BroadcastTsVideoInputStreamConfiguration()
     {
         super();
     }

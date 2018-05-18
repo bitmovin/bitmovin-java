@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class TransportConfiguration
+public class BroadcastTsTransportConfiguration
 {
     private Double muxrate;
     private Boolean stopOnError;
@@ -13,7 +13,7 @@ public class TransportConfiguration
     private Double patRepetitionRatePerSec;
     private Double pmtRepetitionRatePerSec;
 
-    public TransportConfiguration()
+    public BroadcastTsTransportConfiguration()
     {
 
     }

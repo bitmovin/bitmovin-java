@@ -2,7 +2,7 @@ package com.bitmovin.api.encoding.encodings.muxing.broadcastTs;
 
 import com.bitmovin.api.encoding.encodings.muxing.enums.RAIUnit;
 
-public class InputStreamConfiguration
+public class BroadcastTsInputStreamConfiguration
 {
     private String streamId;
 
@@ -12,7 +12,7 @@ public class InputStreamConfiguration
     private Boolean alignPes;
     private RAIUnit setRaiOnAu;
 
-    public InputStreamConfiguration()
+    public BroadcastTsInputStreamConfiguration()
     {
     }
 

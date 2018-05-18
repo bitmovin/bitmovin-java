@@ -5,27 +5,27 @@ import java.util.List;
 
 public class BroadcastTsMuxingConfiguration
 {
-    private TransportConfiguration transport;
+    private BroadcastTsTransportConfiguration transport;
 
-    private ProgramConfiguration program;
+    private BroadcastProgramConfiguration program;
 
-    private List<VideoInputStreamConfiguration> videoStreams;
+    private List<BroadcastTsVideoInputStreamConfiguration> videoStreams;
 
-    private List<AudioInputStreamConfiguration> audioStreams;
+    private List<BroadcastTsAudioInputStreamConfiguration> audioStreams;
 
     public BroadcastTsMuxingConfiguration()
     {
-        this.transport = new TransportConfiguration();
-        this.program = new ProgramConfiguration();
+        this.transport = new BroadcastTsTransportConfiguration();
+        this.program = new BroadcastProgramConfiguration();
         this.videoStreams = new ArrayList<>();
         this.audioStreams = new ArrayList<>();
     }
 
     public BroadcastTsMuxingConfiguration(
-            TransportConfiguration transportConfiguration,
-            ProgramConfiguration programConfiguration,
-            VideoInputStreamConfiguration videoInputStreamConfiguration,
-            AudioInputStreamConfiguration audioInputStreamConfiguration)
+            BroadcastTsTransportConfiguration transportConfiguration,
+            BroadcastProgramConfiguration programConfiguration,
+            BroadcastTsVideoInputStreamConfiguration videoInputStreamConfiguration,
+            BroadcastTsAudioInputStreamConfiguration audioInputStreamConfiguration)
     {
         super();
         if (transportConfiguration != null)
@@ -40,42 +40,42 @@ public class BroadcastTsMuxingConfiguration
             this.audioStreams.add(audioInputStreamConfiguration);
     }
 
-    public TransportConfiguration getTransport()
+    public BroadcastTsTransportConfiguration getTransport()
     {
         return this.transport;
     }
 
-    public void setTransport(TransportConfiguration transport)
+    public void setTransport(BroadcastTsTransportConfiguration transport)
     {
         this.transport = transport;
     }
 
-    public ProgramConfiguration getProgram()
+    public BroadcastProgramConfiguration getProgram()
     {
         return this.program;
     }
 
-    public void setProgram(ProgramConfiguration program)
+    public void setProgram(BroadcastProgramConfiguration program)
     {
         this.program = program;
     }
 
-    public List<VideoInputStreamConfiguration> getVideoStreams()
+    public List<BroadcastTsVideoInputStreamConfiguration> getVideoStreams()
     {
         return this.videoStreams;
     }
 
-    public void setVideoStreams(List<VideoInputStreamConfiguration> videoStreams)
+    public void setVideoStreams(List<BroadcastTsVideoInputStreamConfiguration> videoStreams)
     {
         this.videoStreams = videoStreams;
     }
 
-    public List<AudioInputStreamConfiguration> getAudioStreams()
+    public List<BroadcastTsAudioInputStreamConfiguration> getAudioStreams()
     {
         return this.audioStreams;
     }
 
-    public void setAudioStreams(List<AudioInputStreamConfiguration> audioStreams)
+    public void setAudioStreams(List<BroadcastTsAudioInputStreamConfiguration> audioStreams)
     {
         this.audioStreams = audioStreams;
     }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ProgramConfiguration
+public class BroadcastProgramConfiguration
 {
     private Integer programNumber;
 
@@ -13,7 +13,7 @@ public class ProgramConfiguration
 
     private Boolean insertProgramClockRefOnPes;
 
-    public ProgramConfiguration()
+    public BroadcastProgramConfiguration()
     {
 
     }
