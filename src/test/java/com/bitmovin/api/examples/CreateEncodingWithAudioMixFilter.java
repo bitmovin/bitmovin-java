@@ -21,7 +21,12 @@ import com.bitmovin.api.encoding.filters.SourceChannel;
 import com.bitmovin.api.encoding.filters.enums.AudioMixChannelLayout;
 import com.bitmovin.api.encoding.filters.enums.SourceChannelType;
 import com.bitmovin.api.encoding.inputs.S3Input;
-import com.bitmovin.api.encoding.manifest.dash.*;
+import com.bitmovin.api.encoding.manifest.dash.AdaptationSet;
+import com.bitmovin.api.encoding.manifest.dash.AudioAdaptationSet;
+import com.bitmovin.api.encoding.manifest.dash.DashFmp4Representation;
+import com.bitmovin.api.encoding.manifest.dash.DashManifest;
+import com.bitmovin.api.encoding.manifest.dash.Period;
+import com.bitmovin.api.encoding.manifest.dash.VideoAdaptationSet;
 import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
@@ -32,7 +37,13 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class CreateEncodingWithAudioMixFilter
 {

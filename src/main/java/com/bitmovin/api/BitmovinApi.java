@@ -1,7 +1,16 @@
 package com.bitmovin.api;
 
 import com.bitmovin.api.constants.ApiUrls;
-import com.bitmovin.api.container.*;
+import com.bitmovin.api.container.AnalyticsContainer;
+import com.bitmovin.api.container.ConfigurationContainer;
+import com.bitmovin.api.container.FilterContainer;
+import com.bitmovin.api.container.InfrastructureContainer;
+import com.bitmovin.api.container.InputContainer;
+import com.bitmovin.api.container.ManifestContainer;
+import com.bitmovin.api.container.NotificationContainer;
+import com.bitmovin.api.container.OutputContainer;
+import com.bitmovin.api.container.StorageContainer;
+import com.bitmovin.api.container.TransferContainer;
 import com.bitmovin.api.encoding.encodings.Encoding;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
