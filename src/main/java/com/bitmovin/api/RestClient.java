@@ -246,6 +246,23 @@ public class RestClient
         return items;
     }
 
+    public static <T extends AbstractApiResponse> List<T> postAndGetResults(Map<String, String> headers, String url, T body, Class<T> classOfT) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
+        List<T> items = new ArrayList<>();
+
+        ResponseEnvelope responseEnvelope = request(url, headers, body, ResponseEnvelope.class, RequestMethod.POST);
+        JSONObject responseObject = convertToJsonObject(responseEnvelope);
+        JSONArray jsonItems = responseObject.getJSONObject("data").getJSONArray("result");
+
+        for (int i = 0; i < jsonItems.length(); i++)
+        {
+            JSONObject idObject = jsonItems.getJSONObject(i);
+            items.add(convertFromJsonObjectToPojo(idObject, classOfT));
+        }
+
+        return items;
+    }
+
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
     {
         Long totalCount = getTotalCount(url, headers);
@@ -302,7 +319,6 @@ public class RestClient
         JSONObject responseObject = convertToJsonObject(responseEnvelope);
         item.setStatus(AnswerStatus.valueOf(responseObject.getString("status")));
 
-        //read Messages
         List<Message> messages = readMessagesFromResponse(responseObject);
         item.setMessages(messages);
         return item;

@@ -13,6 +13,7 @@ public class ApiUrls
     public static final String analyticsQuery = "analytics/queries";
     public static final String analyticsLicenses = "analytics/licenses";
     public static final String analyticsLicense = "analytics/licenses/{analyticsLicenseId}";
+    public static final String analyticsImpression = "analytics/impressions/{impressionId}";
 
     public static final String inputs = "encoding/inputs";
     public static final String inputsLimitOffset = "encoding/inputs?limit={limit}&offset={offset}";

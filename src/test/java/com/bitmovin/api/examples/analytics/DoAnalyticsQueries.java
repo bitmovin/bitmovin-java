@@ -150,12 +150,6 @@ public class DoAnalyticsQueries
         System.out.println("Variance: " + response);
     }
 
-    private Instant addTime(int hours)
-    {
-        Instant now = Instant.now();
-        return now.plus(hours, HOURS);
-    }
-
     private AnalyticsQuery getBasicAnalyticsQuery(String dimension)
     {
         AnalyticsQuery query = new AnalyticsQuery();
@@ -165,5 +159,11 @@ public class DoAnalyticsQueries
         query.setStart(dateTimeFormatter.format(addTime(-24 * 50)));
         query.setEnd(dateTimeFormatter.format(addTime(+24)));
         return query;
+    }
+
+    private Instant addTime(int hours)
+    {
+        Instant now = Instant.now();
+        return now.plus(hours, HOURS);
     }
 }
