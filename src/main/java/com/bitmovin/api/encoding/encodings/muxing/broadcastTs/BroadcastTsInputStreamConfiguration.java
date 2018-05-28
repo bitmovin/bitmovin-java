@@ -5,9 +5,7 @@ import com.bitmovin.api.encoding.encodings.muxing.enums.RAIUnit;
 public class BroadcastTsInputStreamConfiguration
 {
     private String streamId;
-
     private Integer packetIdentifier;
-
     private Boolean startWithDiscontinuityIndicator;
     private Boolean alignPes;
     private RAIUnit setRaiOnAu;
