@@ -1,6 +1,7 @@
 package com.bitmovin.api;
 
 import com.bitmovin.api.constants.ApiUrls;
+import com.bitmovin.api.container.AnalyticsContainer;
 import com.bitmovin.api.container.ConfigurationContainer;
 import com.bitmovin.api.container.FilterContainer;
 import com.bitmovin.api.container.InfrastructureContainer;
@@ -58,6 +59,7 @@ public class BitmovinApi
             = new com.fasterxml.jackson.databind.ObjectMapper();
 
     public ConfigurationContainer configuration;
+    public AnalyticsContainer analytics;
     public EncodingResource encoding;
     public FilterContainer filter;
     public InputContainer input;
@@ -182,6 +184,7 @@ public class BitmovinApi
     private void initContainers()
     {
         this.configuration = new ConfigurationContainer(this.defaultHeaders);
+        this.analytics = new AnalyticsContainer(this.defaultHeaders);
         this.encoding = new EncodingResource(this.defaultHeaders, ApiUrls.encodings, Encoding.class);
         this.filter = new FilterContainer(this.defaultHeaders);
         this.input = new InputContainer(this.defaultHeaders);

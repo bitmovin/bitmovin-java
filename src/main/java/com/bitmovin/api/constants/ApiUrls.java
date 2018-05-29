@@ -10,6 +10,11 @@ public class ApiUrls
     public static final String API_ENDPOINT = "api.bitmovin.com/v1";
     public static final String API_ENDPOINT_WITH_PROTOCOL = "https://" + API_ENDPOINT;
 
+    public static final String analyticsQuery = "analytics/queries";
+    public static final String analyticsLicenses = "analytics/licenses";
+    public static final String analyticsLicense = "analytics/licenses/{analyticsLicenseId}";
+    public static final String analyticsImpression = "analytics/impressions/{impressionId}";
+
     public static final String inputs = "encoding/inputs";
     public static final String inputsLimitOffset = "encoding/inputs?limit={limit}&offset={offset}";
     public static final String inputHttp = "encoding/inputs/http";
@@ -24,7 +29,7 @@ public class ApiUrls
     public static final String inputRtmp = "encoding/inputs/rtmp";
     public static final String inputLocal = "encoding/inputs/local";
     public static final String inputAkamaiNetstorage = "encoding/inputs/akamai-netstorage";
-    public static final String inputZixi =   "encoding/inputs/zixi";
+    public static final String inputZixi = "encoding/inputs/zixi";
 
     public static final String analysisStart = "encoding/inputs/{inputType}/{inputId}/analysis";
     public static final String analysisStatus = "encoding/inputs/{inputType}/{inputId}/analysis/{analysisId}/status";
