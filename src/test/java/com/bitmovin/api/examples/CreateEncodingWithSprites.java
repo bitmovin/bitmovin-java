@@ -50,8 +50,8 @@ public class CreateEncodingWithSprites
     private static String ApiKey = "<INSERT YOUR API KEY>";
 
     private static CloudRegion cloudRegion = CloudRegion.AWS_EU_WEST_1;
-    private static String HTTPS_INPUT_HOST = "bitmovin-api-eu-west1-ci-input.s3.amazonaws.com/";
-    private static String HTTPS_INPUT_PATH = "bbc/hd_venezuela_prison.mxf";
+    private static String HTTPS_INPUT_HOST = "your.input.host";
+    private static String HTTPS_INPUT_PATH = "path/to/your/input/file.mp4";
 
     private static String S3_OUTPUT_ACCESSKEY = "<YOUR S3 OUTPUT ACCESS KEY>";
     private static String S3_OUTPUT_SECRET_KEY = "<YOUR S3 OUTPUT SECRET KEY>";
