@@ -18,7 +18,7 @@ import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 public class RetrieveAndUpdateAnalyticsLicense
 {
     private static final String apiKey = "<INSERT_YOUR_APIKEY>";
-    private static final String analyticsLicenseId = "<INSERT_YOUR_ANALYTICS_LICENSEKEY>";
+    private static final String analyticsLicenseId = "<INSERT_YOUR_ANALYTICS_LICENSEKEY_ID>";
     private static final String newDomainUrl = "<INSERT_YOUR_NEW_DOMAIN>";
     private BitmovinApi bitmovinApi;
 
@@ -56,12 +56,12 @@ public class RetrieveAndUpdateAnalyticsLicense
         List<AnalyticsLicenseDomain> domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
         assertThat(domains, is(not(empty())));
-        assertThat(domains.get(0).getUrl(), is(equalTo(newDomainUrl)));
+        assertThat(domains, hasItem(hasProperty("url", is(equalTo(newDomainUrl)))));
 
         bitmovinApi.analytics.domains.deleteDomain(analyticsLicense, domain);
         domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
-        assertThat(domains, not(contains(hasProperty("url", is(newDomainUrl)))));
+        assertThat(domains, not(hasItem(hasProperty("url", is(newDomainUrl)))));
     }
 
     private void printLicenseDetails(AnalyticsLicense license)
