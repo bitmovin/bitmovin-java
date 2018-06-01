@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
@@ -55,11 +56,12 @@ public class RetrieveAndUpdateAnalyticsLicense
         List<AnalyticsLicenseDomain> domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
         assertThat(domains, is(not(empty())));
-        assertThat(domains.stream().findFirst().get().getUrl(), is(equalTo(newDomainUrl)));
+        assertThat(domains.get(0).getUrl(), is(equalTo(newDomainUrl)));
 
         bitmovinApi.analytics.domains.deleteDomain(analyticsLicense, domain);
         domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
-        assertThat(domains, not(hasItem(hasProperty("url", is(newDomainUrl)))));
+
+        assertThat(domains, not(contains(hasProperty("url", is(newDomainUrl)))));
     }
 
     private void printLicenseDetails(AnalyticsLicense license)

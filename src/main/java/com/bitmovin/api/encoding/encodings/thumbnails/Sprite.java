@@ -18,6 +18,7 @@ public class Sprite extends AbstractApiResponse
     private String  spriteName;
     private String  vttName;
     private Set<EncodingOutput> outputs;
+    private Integer imagesPerFile;
 
     public Sprite()
     {
@@ -32,6 +33,12 @@ public class Sprite extends AbstractApiResponse
         this.spriteName = spriteName;
         this.vttName = vttName;
         this.outputs = outputs;
+    }
+
+    public Sprite(Integer height, Integer width, Double distance, String spriteName, String vttName, Set<EncodingOutput> outputs, Integer imagesPerFile)
+    {
+        this(height, width, distance, spriteName, vttName, outputs);
+        this.imagesPerFile = imagesPerFile;
     }
 
     public Integer getHeight()
@@ -107,5 +114,15 @@ public class Sprite extends AbstractApiResponse
     public void setVttName(String vttName)
     {
         this.vttName = vttName;
+    }
+
+    public Integer getImagesPerFile()
+    {
+        return imagesPerFile;
+    }
+
+    public void setImagesPerFile(Integer imagesPerFile)
+    {
+        this.imagesPerFile = imagesPerFile;
     }
 }

@@ -2,18 +2,17 @@ package com.bitmovin.api.examples.analytics;
 
 import com.bitmovin.api.BitmovinApi;
 import com.bitmovin.api.analytics.query.*;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import static java.time.temporal.ChronoUnit.HOURS;
+import java.util.TimeZone;
 
 public class DoAnalyticsQueries
 {
@@ -155,15 +154,18 @@ public class DoAnalyticsQueries
         AnalyticsQuery query = new AnalyticsQuery();
         query.setDimension(dimension);
         query.setLicenseKey(analyticsLicenseKey);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withLocale(Locale.UK).withZone(ZoneId.of("UTC"));
-        query.setStart(dateTimeFormatter.format(addTime(-24 * 50)));
-        query.setEnd(dateTimeFormatter.format(addTime(+24)));
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.UK);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        query.setStart(dateFormat.format(addHours(-24 * 50)));
+        query.setEnd(dateFormat.format(addHours(+24)));
         return query;
     }
 
-    private Instant addTime(int hours)
+    private Date addHours(int hours)
     {
-        Instant now = Instant.now();
-        return now.plus(hours, HOURS);
+        Date now = new Date();
+        return DateUtils.addHours(now, hours);
     }
 }
