@@ -18,6 +18,7 @@ import com.bitmovin.api.encoding.encodings.muxing.ProgressiveMOVMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveTSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.WebmMuxing;
+import com.bitmovin.api.encoding.encodings.muxing.broadcastTs.BroadcastTsMuxing;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -217,4 +218,9 @@ public class EncodingMuxingResource
         return RestClient.post(this.headers, newUrl, progressiveMOVMuxing);
     }
 
+    public BroadcastTsMuxing addBroadcastTsMuxingToEncoding(Encoding encoding, BroadcastTsMuxing muxing) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.broadcastTsMuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.post(this.headers, newUrl, muxing);
+    }
 }
