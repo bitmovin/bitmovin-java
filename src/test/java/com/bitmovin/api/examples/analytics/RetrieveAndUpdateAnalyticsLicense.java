@@ -3,6 +3,7 @@ package com.bitmovin.api.examples.analytics;
 import com.bitmovin.api.BitmovinApi;
 import com.bitmovin.api.analytics.license.AnalyticsLicense;
 import com.bitmovin.api.analytics.license.AnalyticsLicenseDomain;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,9 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 
 public class RetrieveAndUpdateAnalyticsLicense
 {
@@ -56,12 +55,22 @@ public class RetrieveAndUpdateAnalyticsLicense
         List<AnalyticsLicenseDomain> domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
         assertThat(domains, is(not(empty())));
-        assertThat(domains, hasItem(hasProperty("url", is(equalTo(newDomainUrl)))));
+        boolean foundDomain = false;
+        for (AnalyticsLicenseDomain d: domains)
+            if (d.getUrl().equals(newDomainUrl))
+                foundDomain = true;
+
+        Assert.assertTrue(foundDomain);
 
         bitmovinApi.analytics.domains.deleteDomain(analyticsLicense, domain);
         domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
-        assertThat(domains, not(hasItem(hasProperty("url", is(newDomainUrl)))));
+        foundDomain = false;
+        for (AnalyticsLicenseDomain d: domains)
+            if (d.getUrl().equals(newDomainUrl))
+                foundDomain = true;
+
+        Assert.assertFalse(foundDomain);
     }
 
     private void printLicenseDetails(AnalyticsLicense license)
