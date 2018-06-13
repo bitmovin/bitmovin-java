@@ -11,9 +11,9 @@ public class Period
 
     private String id;
 
-    private String start;
+    private Double start;
 
-    private String duration;
+    private Double duration;
 
     public String getId()
     {
@@ -25,22 +25,22 @@ public class Period
         this.id = id;
     }
 
-    public String getStart()
+    public Double getStart()
     {
         return this.start;
     }
 
-    public void setStart(String start)
+    public void setStart(Double start)
     {
         this.start = start;
     }
 
-    public String getDuration()
+    public Double getDuration()
     {
         return this.duration;
     }
 
-    public void setDuration(String duration)
+    public void setDuration(Double duration)
     {
         this.duration = duration;
     }
