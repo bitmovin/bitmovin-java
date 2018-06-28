@@ -64,6 +64,18 @@ public class EncodingMuxingResource
         return RestClient.get(newUrl, this.headers, WebmMuxing.class);
     }
 
+    public ProgressiveTSMuxing getProgressiveTSMuxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = String.format("%s/%s", ApiUrls.progressivetsmuxings.replace("{encoding_id}", encoding.getId()), muxingId);
+        return RestClient.get(newUrl, this.headers, ProgressiveTSMuxing.class);
+    }
+
+    public MP4Muxing getMp4Muxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = String.format("%s/%s", ApiUrls.mp4muxings.replace("{encoding_id}", encoding.getId()), muxingId);
+        return RestClient.get(newUrl, this.headers, MP4Muxing.class);
+    }
+
     public CustomData getFMP4MuxingCustomData(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = ApiUrls.fmp4muxings.replace("{encoding_id}", encodingId) + "/" + muxingId + ApiUrls.customDataSuffix;
