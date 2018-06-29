@@ -20,6 +20,9 @@ import com.bitmovin.api.encoding.encodings.muxing.ProgressiveTSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.WebmMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.broadcastTs.BroadcastTsMuxing;
+import com.bitmovin.api.encoding.encodings.muxing.information.MP4MuxingInformation;
+import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveMovMuxingInformation;
+import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveTSMuxingInformation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -74,6 +77,27 @@ public class EncodingMuxingResource
     {
         String newUrl = String.format("%s/%s", ApiUrls.mp4muxings.replace("{encoding_id}", encoding.getId()), muxingId);
         return RestClient.get(newUrl, this.headers, MP4Muxing.class);
+    }
+
+    public ProgressiveTSMuxingInformation getProgressiveTSMuxingInformation(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.progressiveTsMuxingInformation.replace("{encoding_id}", encodingId);
+        newUrl = newUrl.replace("{muxing_id}", muxingId);
+        return RestClient.get(newUrl, this.headers, ProgressiveTSMuxingInformation.class);
+    }
+
+    public MP4MuxingInformation getMP4MuxingInformation(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.progressiveMp4MuxingInformation.replace("{encoding_id}", encodingId);
+        newUrl = newUrl.replace("{muxing_id}", muxingId);
+        return RestClient.get(newUrl, this.headers, MP4MuxingInformation.class);
+    }
+
+    public ProgressiveMovMuxingInformation getMovMuxingInformation(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.progressiveMovMuxingInformation.replace("{encoding_id}", encodingId);
+        newUrl = newUrl.replace("{muxing_id}", muxingId);
+        return RestClient.get(newUrl, this.headers, ProgressiveMovMuxingInformation.class);
     }
 
     public CustomData getFMP4MuxingCustomData(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException

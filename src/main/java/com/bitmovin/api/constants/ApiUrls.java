@@ -84,6 +84,10 @@ public class ApiUrls
     public static final String broadcastTsMuxingDetails = "encoding/encodings/{encoding_id}/muxings/broadcast-ts/{muxingId}";
     public static final String mp3Muxings = "encoding/encodings/{encoding_id}/muxings/mp3";
 
+    public static final String progressiveTsMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-ts/{muxing_id}/information";
+    public static final String progressiveMp4MuxingInformation = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/information";
+    public static final String progressiveMovMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-mov/{muxing_id}/information";
+
     public static final String widevineDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/widevine";
     public static final String playReadyDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/playready";
     public static final String primeTimeDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/primetime";
