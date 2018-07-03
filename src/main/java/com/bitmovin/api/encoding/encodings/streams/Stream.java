@@ -15,11 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by
- * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
- * on 25.07.16.
- */
 public class Stream extends AbstractApiResponse
 {
     private Set<InputStream> inputStreams;
@@ -47,6 +42,8 @@ public class Stream extends AbstractApiResponse
     private AbstractCondition conditions;
 
     private List<Ignoring> ignoredBy;
+
+    private StreamMode mode;
 
     public Stream()
     {
@@ -200,4 +197,13 @@ public class Stream extends AbstractApiResponse
         this.ignoredBy = ignoredBy;
     }
 
+    public StreamMode getMode()
+    {
+        return this.mode;
+    }
+
+    public void setMode(StreamMode mode)
+    {
+        this.mode = mode;
+    }
 }
