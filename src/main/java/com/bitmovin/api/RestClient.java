@@ -194,6 +194,11 @@ public class RestClient
 
     public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
+        return getItems(url, headers, clazz, limit, offset, null);
+    }
+
+    public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset, ITypeCallback callback) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
         List<T> items = new ArrayList<>();
 
         ResponseEnvelope responseEnvelope = request(String.format("%s?offset=%d&limit=%d", url, offset, limit), headers, null, ResponseEnvelope.class, RequestMethod.GET);
@@ -203,7 +208,10 @@ public class RestClient
         for (int i = 0; i < jsonItems.length(); i++)
         {
             JSONObject idObject = jsonItems.getJSONObject(i);
-            items.add(convertFromJsonObjectToPojo(idObject, clazz));
+            Class<T> tempClass = clazz;
+            if (callback != null)
+                tempClass = callback.getClazz(idObject);
+            items.add(convertFromJsonObjectToPojo(idObject, tempClass));
         }
 
         return items;
@@ -269,7 +277,13 @@ public class RestClient
         return items;
     }
 
+
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
+    {
+        return getAllItemsIterative(url, headers, clazz);
+    }
+
+    public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz, ITypeCallback callback) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
     {
         Long totalCount = getTotalCount(url, headers);
         List<T> items = new ArrayList<>();
@@ -280,7 +294,7 @@ public class RestClient
         List<T> pageItems;
         while (items.size() <= totalCount)
         {
-            pageItems = getItems(url, headers, clazz, limit, offset);
+            pageItems = getItems(url, headers, clazz, limit, offset, callback);
             if (pageItems.size() > 0)
             {
                 items.addAll(pageItems);
