@@ -26,7 +26,6 @@ import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveMovMuxi
 import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveTSMuxingInformation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
@@ -170,7 +169,29 @@ public class EncodingMuxingResource
     public List<Muxing> getMuxings(Encoding encoding) throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
         String newUrl = ApiUrls.muxings.replace("{encoding_id}", encoding.getId());
-        return RestClient.getAllItemsIterative(newUrl, this.headers, Muxing.class);
+        return RestClient.getAllItemsIterative(newUrl, this.headers, Muxing.class, object -> {
+            String type = object.getString("type");
+            switch (type)
+            {
+                case "MP3":
+                    return MP3Muxing.class;
+                case "FMP4":
+                    return FMP4Muxing.class;
+                case "MP4":
+                    return MP4Muxing.class;
+                case "TS":
+                    return TSMuxing.class;
+                case "WEBM":
+                    return WebmMuxing.class;
+                case "PROGRESSIVE_MOV":
+                    return ProgressiveMOVMuxing.class;
+                case "PROGRESSIVE_TS":
+                    return ProgressiveTSMuxing.class;
+                case "BROADCAST_TS":
+                    return BroadcastTsMuxing.class;
+            }
+            return null;
+        });
     }
 
     public CustomData getTsMuxingCustomData(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
