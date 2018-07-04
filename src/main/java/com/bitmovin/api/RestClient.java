@@ -123,6 +123,12 @@ public class RestClient
         return getDetailsFromResponse(responseEnvelope, expectedClass);
     }
 
+    public static <T> T get(String url, Map<String, String> headers, TypeReference<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
+        ResponseEnvelope responseEnvelope = request(url, headers, null, ResponseEnvelope.class, RequestMethod.GET);
+        return getDetailsFromResponse(responseEnvelope, expectedClass);
+    }
+
     public static <T> T getRaw(String url, Map<String, String> headers, Class<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException
     {
         return request(url, headers, null, expectedClass, RequestMethod.GET);
@@ -279,7 +285,8 @@ public class RestClient
             {
                 items.addAll(pageItems);
                 offset += pageItems.size();
-            } else
+            }
+            else
             {
                 return items;
             }
