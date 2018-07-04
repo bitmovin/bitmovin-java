@@ -345,21 +345,6 @@ public class RestClient
         return item;
     }
 
-    public static <T extends AbstractApiResponse> T post(Map<String, String> headers, String url, T body, TypeReference<T> classOfT) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
-    {
-        ResponseEnvelope responseEnvelope = post(url, headers, body, ResponseEnvelope.class);
-
-        T item = getDetailsFromResponse(responseEnvelope, classOfT);
-        item.setResponseEnvelope(responseEnvelope);
-
-        JSONObject responseObject = convertToJsonObject(responseEnvelope);
-        item.setStatus(AnswerStatus.valueOf(responseObject.getString("status")));
-
-        List<Message> messages = readMessagesFromResponse(responseObject);
-        item.setMessages(messages);
-        return item;
-    }
-
     public static <T extends AbstractApiResponse> T post(Map<String, String> headers, String url, T body) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
         ResponseEnvelope responseEnvelope = post(url, headers, body, ResponseEnvelope.class);
