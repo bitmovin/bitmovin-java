@@ -25,6 +25,7 @@ import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveMovMuxi
 import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveTSMuxingInformation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
@@ -56,6 +57,12 @@ public class EncodingMuxingResource
         return RestClient.get(newUrl, this.headers, FMP4Muxing.class);
     }
 
+    public List<FMP4Muxing> getFMP4Muxing(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.fmp4muxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, FMP4Muxing.class);
+    }
+
     public WebmMuxing getWebmMuxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         return this.getWebmMuxing(encoding.getId(), muxingId);
@@ -67,16 +74,46 @@ public class EncodingMuxingResource
         return RestClient.get(newUrl, this.headers, WebmMuxing.class);
     }
 
+    public List<WebmMuxing> getWebmMuxing(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.webmmuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, WebmMuxing.class);
+    }
+
     public ProgressiveTSMuxing getProgressiveTSMuxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = String.format("%s/%s", ApiUrls.progressivetsmuxings.replace("{encoding_id}", encoding.getId()), muxingId);
         return RestClient.get(newUrl, this.headers, ProgressiveTSMuxing.class);
     }
 
+    public List<ProgressiveTSMuxing> getProgressiveTSMuxing(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.progressivetsmuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, ProgressiveTSMuxing.class);
+    }
+
     public MP4Muxing getMp4Muxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = String.format("%s/%s", ApiUrls.mp4muxings.replace("{encoding_id}", encoding.getId()), muxingId);
         return RestClient.get(newUrl, this.headers, MP4Muxing.class);
+    }
+
+    public List<MP4Muxing> getMp4Muxings(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.mp4muxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, MP4Muxing.class);
+    }
+
+    public ProgressiveMOVMuxing getProgressiveMovMuxing(Encoding encoding, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = String.format("%s/%s", ApiUrls.progressiveMovMuxings.replace("{encoding_id}", encoding.getId()), muxingId);
+        return RestClient.get(newUrl, this.headers, ProgressiveMOVMuxing.class);
+    }
+
+    public List<ProgressiveMOVMuxing> getProgressiveMovMuxing(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.progressiveMovMuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, ProgressiveMOVMuxing.class);
     }
 
     public ProgressiveTSMuxingInformation getProgressiveTSMuxingInformation(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException

@@ -36,6 +36,12 @@ public class EncodingStreamResource
         return RestClient.get(newUrl, this.headers, Stream.class);
     }
 
+    public List<Stream> getStreams(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.streams.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, Stream.class);
+    }
+
     public Stream getStream(Encoding encoding, String streamId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = ApiUrls.streamsWithId.replace("{encoding_id}", encoding.getId()).replace("{stream_id}", streamId);
