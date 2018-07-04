@@ -15,6 +15,7 @@ import com.bitmovin.api.encoding.encodings.drms.WidevineDrm;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MP3Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MP4Muxing;
+import com.bitmovin.api.encoding.encodings.muxing.Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveMOVMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveTSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
@@ -158,6 +159,18 @@ public class EncodingMuxingResource
     {
         String newUrl = ApiUrls.tsmuxings.replace("{encoding_id}", encodingId) + "/" + muxingId;
         return RestClient.get(newUrl, this.headers, TSMuxing.class);
+    }
+
+    public List<TSMuxing> getTSMuxings(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.tsmuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, TSMuxing.class);
+    }
+
+    public List<Muxing> getMuxings(Encoding encoding) throws URISyntaxException, BitmovinApiException, UnirestException, IOException
+    {
+        String newUrl = ApiUrls.muxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.getAllItemsIterative(newUrl, this.headers, Muxing.class);
     }
 
     public CustomData getTsMuxingCustomData(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException

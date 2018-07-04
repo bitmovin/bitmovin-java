@@ -11,7 +11,7 @@ Add this to your pom.xml:
 <dependency>
       <groupId>com.bitmovin.api</groupId>
       <artifactId>bitmovin-java</artifactId>
-      <version>1.27.0</version>
+      <version>1.28.0</version>
 </dependency>
 ```
 
