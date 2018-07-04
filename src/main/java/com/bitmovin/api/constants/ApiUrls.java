@@ -74,6 +74,7 @@ public class ApiUrls
 
     public static final String addFilterToStream = "encoding/encodings/{encoding_id}/streams/{stream_id}/filters";
 
+    public static final String muxings = "encoding/encodings/{encoding_id}/muxings";
     public static final String fmp4muxings = "encoding/encodings/{encoding_id}/muxings/fmp4";
     public static final String progressivetsmuxings = "encoding/encodings/{encoding_id}/muxings/progressive-ts";
     public static final String tsmuxings = "encoding/encodings/{encoding_id}/muxings/ts";
