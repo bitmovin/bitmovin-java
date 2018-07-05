@@ -72,6 +72,10 @@ public class ApiUrls
     public static final String streamsInputDetails = "encoding/encodings/{encoding_id}/streams/{stream_id}/inputs";
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
+    public static final String sccCaptions = "encoding/encodings/{encoding_id}/streams/{stream_id}/captions/608-708/scc";
+    public static final String convertSccCaptions = "encoding/encodings/{encoding_id}/captions/scc";
+    public static final String convertSccCaptionsCustomData = "encoding/encodings/{encoding_id}/captions/scc/{caption_id}/customData";
+
     public static final String addFilterToStream = "encoding/encodings/{encoding_id}/streams/{stream_id}/filters";
 
     public static final String muxings = "encoding/encodings/{encoding_id}/muxings";
