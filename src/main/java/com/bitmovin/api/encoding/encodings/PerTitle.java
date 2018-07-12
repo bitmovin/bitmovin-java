@@ -5,6 +5,8 @@ public class PerTitle
     private Integer minBitrate;
     private Integer maxBitrate;
 
+    private AutoRepresentation autoRepresentations;
+
     public Integer getMinBitrate()
     {
         return this.minBitrate;
@@ -25,4 +27,13 @@ public class PerTitle
         this.maxBitrate = maxBitrate;
     }
 
+    public AutoRepresentation getAutoRepresentations()
+    {
+        return this.autoRepresentations;
+    }
+
+    public void setAutoRepresentations(AutoRepresentation autoRepresentations)
+    {
+        this.autoRepresentations = autoRepresentations;
+    }
 }
