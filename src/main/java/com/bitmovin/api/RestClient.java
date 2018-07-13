@@ -280,7 +280,7 @@ public class RestClient
 
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
     {
-        return getAllItemsIterative(url, headers, clazz);
+        return getAllItemsIterative(url, headers, clazz, null);
     }
 
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz, ITypeCallback callback) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
