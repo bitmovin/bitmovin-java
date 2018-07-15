@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
-/**
- * Created by Sandro Linder [sandro.linder@bitmovin.com] on 18/06/2018
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SccCaption extends AbstractApiResponse

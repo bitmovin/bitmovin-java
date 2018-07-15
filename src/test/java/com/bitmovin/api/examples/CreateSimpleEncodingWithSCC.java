@@ -40,9 +40,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-/**
- * Created by Roland Kersche on 01.06.17.
- */
 public class CreateSimpleEncodingWithSCC
 {
     private static String ApiKey = "<INSERT_YOUR_APIKEY>";
