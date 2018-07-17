@@ -11,6 +11,7 @@ import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.encodings.streams.StreamInputAnalysis;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
+import com.bitmovin.api.resource.encoding.caption.StreamSccCaptionResource;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
@@ -24,10 +25,12 @@ import java.util.Map;
 public class EncodingStreamResource
 {
     private Map<String, String> headers;
+    public StreamSccCaptionResource sccCaptions;
 
     public EncodingStreamResource(Map<String, String> headers)
     {
         this.headers = headers;
+        this.sccCaptions = new StreamSccCaptionResource(headers);
     }
 
     public Stream getStream(Encoding encoding, Stream stream) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
