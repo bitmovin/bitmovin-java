@@ -21,6 +21,7 @@ import com.bitmovin.api.encoding.outputs.Output;
 import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
+import com.bitmovin.api.examples.util.H264Representation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.bitmovin.api.webhooks.Webhook;
@@ -31,10 +32,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Roland Kersche on 30.05.17.
@@ -52,6 +50,14 @@ public class CreateEncodingWithTimecode
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
 
     private static BitmovinApi bitmovinApi;
+
+    private static List<H264Representation> h264Representations = Arrays.asList(
+            new H264Representation(null, 240, null, 400000L , ProfileH264.MAIN),
+            new H264Representation(null, 360, null, 800000L, ProfileH264.MAIN),
+            new H264Representation(null, 480, null, 1200000L, ProfileH264.MAIN),
+            new H264Representation(null, 720, null, 2400000L, ProfileH264.MAIN),
+            new H264Representation(null, 1080, null, 4800000L, ProfileH264.MAIN)
+    );
 
     @Test
     public void testEncoding() throws IOException, BitmovinApiException, UnirestException, URISyntaxException, RestException, InterruptedException
@@ -72,51 +78,6 @@ public class CreateEncodingWithTimecode
         output.setBucketName(S3_OUTPUT_BUCKET_NAME);
         output = bitmovinApi.output.s3.create(output);
 
-        AACAudioConfig aacConfiguration = new AACAudioConfig();
-        aacConfiguration.setBitrate(96000L);
-        aacConfiguration.setRate(48000f);
-        aacConfiguration = bitmovinApi.configuration.audioAAC.create(aacConfiguration);
-
-        H264VideoConfiguration videoConfiguration240p = new H264VideoConfiguration();
-        videoConfiguration240p.setHeight(240);
-        videoConfiguration240p.setBitrate(195000L);
-        videoConfiguration240p.setProfile(ProfileH264.BASELINE);
-        videoConfiguration240p.setMinGop(48);
-        videoConfiguration240p.setMaxGop(48);
-        videoConfiguration240p = bitmovinApi.configuration.videoH264.create(videoConfiguration240p);
-
-        H264VideoConfiguration videoConfiguration360p = new H264VideoConfiguration();
-        videoConfiguration360p.setHeight(360);
-        videoConfiguration360p.setBitrate(750000L);
-        videoConfiguration360p.setProfile(ProfileH264.MAIN);
-        videoConfiguration360p.setMinGop(48);
-        videoConfiguration360p.setMaxGop(48);
-        videoConfiguration360p = bitmovinApi.configuration.videoH264.create(videoConfiguration360p);
-
-        H264VideoConfiguration videoConfiguration480p = new H264VideoConfiguration();
-        videoConfiguration480p.setHeight(480);
-        videoConfiguration480p.setBitrate(1750000L);
-        videoConfiguration480p.setProfile(ProfileH264.MAIN);
-        videoConfiguration480p.setMinGop(48);
-        videoConfiguration480p.setMaxGop(48);
-        videoConfiguration480p = bitmovinApi.configuration.videoH264.create(videoConfiguration480p);
-
-        H264VideoConfiguration videoConfiguration720p = new H264VideoConfiguration();
-        videoConfiguration720p.setHeight(720);
-        videoConfiguration720p.setBitrate(3000000L);
-        videoConfiguration720p.setProfile(ProfileH264.MAIN);
-        videoConfiguration720p.setMinGop(48);
-        videoConfiguration720p.setMaxGop(48);
-        videoConfiguration720p = bitmovinApi.configuration.videoH264.create(videoConfiguration720p);
-
-        H264VideoConfiguration videoConfiguration1080p = new H264VideoConfiguration();
-        videoConfiguration1080p.setHeight(1080);
-        videoConfiguration1080p.setBitrate(4500000L);
-        videoConfiguration1080p.setProfile(ProfileH264.MAIN);
-        videoConfiguration1080p.setMinGop(48);
-        videoConfiguration1080p.setMaxGop(48);
-        videoConfiguration1080p = bitmovinApi.configuration.videoH264.create(videoConfiguration1080p);
-
         InputStream inputStreamVideo = new InputStream();
         inputStreamVideo.setInputPath(HTTPS_INPUT_PATH);
         inputStreamVideo.setInputId(input.getId());
@@ -129,30 +90,10 @@ public class CreateEncodingWithTimecode
         inputStreamAudio.setSelectionMode(StreamSelectionMode.AUDIO_RELATIVE);
         inputStreamAudio.setPosition(0);
 
-        Stream videoStream240p = new Stream();
-        videoStream240p.setCodecConfigId(videoConfiguration240p.getId());
-        videoStream240p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream240p = bitmovinApi.encoding.stream.addStream(encoding, videoStream240p);
-
-        Stream videoStream360p = new Stream();
-        videoStream360p.setCodecConfigId(videoConfiguration360p.getId());
-        videoStream360p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream360p = bitmovinApi.encoding.stream.addStream(encoding, videoStream360p);
-
-        Stream videoStream480p = new Stream();
-        videoStream480p.setCodecConfigId(videoConfiguration480p.getId());
-        videoStream480p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream480p = bitmovinApi.encoding.stream.addStream(encoding, videoStream480p);
-
-        Stream videoStream720p = new Stream();
-        videoStream720p.setCodecConfigId(videoConfiguration720p.getId());
-        videoStream720p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream720p = bitmovinApi.encoding.stream.addStream(encoding, videoStream720p);
-
-        Stream videoStream1080p = new Stream();
-        videoStream1080p.setCodecConfigId(videoConfiguration1080p.getId());
-        videoStream1080p.setInputStreams(Collections.singleton(inputStreamVideo));
-        videoStream1080p = bitmovinApi.encoding.stream.addStream(encoding, videoStream1080p);
+        AACAudioConfig aacConfiguration = new AACAudioConfig();
+        aacConfiguration.setBitrate(96000L);
+        aacConfiguration.setRate(48000f);
+        aacConfiguration = bitmovinApi.configuration.audioAAC.create(aacConfiguration);
 
         Stream audioStream = new Stream();
         audioStream.setCodecConfigId(aacConfiguration.getId());
@@ -163,11 +104,22 @@ public class CreateEncodingWithTimecode
         TimeCode timeCode = new TimeCode();
         timeCode.setTimeCodeStart(startTimeCode);
 
-        this.createMP4Muxing(encoding, output, videoStream240p, audioStream, "video_audio_240p.mp4", timeCode);
-        this.createMP4Muxing(encoding, output, videoStream360p, audioStream, "video_audio_360p.mp4", timeCode);
-        this.createMP4Muxing(encoding, output, videoStream480p, audioStream, "video_audio_480p.mp4", timeCode);
-        this.createMP4Muxing(encoding, output, videoStream720p, audioStream, "video_audio_720p.mp4", timeCode);
-        this.createMP4Muxing(encoding, output, videoStream1080p, audioStream, "video_audio_1080p.mp4", timeCode);
+        for (H264Representation representation: h264Representations)
+        {
+            H264VideoConfiguration videoConfig = new H264VideoConfiguration();
+            videoConfig.setHeight(representation.getHeight());
+            videoConfig.setBitrate(representation.getBitrate());
+            videoConfig.setProfile(representation.getProfile());
+
+            videoConfig = bitmovinApi.configuration.videoH264.create(videoConfig);
+
+            Stream videoStream = new Stream();
+            videoStream.setCodecConfigId(videoConfig.getId());
+            videoStream.setInputStreams(Collections.singleton(inputStreamVideo));
+            videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
+
+            this.createMP4Muxing(encoding, output, videoStream, audioStream, String.format("video_audio_%sp.mp4", videoConfig.getHeight()), timeCode);
+        }
 
         bitmovinApi.encoding.start(encoding);
 
