@@ -16,7 +16,6 @@ import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.enums.CloudRegion;
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
 import com.bitmovin.api.encoding.inputs.HttpsInput;
-import com.bitmovin.api.encoding.outputs.GcsOutput;
 import com.bitmovin.api.encoding.outputs.Output;
 import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
@@ -24,9 +23,6 @@ import com.bitmovin.api.enums.Status;
 import com.bitmovin.api.examples.util.H264Representation;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
-import com.bitmovin.api.webhooks.Webhook;
-import com.bitmovin.api.webhooks.enums.WebhookHttpMethod;
-import com.bitmovin.api.webhooks.enums.WebhookType;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 
@@ -35,7 +31,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 /**
- * Created by Roland Kersche on 30.05.17.
+ * Created by Jonathan Perry on 07/18/2018.
  */
 public class CreateEncodingWithTimecode
 {
@@ -135,7 +131,7 @@ public class CreateEncodingWithTimecode
 
     }
 
-    private void createMP4Muxing(Encoding encoding, Output output, Stream videoStream240p, Stream audioStream, String filename, TimeCode timeCode) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    private void createMP4Muxing(Encoding encoding, Output output, Stream videoStream, Stream audioStream, String filename, TimeCode timeCode) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         EncodingOutput encodingOutput = new EncodingOutput();
         encodingOutput.setOutputId(output.getId());
@@ -149,7 +145,7 @@ public class CreateEncodingWithTimecode
         mp4Muxing.setOutputs(Collections.singletonList(encodingOutput));
         List<MuxingStream> muxingStreams = new ArrayList<>();
         MuxingStream muxingStreamVideo = new MuxingStream();
-        muxingStreamVideo.setStreamId(videoStream240p.getId());
+        muxingStreamVideo.setStreamId(videoStream.getId());
         MuxingStream muxingStreamAudio = new MuxingStream();
         muxingStreamAudio.setStreamId(audioStream.getId());
         muxingStreams.add(muxingStreamVideo);
