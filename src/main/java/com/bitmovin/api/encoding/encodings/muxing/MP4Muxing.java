@@ -13,6 +13,8 @@ public class MP4Muxing extends Muxing
 
     private Integer fragmentDuration;
 
+    private TimeCode timeCode;
+
     public MP4Muxing()
     {
         this.type = MuxingType.MP4;
@@ -42,8 +44,19 @@ public class MP4Muxing extends Muxing
     {
         return this.fragmentDuration;
     }
+
     public void setFragmentDuration(Integer fragmentDuration)
     {
         this.fragmentDuration = fragmentDuration;
+    }
+
+    public TimeCode getTimeCode()
+    {
+        return this.timeCode;
+    }
+
+    public void setTimeCode(TimeCode timeCode)
+    {
+        this.timeCode = timeCode;
     }
 }
