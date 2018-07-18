@@ -45,6 +45,8 @@ public class Stream extends AbstractApiResponse
 
     private StreamMode mode;
 
+    private StreamMetadata metadata;
+
     public Stream()
     {
         this.inputStreams = new HashSet<>();
@@ -205,5 +207,15 @@ public class Stream extends AbstractApiResponse
     public void setMode(StreamMode mode)
     {
         this.mode = mode;
+    }
+
+    public StreamMetadata getMetadata()
+    {
+        return this.metadata;
+    }
+
+    public void setMetadata(StreamMetadata metadata)
+    {
+        this.metadata = metadata;
     }
 }
