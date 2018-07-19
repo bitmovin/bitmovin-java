@@ -47,7 +47,7 @@ public class BitmovinApi
     private static String X_API_CLIENT_VERSION_CONFIGURATION_KEY = "x-api-client-version";
 
     private static String DEFAULT_X_API_CLIENT = "bitmovin-java-api";
-    private static String DEFAULT_X_API_CLIENT_VERSION = "1.30.1";
+    private static String DEFAULT_X_API_CLIENT_VERSION = "1.31.0";
 
     private Properties properties;
 
