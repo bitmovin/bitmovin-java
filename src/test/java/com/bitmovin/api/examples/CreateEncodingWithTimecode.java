@@ -128,7 +128,6 @@ public class CreateEncodingWithTimecode
         }
 
         System.out.println(String.format("Encoding finished with status %s", status.getStatus().toString()));
-
     }
 
     private void createMP4Muxing(Encoding encoding, Output output, Stream videoStream, Stream audioStream, String filename, TimeCode timeCode) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
