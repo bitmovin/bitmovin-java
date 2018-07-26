@@ -37,19 +37,18 @@ import java.util.*;
 /**
  * Created by Raul Vecchione on 26.07.18.
  */
-public class CreateEncodingWithHLSv3WithAES_V3
+public class CreateEncodingWithHLSv3AndAES128
 {
-
-    private static String API_KEY = "bf7e3b4de4054890a2ce6d9936ef2615";
+    private static String API_KEY = "<INSERT_YOUR_APIKEY>";
 
     private static CloudRegion cloudRegion = CloudRegion.AWS_US_WEST_1;
 
-    private static String HTTPS_INPUT_HOST = "s3-us-west-1.amazonaws.com/"; // ex.: storage.googleapis.com/
-    private static String HTTPS_INPUT_PATH = "bitmovin-api-us-west1-ci-input/kptive/90+in+90_+France+vs+Croatia+_+2018+FIFA+World+Cup+Highlights.mp4";
-    private static String S3_OUTPUT_ACCESSKEY = "AKIAIGXRZD65XZXYW3LA";
-    private static String S3_OUTPUT_SECRET_KEY = "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";
-    private static String S3_OUTPUT_BUCKET_NAME = "bitmovin-api-us-west1-ci";
-    private static String OUTPUT_BASE_PATH = "demos/kptive/" + new Date().getTime();
+    private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_INPUT_HOST>"; // ex.: storage.googleapis.com/
+    private static String HTTPS_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>"; // ex.: bitmovin-api-us-west1-ci-input/path/myfile.mp4
+    private static String S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
+    private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
+    private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
+    private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
 
     private static BitmovinApi bitmovinApi;
 
@@ -58,7 +57,7 @@ public class CreateEncodingWithHLSv3WithAES_V3
     {
         bitmovinApi = new BitmovinApi(API_KEY);
         Encoding encoding = new Encoding();
-        encoding.setName("Kptive Media - HLS with AES");
+        encoding.setName("JAVA Encoding HLS With AES-128");
         encoding.setCloudRegion(cloudRegion);
         encoding = bitmovinApi.encoding.create(encoding);
 
@@ -73,19 +72,14 @@ public class CreateEncodingWithHLSv3WithAES_V3
         output = bitmovinApi.output.s3.create(output);
 
         // Encoding Configuration - Adding h264 Representations
-
         List<H264Representation> h264Representations = new ArrayList<>();
         h264Representations.add ( new H264Representation(null, 240, null, 400L, ProfileH264.HIGH));
-
         h264Representations.add(new H264Representation(null, 360, null, 800L, ProfileH264.HIGH));
-        /*
         h264Representations.add(new H264Representation(null, 480, null, 1200L, ProfileH264.HIGH));
         h264Representations.add(new H264Representation(null, 720, null, 2400L, ProfileH264.HIGH));
         h264Representations.add(new H264Representation(null, 1080, null, 4800L, ProfileH264.HIGH));
-        */
 
         // Encoding Configuration - Audio
-
         AACAudioConfig aacConfiguration = new AACAudioConfig();
         aacConfiguration.setBitrate(128000L);
         aacConfiguration.setRate(48000f);
@@ -93,12 +87,6 @@ public class CreateEncodingWithHLSv3WithAES_V3
 
         for (H264Representation representation : h264Representations) {
             H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
-
-            System.out.println("Representation: " + h264Representations.indexOf(representation));
-            System.out.println("Representation Height: " + representation.getHeight().toString());
-            System.out.println("Representation Bitrate: " + representation.getBitrate().toString());
-
-
             videoConfiguration.setHeight(representation.getHeight());
             videoConfiguration.setBitrate(representation.getBitrate()*1000);
             videoConfiguration.setProfile(ProfileH264.HIGH);
@@ -106,7 +94,6 @@ public class CreateEncodingWithHLSv3WithAES_V3
             representation.setConfiguration(videoConfiguration);
 
             // Encoding Configuration - Streams
-
             InputStream inputStreamAudio = new InputStream();
             inputStreamAudio.setInputPath(HTTPS_INPUT_PATH);
             inputStreamAudio.setInputId(input.getId());
@@ -132,15 +119,13 @@ public class CreateEncodingWithHLSv3WithAES_V3
             representation.setStream(videoStream);
 
             // AES - Configuration
-
             AesEncryptionDrm aesEncryptionDrm = new AesEncryptionDrm();
-            aesEncryptionDrm.setKey("cab5b529ae28d5cc5e3e7bc3fd4a544d");
-            aesEncryptionDrm.setIv("08eecef4b026deec395234d94218273d");
+            aesEncryptionDrm.setKey("<SET_YOUR_STRING_KEY>"); // 128 bit (16 bytes)  ex.: cab5b529ae28d5cc5e3e7bc3fd4a544d
+            aesEncryptionDrm.setIv("<SET_YOUR_STRING_IV>"); // 128 bit (16 bytes) ex.: 08eecef4b026deec395234d94218273d
             aesEncryptionDrm.setId("DRM_AES_128" + String.format("%sp_%s", representation.getHeight(), representation.getBitrate()));
             aesEncryptionDrm.setMethod(AESEncryptionMethod.AES_128);
 
             // Muxing Configuration - Creating Muxing configuration
-
             TSMuxing tsMuxing = this.createTSMuxingNoOutput(encoding, Arrays.asList( videoStream, audioStream));
             System.out.println("Output path: " + OUTPUT_BASE_PATH + "/video/hls/drm/" + String.format("%sp_%s", representation.getHeight(), representation.getBitrate()));
             this.addOutputToDRM(aesEncryptionDrm, output, OUTPUT_BASE_PATH + "/video/hls/drm/" + String.format("%sp_%s", representation.getHeight(), representation.getBitrate()), tsMuxing);
@@ -178,29 +163,19 @@ public class CreateEncodingWithHLSv3WithAES_V3
 
         for (H264Representation representation : h264Representations)
         {
-
-            System.out.println("tsMuxingDrmID: " + representation.getTsMuxing().getDrmConfigs().get(0).getId());
-            System.out.println("Output Path: " + String.format("video/hls/drm/" + String.format("%sp_%s", representation.getHeight(), representation.getBitrate())));
-            System.out.println("encodingID: " + encoding.getId());
-            System.out.println("representationStreamID: " + representation.getStream().getId());
-            System.out.println("representationMuxingDRMID: " + representation.getTsMuxing().getDrmConfigs().get(0).getId());
-
             this.addStreamInfo(String.format("video_%sp_%s.m3u8", representation.getHeight(), representation.getBitrate()),
                     encoding.getId(), representation.getStream().getId(), representation.getTsMuxing().getId(),
                     String.format("video/hls/drm/%sp_%s/", representation.getHeight(), representation.getBitrate()),
                     hlsManifest, representation.getTsMuxing().getDrmConfigs().get(0).getId());
-
         }
 
         bitmovinApi.manifest.hls.startGeneration(hlsManifest);
-
         Status hlsStatus = bitmovinApi.manifest.hls.getGenerationStatus(hlsManifest);
         while (hlsStatus != Status.FINISHED && hlsStatus != Status.ERROR)
         {
             hlsStatus = bitmovinApi.manifest.hls.getGenerationStatus(hlsManifest);
             Thread.sleep(2500);
         }
-
         System.out.println(String.format("HLS Manifest generation finished with status %s", hlsStatus.toString()));
         Assert.assertEquals(Status.FINISHED, hlsStatus);
 
@@ -262,6 +237,4 @@ public class CreateEncodingWithHLSv3WithAES_V3
         tsMuxing.getDrmConfigs().add(result);
         return result;
     }
-
-
 }
