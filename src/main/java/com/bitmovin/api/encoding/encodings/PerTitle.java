@@ -4,6 +4,8 @@ public class PerTitle
 {
     private Integer minBitrate;
     private Integer maxBitrate;
+    private Double minBitrateStepSize;
+    private Double maxBitrateStepSize;
 
     private AutoRepresentation autoRepresentations;
 
@@ -25,6 +27,26 @@ public class PerTitle
     public void setMaxBitrate(Integer maxBitrate)
     {
         this.maxBitrate = maxBitrate;
+    }
+
+    public Double getMinBitrateStepSize()
+    {
+        return this.minBitrateStepSize;
+    }
+
+    public void setMinBitrateStepSize(Double minBitrateStepSize)
+    {
+        this.minBitrateStepSize = minBitrateStepSize;
+    }
+
+    public Double getMaxBitrateStepSize()
+    {
+        return this.maxBitrateStepSize;
+    }
+
+    public void setMaxBitrateStepSize(Double maxBitrateStepSize)
+    {
+        this.maxBitrateStepSize = maxBitrateStepSize;
     }
 
     public AutoRepresentation getAutoRepresentations()
