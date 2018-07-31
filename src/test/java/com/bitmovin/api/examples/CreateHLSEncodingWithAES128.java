@@ -75,7 +75,7 @@ public class CreateHLSEncodingWithAES128
 
         // Encoding Configuration - Adding h264 Representations
         List<H264Representation> h264Representations = new ArrayList<>();
-        h264Representations.add ( new H264Representation(null, 240, null, 400L, ProfileH264.HIGH));
+        h264Representations.add (new H264Representation(null, 240, null, 400L, ProfileH264.HIGH));
         h264Representations.add(new H264Representation(null, 360, null, 800L, ProfileH264.HIGH));
         h264Representations.add(new H264Representation(null, 480, null, 1200L, ProfileH264.HIGH));
         h264Representations.add(new H264Representation(null, 720, null, 2400L, ProfileH264.HIGH));
@@ -87,7 +87,8 @@ public class CreateHLSEncodingWithAES128
         aacConfiguration.setRate(48000f);
         aacConfiguration = bitmovinApi.configuration.audioAAC.create(aacConfiguration);
 
-        for (H264Representation representation : h264Representations) {
+        for (H264Representation representation : h264Representations)
+        {
             H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
             videoConfiguration.setHeight(representation.getHeight());
             videoConfiguration.setBitrate(representation.getBitrate()*1000);
