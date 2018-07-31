@@ -49,6 +49,8 @@ public class CreateHLSEncodingWithAES128
     private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
+    private static String AES_STRING_KEY = "<SET_YOUR_STRING_KEY>" ; // 128 bit (16 bytes)  ex.: cab5b529ae28d5cc5e3e7bc3fd4a544d
+    private static String AES_STRING_IV = "<SET_YOUR_STRING_IV>" ; // 128 bit (16 bytes) ex.: 08eecef4b026deec395234d94218273d
 
     private static BitmovinApi bitmovinApi;
 
@@ -120,8 +122,8 @@ public class CreateHLSEncodingWithAES128
 
             // AES - Configuration
             AesEncryptionDrm aesEncryptionDrm = new AesEncryptionDrm();
-            aesEncryptionDrm.setKey("<SET_YOUR_STRING_KEY>"); // 128 bit (16 bytes)  ex.: cab5b529ae28d5cc5e3e7bc3fd4a544d
-            aesEncryptionDrm.setIv("<SET_YOUR_STRING_IV>"); // 128 bit (16 bytes) ex.: 08eecef4b026deec395234d94218273d
+            aesEncryptionDrm.setKey(AES_STRING_KEY);
+            aesEncryptionDrm.setIv(AES_STRING_IV);
             aesEncryptionDrm.setId("DRM_AES_128" + String.format("%sp_%s", representation.getHeight(), representation.getBitrate()));
             aesEncryptionDrm.setMethod(AESEncryptionMethod.AES_128);
 
