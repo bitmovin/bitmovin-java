@@ -87,6 +87,18 @@ public class CreateHLSEncodingWithAES128
         aacConfiguration.setRate(48000f);
         aacConfiguration = bitmovinApi.configuration.audioAAC.create(aacConfiguration);
 
+        InputStream inputStreamAudio = new InputStream();
+        inputStreamAudio.setInputPath(HTTPS_INPUT_PATH);
+        inputStreamAudio.setInputId(input.getId());
+        inputStreamAudio.setSelectionMode(StreamSelectionMode.AUTO);
+        inputStreamAudio.setPosition(0);
+
+        Stream audioStream = new Stream();
+        audioStream.setCodecConfigId(aacConfiguration.getId());
+        audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
+        audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
+        h264Representations.get(0).setStream(audioStream);
+
         for (H264Representation representation : h264Representations)
         {
             H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
@@ -97,23 +109,11 @@ public class CreateHLSEncodingWithAES128
             representation.setConfiguration(videoConfiguration);
 
             // Encoding Configuration - Streams
-            InputStream inputStreamAudio = new InputStream();
-            inputStreamAudio.setInputPath(HTTPS_INPUT_PATH);
-            inputStreamAudio.setInputId(input.getId());
-            inputStreamAudio.setSelectionMode(StreamSelectionMode.AUTO);
-            inputStreamAudio.setPosition(0);
-
             InputStream inputStreamVideo = new InputStream();
             inputStreamVideo.setInputPath(HTTPS_INPUT_PATH);
             inputStreamVideo.setInputId(input.getId());
             inputStreamVideo.setSelectionMode(StreamSelectionMode.AUTO);
             inputStreamVideo.setPosition(0);
-
-            Stream audioStream = new Stream();
-            audioStream.setCodecConfigId(aacConfiguration.getId());
-            audioStream.setInputStreams(Collections.singleton(inputStreamAudio));
-            audioStream = bitmovinApi.encoding.stream.addStream(encoding, audioStream);
-            representation.setStream(audioStream);
 
             Stream videoStream = new Stream();
             videoStream.setCodecConfigId(videoConfiguration.getId());
