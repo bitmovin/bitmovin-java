@@ -1,10 +1,7 @@
 package com.bitmovin.api.examples;
 
 import com.bitmovin.api.BitmovinApi;
-import com.bitmovin.api.encoding.AclEntry;
-import com.bitmovin.api.encoding.AclPermission;
-import com.bitmovin.api.encoding.EncodingOutput;
-import com.bitmovin.api.encoding.InputStream;
+import com.bitmovin.api.encoding.*;
 import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
@@ -54,12 +51,14 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
     private static String GENERIC_S3_INPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_INPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String GENERIC_S3_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>";
+    private static S3SignatureVersion GENERIC_S3_INPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2; //optional
 
     private static String GENERIC_S3_OUTPUT_HOST = "<INSERT_YOUR_HOST>";
     private static String GENERIC_S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String GENERIC_S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
+    private static S3SignatureVersion GENERIC_S3_OUTPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2; //optional
 
     private static BitmovinApi bitmovinApi;
 
@@ -77,6 +76,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         input.setAccessKey(GENERIC_S3_INPUT_ACCESSKEY);
         input.setSecretKey(GENERIC_S3_INPUT_SECRET_KEY);
         input.setBucketName(GENERIC_S3_INPUT_BUCKET_NAME);
+        input.setSignatureVersion(GENERIC_S3_INPUT_SIGNATURE_VERSION);
         input = bitmovinApi.input.genericS3.create(input);
 
         GenericS3Output output = new GenericS3Output();
@@ -84,6 +84,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         output.setAccessKey(GENERIC_S3_OUTPUT_ACCESSKEY);
         output.setSecretKey(GENERIC_S3_OUTPUT_SECRET_KEY);
         output.setBucketName(GENERIC_S3_OUTPUT_BUCKET_NAME);
+        output.setSignatureVersion(GENERIC_S3_OUTPUT_SIGNATURE_VERSION);
         output = bitmovinApi.output.genericS3.create(output);
 
         AACAudioConfig aacConfiguration = new AACAudioConfig();
