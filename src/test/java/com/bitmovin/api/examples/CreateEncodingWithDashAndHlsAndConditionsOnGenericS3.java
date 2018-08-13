@@ -6,17 +6,10 @@ import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
-import com.bitmovin.api.encoding.encodings.conditions.AbstractCondition;
-import com.bitmovin.api.encoding.encodings.conditions.AndConjunction;
-import com.bitmovin.api.encoding.encodings.conditions.Condition;
-import com.bitmovin.api.encoding.encodings.conditions.ConditionAttribute;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
 import com.bitmovin.api.encoding.encodings.streams.Stream;
-import com.bitmovin.api.encoding.encodings.thumbnails.Sprite;
-import com.bitmovin.api.encoding.encodings.thumbnails.Thumbnail;
-import com.bitmovin.api.encoding.encodings.thumbnails.ThumbnailUnit;
 import com.bitmovin.api.encoding.enums.CloudRegion;
 import com.bitmovin.api.encoding.enums.DashMuxingType;
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
@@ -45,6 +38,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
     private static String API_KEY = "<INSERT_YOUR_APIKEY>";
 
     private static CloudRegion CLOUD_REGION = CloudRegion.AWS_EU_WEST_1;
+    private static String ENCODER_VERSION = "STABLE";
 
     private static String GENERIC_S3_INPUT_HOST = "<INSERT_YOUR_HOST>";
     private static Integer GENERIC_S3_INPUT_PORT = 1234;
@@ -73,6 +67,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         Encoding encoding = new Encoding();
         encoding.setName("Encoding JAVA with Generic S3 Input/Output");
         encoding.setCloudRegion(CLOUD_REGION);
+        encoding.setEncoderVersion(ENCODER_VERSION);
         encoding = bitmovinApi.encoding.create(encoding);
 
         GenericS3Input input = new GenericS3Input();
@@ -147,41 +142,26 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         Stream videoStream240p = new Stream();
         videoStream240p.setCodecConfigId(videoConfiguration240p.getId());
         videoStream240p.setInputStreams(Collections.singleton(inputStreamVideo));
-        AndConjunction andConjunction240 = new AndConjunction();
-        andConjunction240.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "240"); }});
-        videoStream240p.setConditions(andConjunction240);
         videoStream240p = bitmovinApi.encoding.stream.addStream(encoding, videoStream240p);
 
         Stream videoStream360p = new Stream();
         videoStream360p.setCodecConfigId(videoConfiguration360p.getId());
         videoStream360p.setInputStreams(Collections.singleton(inputStreamVideo));
-        AndConjunction andConjunction360 = new AndConjunction();
-        andConjunction360.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "360"); }});
-        videoStream360p.setConditions(andConjunction360);
         videoStream360p = bitmovinApi.encoding.stream.addStream(encoding, videoStream360p);
 
         Stream videoStream480p = new Stream();
         videoStream480p.setCodecConfigId(videoConfiguration480p.getId());
         videoStream480p.setInputStreams(Collections.singleton(inputStreamVideo));
-        AndConjunction andConjunction480 = new AndConjunction();
-        andConjunction480.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "480"); }});
-        videoStream480p.setConditions(andConjunction480);
         videoStream480p = bitmovinApi.encoding.stream.addStream(encoding, videoStream480p);
 
         Stream videoStream720p = new Stream();
         videoStream720p.setCodecConfigId(videoConfiguration720p.getId());
         videoStream720p.setInputStreams(Collections.singleton(inputStreamVideo));
-        AndConjunction andConjunction720 = new AndConjunction();
-        andConjunction720.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "720"); }});
-        videoStream720p.setConditions(andConjunction720);
         videoStream720p = bitmovinApi.encoding.stream.addStream(encoding, videoStream720p);
 
         Stream videoStream1080p = new Stream();
         videoStream1080p.setCodecConfigId(videoConfiguration1080p.getId());
         videoStream1080p.setInputStreams(Collections.singleton(inputStreamVideo));
-        AndConjunction andConjunction1080 = new AndConjunction();
-        andConjunction1080.setConditions(new ArrayList<AbstractCondition>() {{ new Condition(ConditionAttribute.HEIGHT, ">=", "1080"); }});
-        videoStream1080p.setConditions(andConjunction1080);
         videoStream1080p = bitmovinApi.encoding.stream.addStream(encoding, videoStream1080p);
 
         Stream audioStream = new Stream();
@@ -202,44 +182,6 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         TSMuxing muxingTS_720p = this.createTSMuxing(encoding, output, "/video/hls/720p/", videoStream720p);
         TSMuxing muxingTS_1080p = this.createTSMuxing(encoding, output, "/video/hls/1080p/", videoStream1080p);
         TSMuxing muxingTS_Audio = this.createTSMuxing(encoding, output, "/audio/hls/", audioStream);
-
-        // Create the thumbnail at position 10%, 20% and 30% of the input file
-        EncodingOutput thumbnailOutput = new EncodingOutput();
-        thumbnailOutput.setOutputId(output.getId());
-        thumbnailOutput.setOutputPath(OUTPUT_BASE_PATH + "/thumbnails");
-        thumbnailOutput.setAcl(new ArrayList<AclEntry>()
-        {{
-            this.add(new AclEntry(AclPermission.PUBLIC_READ));
-        }});
-        Thumbnail thumbnail = new Thumbnail();
-        thumbnail.setHeight(360);
-        thumbnail.setOutputs(Collections.singleton(thumbnailOutput));
-        thumbnail.setUnit(ThumbnailUnit.PERCENTS);
-        Set<Double> thumbnailPositions = new HashSet<>();
-        thumbnailPositions.add(10.0);
-        thumbnailPositions.add(20.0);
-        thumbnailPositions.add(30.0);
-        thumbnail.setPositions(thumbnailPositions);
-        thumbnail.setPattern("thumbnail_%number%.jpg");
-        bitmovinApi.encoding.thumbnail.create(encoding, videoStream240p, thumbnail);
-
-        // Create the sprite with an image every 10 seconds
-        EncodingOutput spriteOutput = new EncodingOutput();
-        spriteOutput.setOutputId(output.getId());
-        spriteOutput.setOutputPath(OUTPUT_BASE_PATH + "/sprites");
-        spriteOutput.setAcl(new ArrayList<AclEntry>()
-        {{
-            this.add(new AclEntry(AclPermission.PUBLIC_READ));
-        }});
-        Sprite sprite = new Sprite();
-        sprite.setDistance(10.0);
-        sprite.setWidth(640);
-        sprite.setHeight(360);
-        sprite.setOutputs(Collections.singleton(spriteOutput));
-        sprite.setSpriteName("sprite.jpg");
-        sprite.setVttName("sprite.vtt");
-        bitmovinApi.encoding.sprite.create(encoding, videoStream360p, sprite);
-
 
         bitmovinApi.encoding.start(encoding);
 
