@@ -51,14 +51,16 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
     private static String GENERIC_S3_INPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_INPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String GENERIC_S3_INPUT_PATH = "<INSERT_YOUR_PATH_TO_INPUT_FILE>";
-    private static S3SignatureVersion GENERIC_S3_INPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2; //optional
+    private static S3SignatureVersion GENERIC_S3_INPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2;
+    private static boolean GENERIC_S3_INPUT_SSL = false;
 
     private static String GENERIC_S3_OUTPUT_HOST = "<INSERT_YOUR_HOST>";
     private static String GENERIC_S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String GENERIC_S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
     private static String OUTPUT_BASE_PATH = "path/to/your/outputs/" + new Date().getTime();
-    private static S3SignatureVersion GENERIC_S3_OUTPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2; //optional
+    private static S3SignatureVersion GENERIC_S3_OUTPUT_SIGNATURE_VERSION = S3SignatureVersion.S3_V2;
+    private static boolean GENERIC_S3_OUTPUT_SSL = false;
 
     private static BitmovinApi bitmovinApi;
 
@@ -77,6 +79,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         input.setSecretKey(GENERIC_S3_INPUT_SECRET_KEY);
         input.setBucketName(GENERIC_S3_INPUT_BUCKET_NAME);
         input.setSignatureVersion(GENERIC_S3_INPUT_SIGNATURE_VERSION);
+        input.setSsl(GENERIC_S3_INPUT_SSL);
         input = bitmovinApi.input.genericS3.create(input);
 
         GenericS3Output output = new GenericS3Output();
@@ -85,6 +88,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
         output.setSecretKey(GENERIC_S3_OUTPUT_SECRET_KEY);
         output.setBucketName(GENERIC_S3_OUTPUT_BUCKET_NAME);
         output.setSignatureVersion(GENERIC_S3_OUTPUT_SIGNATURE_VERSION);
+        output.setSsl(GENERIC_S3_OUTPUT_SSL);
         output = bitmovinApi.output.genericS3.create(output);
 
         AACAudioConfig aacConfiguration = new AACAudioConfig();
