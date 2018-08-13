@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
-public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
+public class CreateEncodingWithDashAndHlsOnGenericS3
 {
     private static String API_KEY = "<INSERT_YOUR_APIKEY>";
 
