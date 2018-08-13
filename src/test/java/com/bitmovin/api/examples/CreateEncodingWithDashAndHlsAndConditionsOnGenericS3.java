@@ -47,6 +47,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
     private static CloudRegion CLOUD_REGION = CloudRegion.AWS_EU_WEST_1;
 
     private static String GENERIC_S3_INPUT_HOST = "<INSERT_YOUR_HOST>";
+    private static Integer GENERIC_S3_INPUT_PORT = 1234;
     private static String GENERIC_S3_INPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String GENERIC_S3_INPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_INPUT_BUCKET_NAME = "BUCKET_NAME";
@@ -55,6 +56,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
     private static boolean GENERIC_S3_INPUT_SSL = false;
 
     private static String GENERIC_S3_OUTPUT_HOST = "<INSERT_YOUR_HOST>";
+    private static Integer GENERIC_S3_OUTPUT_PORT = 1234;
     private static String GENERIC_S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String GENERIC_S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String GENERIC_S3_OUTPUT_BUCKET_NAME = "BUCKET_NAME";
@@ -75,6 +77,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
 
         GenericS3Input input = new GenericS3Input();
         input.setHost(GENERIC_S3_INPUT_HOST);
+        input.setPort(GENERIC_S3_INPUT_PORT);
         input.setAccessKey(GENERIC_S3_INPUT_ACCESSKEY);
         input.setSecretKey(GENERIC_S3_INPUT_SECRET_KEY);
         input.setBucketName(GENERIC_S3_INPUT_BUCKET_NAME);
@@ -84,6 +87,7 @@ public class CreateEncodingWithDashAndHlsAndConditionsOnGenericS3
 
         GenericS3Output output = new GenericS3Output();
         output.setHost(GENERIC_S3_OUTPUT_HOST);
+        output.setPort(GENERIC_S3_OUTPUT_PORT);
         output.setAccessKey(GENERIC_S3_OUTPUT_ACCESSKEY);
         output.setSecretKey(GENERIC_S3_OUTPUT_SECRET_KEY);
         output.setBucketName(GENERIC_S3_OUTPUT_BUCKET_NAME);
