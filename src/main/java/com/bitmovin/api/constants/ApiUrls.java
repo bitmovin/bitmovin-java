@@ -52,6 +52,7 @@ public class ApiUrls
     public static final String codecConfigLimitOffset = "encoding/configurations?offset={offset}&limit={limit}";
     public static final String codecConfigH264 = "encoding/configurations/video/h264";
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
+    public static final String codecConfigAV1 = "encoding/configurations/video/av1";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
     public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
