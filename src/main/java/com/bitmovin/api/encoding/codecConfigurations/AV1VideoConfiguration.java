@@ -1,16 +1,7 @@
 package com.bitmovin.api.encoding.codecConfigurations;
 
-import com.bitmovin.api.encoding.codecConfigurations.enums.*;
-
-/**
- * Created by
- * Al·lodi Jutgla Serrat [allodi.serrat@bitmovin.com]
- * on 16.08.18.
- */
-
 
 public class AV1VideoConfiguration extends VideoConfiguration {
-
 
     private Integer lagInFrames;
     private Integer minQ;
