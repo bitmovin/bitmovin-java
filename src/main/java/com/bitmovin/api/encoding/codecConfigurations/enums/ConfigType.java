@@ -10,6 +10,7 @@ public enum ConfigType
     HE_AAC_V2,
     H264,
     H265,
+    AV1,
     VP9,
     VP8,
     MP2,
