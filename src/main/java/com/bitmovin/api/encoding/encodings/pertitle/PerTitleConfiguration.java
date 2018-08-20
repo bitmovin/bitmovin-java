@@ -1,6 +1,10 @@
-package com.bitmovin.api.encoding.encodings;
+package com.bitmovin.api.encoding.encodings.pertitle;
 
-public class PerTitleConfiguration
+import com.bitmovin.api.encoding.encodings.AutoRepresentation;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class PerTitleConfiguration
 {
     private Integer minBitrate;
     private Integer maxBitrate;
