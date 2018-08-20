@@ -2,6 +2,7 @@ package com.bitmovin.api.encoding.encodings;
 
 import com.bitmovin.api.encoding.encodings.live.LiveDashManifest;
 import com.bitmovin.api.encoding.encodings.live.LiveHlsManifest;
+import com.bitmovin.api.encoding.encodings.pertitle.PerTitle;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
