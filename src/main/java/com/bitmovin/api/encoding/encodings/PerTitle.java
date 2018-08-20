@@ -2,60 +2,60 @@ package com.bitmovin.api.encoding.encodings;
 
 public class PerTitle
 {
-    private Integer minBitrate;
-    private Integer maxBitrate;
-    private Double minBitrateStepSize;
-    private Double maxBitrateStepSize;
 
-    private AutoRepresentation autoRepresentations;
+    private PerTitleConfiguration h264Configuration;
+    private PerTitleConfiguration h265Configuration;
+    private PerTitleConfiguration vp8Configuration;
+    private PerTitleConfiguration vp9Configuration;
+    private PerTitleConfiguration av1Configuration;
 
-    public Integer getMinBitrate()
+    public PerTitleConfiguration getH264Configuration()
     {
-        return this.minBitrate;
+        return this.h264Configuration;
     }
 
-    public void setMinBitrate(Integer minBitrate)
+    public void setH264Configuration(PerTitleConfiguration h264Configuration)
     {
-        this.minBitrate = minBitrate;
+        this.h264Configuration = h264Configuration;
     }
 
-    public Integer getMaxBitrate()
+    public PerTitleConfiguration getH265Configuration()
     {
-        return this.maxBitrate;
+        return this.h265Configuration;
     }
 
-    public void setMaxBitrate(Integer maxBitrate)
+    public void setH265Configuration(PerTitleConfiguration h265Configuration)
     {
-        this.maxBitrate = maxBitrate;
+        this.h265Configuration = h265Configuration;
     }
 
-    public Double getMinBitrateStepSize()
+    public PerTitleConfiguration getVp8Configuration()
     {
-        return this.minBitrateStepSize;
+        return this.vp8Configuration;
     }
 
-    public void setMinBitrateStepSize(Double minBitrateStepSize)
+    public void setVp8Configuration(PerTitleConfiguration vp8Configuration)
     {
-        this.minBitrateStepSize = minBitrateStepSize;
+        this.vp8Configuration = vp8Configuration;
     }
 
-    public Double getMaxBitrateStepSize()
+    public PerTitleConfiguration getVp9Configuration()
     {
-        return this.maxBitrateStepSize;
+        return this.vp9Configuration;
     }
 
-    public void setMaxBitrateStepSize(Double maxBitrateStepSize)
+    public void setVp9Configuration(PerTitleConfiguration vp9Configuration)
     {
-        this.maxBitrateStepSize = maxBitrateStepSize;
+        this.vp9Configuration = vp9Configuration;
     }
 
-    public AutoRepresentation getAutoRepresentations()
+    public PerTitleConfiguration getAv1Configuration()
     {
-        return this.autoRepresentations;
+        return this.av1Configuration;
     }
 
-    public void setAutoRepresentations(AutoRepresentation autoRepresentations)
+    public void setAv1Configuration(PerTitleConfiguration av1Configuration)
     {
-        this.autoRepresentations = autoRepresentations;
+        this.av1Configuration = av1Configuration;
     }
 }
