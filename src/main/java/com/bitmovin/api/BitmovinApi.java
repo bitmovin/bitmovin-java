@@ -154,6 +154,16 @@ public class BitmovinApi
         return RestClient.isDebug();
     }
 
+    public void setRetry(boolean retry)
+    {
+        RestClient.setRetry(retry);
+    }
+
+    public boolean isRetry()
+    {
+        return RestClient.isRetry();
+    }
+
     private void setDefaultHeaders() throws IOException
     {
         this.defaultHeaders.put("Content-Type", "application/json");

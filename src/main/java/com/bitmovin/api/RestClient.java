@@ -34,6 +34,7 @@ import static com.bitmovin.api.constants.ApiUrls.API_ENDPOINT_WITH_PROTOCOL;
 public class RestClient
 {
     private static boolean debug = false;
+    private static boolean retry = false;
 
     public static JSONObject convertToJsonObject(Object object) throws JsonProcessingException
     {
@@ -56,7 +57,7 @@ public class RestClient
     private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws UnirestException, URISyntaxException, BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug());
+        JsonRestClient jRest = new JsonRestClient(isDebug(), isRetry());
         switch (method)
         {
             case POST:
@@ -99,7 +100,7 @@ public class RestClient
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug());
+        JsonRestClient jRest = new JsonRestClient(isDebug(), isRetry());
 
         switch (method)
         {
@@ -398,6 +399,15 @@ public class RestClient
         return messages;
     }
 
+    public static boolean isRetry()
+    {
+        return retry;
+    }
+
+    public static void setRetry(boolean retry)
+    {
+        RestClient.retry = retry;
+    }
 
     public static boolean isDebug()
     {

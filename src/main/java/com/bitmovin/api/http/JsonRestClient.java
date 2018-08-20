@@ -9,8 +9,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
@@ -23,12 +23,15 @@ import java.util.Map;
  */
 public class JsonRestClient
 {
-
+    private int maxRetries = 10;
+    private int msToWaitForRetrying = 2000;
+    private boolean retryOnError = false;
     private boolean debug;
 
-    public JsonRestClient(boolean isDebug)
+    public JsonRestClient(boolean isDebug, boolean isRetry)
     {
         this.debug = isDebug;
+        this.retryOnError = isRetry;
     }
 
     private void logHttpRequest(HttpRequest request)
@@ -112,7 +115,7 @@ public class JsonRestClient
                                      .body(content)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<T> response =  request.asObject(classOfT);
+        HttpResponse<T> response =  executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
@@ -123,7 +126,7 @@ public class JsonRestClient
         HttpRequest request = Unirest.get(resource.toString())
                                      .headers(headers);
         this.logHttpRequest(request);
-        HttpResponse<T> response = request.asObject(classOfT);
+        HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
@@ -135,32 +138,32 @@ public class JsonRestClient
                                      .headers(headers)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<T> response = request.asObject(classOfT);
+        HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
     }
 
-    public void post(URI resource, Map<String, String> headers, Object content) throws IOException, RestException, UnirestException, BitmovinApiException
+    public void post(URI resource, Map<String, String> headers, Object content) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.post(resource.toString())
                                      .headers(headers)
                                      .body(content)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  request.asObject(ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
 
-    public void get(URI resource, Map<String, String> headers) throws IOException, RestException, UnirestException, BitmovinApiException
+    public void get(URI resource, Map<String, String> headers) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.get(resource.toString())
                                      .headers(headers)
                                      .getHttpRequest()
                 ;
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  request.asObject(ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
@@ -171,24 +174,24 @@ public class JsonRestClient
                                      .headers(headers)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<T> response =  request.asObject(classOfT);
+        HttpResponse<T> response =  executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
     }
 
-    public void delete(URI resource, Map<String, String> headers) throws IOException, RestException, UnirestException, BitmovinApiException
+    public void delete(URI resource, Map<String, String> headers) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.delete(resource.toString())
                                      .headers(headers)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  request.asObject(ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
 
-    public void delete(URI resource, Map<String, String> headers, Object content) throws IOException, RestException, UnirestException, BitmovinApiException
+    public void delete(URI resource, Map<String, String> headers, Object content) throws UnirestException, BitmovinApiException
     {
         if (content == null)
         {
@@ -200,9 +203,77 @@ public class JsonRestClient
                                      .body(content)
                                      .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  request.asObject(ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response = executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
+    }
+
+    public void setMaxRetries(int maxRetries)
+    {
+        this.maxRetries = maxRetries;
+    }
+
+    public void setMsToWaitForRetrying(int msToWaitForRetrying)
+    {
+        this.msToWaitForRetrying = msToWaitForRetrying;
+    }
+
+    public void setRetryOnError(boolean retryOnError)
+    {
+        this.retryOnError = retryOnError;
+    }
+
+    public void setDebug(boolean debug)
+    {
+        this.debug = debug;
+    }
+
+    private <T> HttpResponse<T> executeHttpRequest(HttpRequest httpRequest, Class<T> responseClass) throws UnirestException
+    {
+        if (this.retryOnError && this.maxRetries > 0 && this.msToWaitForRetrying > 0)
+        {
+            return this.executeHttpRequestWithRetries(httpRequest, responseClass);
+        }
+        else
+        {
+            return httpRequest.asObject(responseClass);
+        }
+    }
+
+    private <T> HttpResponse<T> executeHttpRequestWithRetries(HttpRequest httpRequest, Class<T> responseClass) throws UnirestException
+    {
+        for (int i = 1; i <= this.maxRetries; i++)
+        {
+            try
+            {
+                return httpRequest.asObject(responseClass);
+            }
+            catch (UnirestException e)
+            {
+                if (this.debug)
+                {
+                    System.out.println(
+                            String.format("Exception occurred (Retry %d from %d)...: %s", i, this.maxRetries, ExceptionUtils.getStackTrace(e))
+                    );
+                }
+                try
+                {
+                    Thread.sleep(this.msToWaitForRetrying);
+                }
+                catch (InterruptedException interruptedException)
+                {
+                    if (this.debug)
+                    {
+                        System.out.println(
+                                String.format("Got InterruptedException (Retry %d from %d): %s", i, this.maxRetries, ExceptionUtils.getStackTrace(interruptedException))
+                        );
+                    }
+                }
+            }
+        }
+        throw new UnirestException(
+                String.format("Couldn't successfully perform HttpRequest after %d retries", this.maxRetries)
+        );
     }
 
 }

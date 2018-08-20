@@ -1,5 +1,6 @@
 package com.bitmovin.api.resource.encoding;
 
+import com.bitmovin.api.ITypeCallback;
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
 import com.bitmovin.api.customData.CustomData;
@@ -27,6 +28,7 @@ import com.bitmovin.api.encoding.encodings.muxing.information.ProgressiveTSMuxin
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -169,29 +171,36 @@ public class EncodingMuxingResource
     public List<Muxing> getMuxings(Encoding encoding) throws URISyntaxException, BitmovinApiException, UnirestException, IOException
     {
         String newUrl = ApiUrls.muxings.replace("{encoding_id}", encoding.getId());
-        return RestClient.getAllItemsIterative(newUrl, this.headers, Muxing.class, object -> {
-            String type = object.getString("type");
-            switch (type)
+        ITypeCallback typeCallback = new ITypeCallback()
+        {
+            @Override
+            public Class getClazz(JSONObject object)
             {
-                case "MP3":
-                    return MP3Muxing.class;
-                case "FMP4":
-                    return FMP4Muxing.class;
-                case "MP4":
-                    return MP4Muxing.class;
-                case "TS":
-                    return TSMuxing.class;
-                case "WEBM":
-                    return WebmMuxing.class;
-                case "PROGRESSIVE_MOV":
-                    return ProgressiveMOVMuxing.class;
-                case "PROGRESSIVE_TS":
-                    return ProgressiveTSMuxing.class;
-                case "BROADCAST_TS":
-                    return BroadcastTsMuxing.class;
+                String type = object.getString("type");
+                switch (type)
+                {
+                    case "MP3":
+                        return MP3Muxing.class;
+                    case "FMP4":
+                        return FMP4Muxing.class;
+                    case "MP4":
+                        return MP4Muxing.class;
+                    case "TS":
+                        return TSMuxing.class;
+                    case "WEBM":
+                        return WebmMuxing.class;
+                    case "PROGRESSIVE_MOV":
+                        return ProgressiveMOVMuxing.class;
+                    case "PROGRESSIVE_TS":
+                        return ProgressiveTSMuxing.class;
+                    case "BROADCAST_TS":
+                        return BroadcastTsMuxing.class;
+                }
+                return null;
             }
-            return null;
-        });
+        };
+
+        return RestClient.getAllItemsIterative(newUrl, this.headers, Muxing.class, typeCallback);
     }
 
     public CustomData getTsMuxingCustomData(String encodingId, String muxingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
