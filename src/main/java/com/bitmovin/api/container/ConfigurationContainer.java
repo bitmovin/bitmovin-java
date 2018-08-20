@@ -8,6 +8,7 @@ import com.bitmovin.api.encoding.codecConfigurations.CodecConfig;
 import com.bitmovin.api.encoding.codecConfigurations.EAC3AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.H265VideoConfiguration;
+import com.bitmovin.api.encoding.codecConfigurations.AV1VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.HeAACv1AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.HeAACv2AudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.MJPEGCodecConfiguration;
@@ -40,6 +41,7 @@ public class ConfigurationContainer
     public ConfigurationResource<HeAACv2AudioConfig> heAACv2;
     public ConfigurationResource<H264VideoConfiguration> videoH264;
     public ConfigurationResource<H265VideoConfiguration> videoH265;
+    public ConfigurationResource<AV1VideoConfiguration> videoAV1;
     public ConfigurationResource<VP9VideoConfiguration> videoVP9;
     public ConfigurationResource<VP8VideoConfiguration> videoVP8;
     public ConfigurationResource<MJPEGCodecConfiguration> mjpeg;
@@ -57,6 +59,7 @@ public class ConfigurationContainer
         this.headers = headers;
         this.videoH264 = new ConfigurationResource<>(headers, ApiUrls.codecConfigH264, H264VideoConfiguration.class);
         this.videoH265 = new ConfigurationResource<>(headers, ApiUrls.codecConfigH265, H265VideoConfiguration.class);
+        this.videoAV1 = new ConfigurationResource<>(headers,ApiUrls.codecConfigAV1, AV1VideoConfiguration.class);
         this.videoVP9 = new ConfigurationResource<>(headers, ApiUrls.codecConfigVP9, VP9VideoConfiguration.class);
         this.videoVP8 = new ConfigurationResource<>(headers, ApiUrls.codecConfigVP8, VP8VideoConfiguration.class);
         this.mjpeg = new ConfigurationResource<>(headers, ApiUrls.codecConfigMjpeg, MJPEGCodecConfiguration.class);
