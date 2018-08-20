@@ -1,8 +1,7 @@
 package com.bitmovin.api.encoding.codecConfigurations;
 
-
-public class AV1VideoConfiguration extends VideoConfiguration {
-
+public class AV1VideoConfiguration extends VideoConfiguration
+{
     private Integer lagInFrames;
     private Integer minQ;
     private Integer maxQ;
@@ -26,34 +25,75 @@ public class AV1VideoConfiguration extends VideoConfiguration {
     private Integer numTileGroups;
     private Integer mtuSize;
 
+    public Integer getLagInFrames()
+    {
+        return this.lagInFrames;
+    }
 
-    public Integer getLagInFrames() { return this.lagInFrames; }
+    public void setLagInFrames(Integer lagInFrames)
+    {
+        this.lagInFrames = lagInFrames;
+    }
 
-    public void setLagInFrames(Integer lagInFrames) { this.lagInFrames = lagInFrames; }
+    public Integer getMinQ()
+    {
+        return this.minQ;
+    }
 
-    public Integer getMinQ() { return this.minQ; }
+    public void setMinQ(Integer minQ)
+    {
+        this.minQ = minQ;
+    }
 
-    public void setMinQ(Integer minQ) { this.minQ = minQ; }
+    public Integer getMaxQ()
+    {
+        return this.maxQ;
+    }
 
-    public Integer getMaxQ() { return this.maxQ; }
+    public void setMaxQ(Integer maxQ)
+    {
+        this.maxQ = maxQ;
+    }
 
-    public void setMaxQ(Integer maxQ) { this.maxQ = maxQ; }
+    public Integer getUndershootPct()
+    {
+        return undershootPct;
+    }
 
-    public Integer getUndershootPct() { return undershootPct; }
+    public void setUndershootPct(Integer undershootPct)
+    {
+        this.undershootPct = undershootPct;
+    }
 
-    public void setUndershootPct(Integer undershootPct) { this.undershootPct = undershootPct; }
+    public Integer getOvershootPct()
+    {
+        return overshootPct;
+    }
 
-    public Integer getOvershootPct() { return overshootPct; }
+    public void setOvershootPct(Integer overshootPct)
+    {
+        this.overshootPct = overshootPct;
+    }
 
-    public void setOvershootPct(Integer overshootPct) { this.overshootPct = overshootPct; }
+    public Long getClientBufferSize()
+    {
+        return clientBufferSize;
+    }
 
-    public Long getClientBufferSize() { return clientBufferSize; }
+    public void setClientBufferSize(Long clientBufferSize)
+    {
+        this.clientBufferSize = clientBufferSize;
+    }
 
-    public void setClientBufferSize(Long clientBufferSize) { this.clientBufferSize = clientBufferSize; }
+    public Long getClientOptimalBufferSize()
+    {
+        return clientOptimalBufferSize;
+    }
 
-    public Long getClientOptimalBufferSize() { return clientOptimalBufferSize; }
-
-    public void setClientOptimalBufferSize(Long clientOptimalBufferSize) { this.clientOptimalBufferSize = clientOptimalBufferSize; }
+    public void setClientOptimalBufferSize(Long clientOptimalBufferSize)
+    {
+        this.clientOptimalBufferSize = clientOptimalBufferSize;
+    }
 
     public Integer getTileColumns()
     {
@@ -75,9 +115,15 @@ public class AV1VideoConfiguration extends VideoConfiguration {
         this.tileRows = tileRows;
     }
 
-    public Boolean getAutomaticAltRefFramesEnabled() { return isAutomaticAltRefFramesEnabled; }
+    public Boolean getAutomaticAltRefFramesEnabled()
+    {
+        return isAutomaticAltRefFramesEnabled;
+    }
 
-    public void setAutomaticAltRefFramesEnabled(Boolean automaticAltRefFramesEnabled) { isAutomaticAltRefFramesEnabled = automaticAltRefFramesEnabled; }
+    public void setAutomaticAltRefFramesEnabled(Boolean automaticAltRefFramesEnabled)
+    {
+        isAutomaticAltRefFramesEnabled = automaticAltRefFramesEnabled;
+    }
 
     public Integer getArnrMaxFrames()
     {
@@ -109,13 +155,25 @@ public class AV1VideoConfiguration extends VideoConfiguration {
         this.maxIntraRate = maxIntraRate;
     }
 
-    public Boolean getLossless() { return isLossless; }
+    public Boolean getLossless()
+    {
+        return isLossless;
+    }
 
-    public void setLossless(Boolean lossless) { isLossless = lossless; }
+    public void setLossless(Boolean lossless)
+    {
+        isLossless = lossless;
+    }
 
-    public Boolean getFrameParallel() { return isFrameParallel; }
+    public Boolean getFrameParallel()
+    {
+        return isFrameParallel;
+    }
 
-    public void setFrameParallel(Boolean frameParallel) { isFrameParallel = frameParallel; }
+    public void setFrameParallel(Boolean frameParallel)
+    {
+        isFrameParallel = frameParallel;
+    }
 
     public Integer getSharpness()
     {
@@ -127,9 +185,15 @@ public class AV1VideoConfiguration extends VideoConfiguration {
         this.sharpness = sharpness;
     }
 
-    public Boolean getFrameboostEnabled() { return isFrameboostEnabled; }
+    public Boolean getFrameboostEnabled()
+    {
+        return isFrameboostEnabled;
+    }
 
-    public void setFrameboostEnabled(Boolean frameboostEnabled) { isFrameboostEnabled = frameboostEnabled; }
+    public void setFrameboostEnabled(Boolean frameboostEnabled)
+    {
+        isFrameboostEnabled = frameboostEnabled;
+    }
 
     public Boolean getNoiseSensitivity()
     {
@@ -141,19 +205,43 @@ public class AV1VideoConfiguration extends VideoConfiguration {
         this.noiseSensitivity = noiseSensitivity;
     }
 
-    public Integer getMinGfInterval() { return minGfInterval; }
+    public Integer getMinGfInterval()
+    {
+        return minGfInterval;
+    }
 
-    public void setMinGfInterval(Integer minGfInterval) { this.minGfInterval = minGfInterval; }
+    public void setMinGfInterval(Integer minGfInterval)
+    {
+        this.minGfInterval = minGfInterval;
+    }
 
-    public Integer getMaxGfInterval() { return maxGfInterval; }
+    public Integer getMaxGfInterval()
+    {
+        return maxGfInterval;
+    }
 
-    public void setMaxGfInterval(Integer maxGfInterval) { this.maxGfInterval = maxGfInterval; }
+    public void setMaxGfInterval(Integer maxGfInterval)
+    {
+        this.maxGfInterval = maxGfInterval;
+    }
 
-    public Integer getNumTileGroups() { return numTileGroups; }
+    public Integer getNumTileGroups()
+    {
+        return numTileGroups;
+    }
 
-    public void setNumTileGroups(Integer numTileGroups) { this.numTileGroups = numTileGroups; }
+    public void setNumTileGroups(Integer numTileGroups)
+    {
+        this.numTileGroups = numTileGroups;
+    }
 
-    public Integer getMtuSize() { return mtuSize; }
+    public Integer getMtuSize()
+    {
+        return mtuSize;
+    }
 
-    public void setMtuSize(Integer mtuSize) { this.mtuSize = mtuSize; }
+    public void setMtuSize(Integer mtuSize)
+    {
+        this.mtuSize = mtuSize;
+    }
 }
