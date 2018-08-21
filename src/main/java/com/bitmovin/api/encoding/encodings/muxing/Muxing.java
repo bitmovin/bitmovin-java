@@ -13,13 +13,17 @@ import java.util.List;
  * Ferdinand Koeppen [ferdinand.koeppen@bitmovin.com]
  * on 25.07.16.
  */
-public class Muxing extends AbstractApiResponse
+public abstract class Muxing extends AbstractApiResponse
 {
 
     protected List<MuxingStream> streams = new ArrayList<>();
-    protected List<EncodingOutput> outputs = new ArrayList();
+    protected List<EncodingOutput> outputs = new ArrayList<>();
     protected MuxingType type;
-    protected List<Drm> drmConfigs = new ArrayList();
+    protected List<Drm> drmConfigs = new ArrayList<>();
+
+    private Integer avgBitrate;
+    private Integer maxBitrate;
+    private Integer minBitrate;
 
     public Muxing()
     {
@@ -69,9 +73,39 @@ public class Muxing extends AbstractApiResponse
     {
         return this.drmConfigs;
     }
+
     public void setDrmConfigs(List<Drm> drmConfigs)
     {
         this.drmConfigs = drmConfigs;
     }
 
+    public Integer getAvgBitrate()
+    {
+        return this.avgBitrate;
+    }
+
+    public void setAvgBitrate(Integer avgBitrate)
+    {
+        this.avgBitrate = avgBitrate;
+    }
+
+    public Integer getMaxBitrate()
+    {
+        return this.maxBitrate;
+    }
+
+    public void setMaxBitrate(Integer maxBitrate)
+    {
+        this.maxBitrate = maxBitrate;
+    }
+
+    public Integer getMinBitrate()
+    {
+        return this.minBitrate;
+    }
+
+    public void setMinBitrate(Integer minBitrate)
+    {
+        this.minBitrate = minBitrate;
+    }
 }

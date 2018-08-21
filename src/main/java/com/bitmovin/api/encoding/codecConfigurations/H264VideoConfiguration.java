@@ -62,10 +62,17 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private Integer sceneCutThreshold;
 
+    private Cea608708SubtitleConfig cea608708SubtitleConfig;
+
+    private H264NalHrd nalHrd;
+
+    private H264BPyramid bPyramid;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
         this.setCabac(true);
+        cea608708SubtitleConfig = null;
     }
 
     public ProfileH264 getProfile()
@@ -274,5 +281,35 @@ public class H264VideoConfiguration extends VideoConfiguration
     public void setSceneCutThreshold(Integer sceneCutThreshold)
     {
         this.sceneCutThreshold = sceneCutThreshold;
+    }
+
+    public Cea608708SubtitleConfig getCea608708SubtitleConfig()
+    {
+        return cea608708SubtitleConfig;
+    }
+
+    public void setCea608708SubtitleConfig(Cea608708SubtitleConfig cea608708SubtitleConfig)
+    {
+        this.cea608708SubtitleConfig = cea608708SubtitleConfig;
+    }
+
+    public H264NalHrd getNalHrd()
+    {
+        return nalHrd;
+    }
+
+    public void setNalHrd(H264NalHrd nalHrd)
+    {
+        this.nalHrd = nalHrd;
+    }
+
+    public H264BPyramid getbPyramid()
+    {
+        return bPyramid;
+    }
+
+    public void setbPyramid(H264BPyramid bPyramid)
+    {
+        this.bPyramid = bPyramid;
     }
 }

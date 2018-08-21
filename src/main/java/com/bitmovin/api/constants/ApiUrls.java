@@ -10,6 +10,11 @@ public class ApiUrls
     public static final String API_ENDPOINT = "api.bitmovin.com/v1";
     public static final String API_ENDPOINT_WITH_PROTOCOL = "https://" + API_ENDPOINT;
 
+    public static final String analyticsQuery = "analytics/queries";
+    public static final String analyticsLicenses = "analytics/licenses";
+    public static final String analyticsLicense = "analytics/licenses/{analyticsLicenseId}";
+    public static final String analyticsImpression = "analytics/impressions/{impressionId}";
+
     public static final String inputs = "encoding/inputs";
     public static final String inputsLimitOffset = "encoding/inputs?limit={limit}&offset={offset}";
     public static final String inputHttp = "encoding/inputs/http";
@@ -24,7 +29,7 @@ public class ApiUrls
     public static final String inputRtmp = "encoding/inputs/rtmp";
     public static final String inputLocal = "encoding/inputs/local";
     public static final String inputAkamaiNetstorage = "encoding/inputs/akamai-netstorage";
-    public static final String inputZixi =   "encoding/inputs/zixi";
+    public static final String inputZixi = "encoding/inputs/zixi";
 
     public static final String analysisStart = "encoding/inputs/{inputType}/{inputId}/analysis";
     public static final String analysisStatus = "encoding/inputs/{inputType}/{inputId}/analysis/{analysisId}/status";
@@ -47,6 +52,7 @@ public class ApiUrls
     public static final String codecConfigLimitOffset = "encoding/configurations?offset={offset}&limit={limit}";
     public static final String codecConfigH264 = "encoding/configurations/video/h264";
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
+    public static final String codecConfigAV1 = "encoding/configurations/video/av1";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
     public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
@@ -67,14 +73,26 @@ public class ApiUrls
     public static final String streamsInputDetails = "encoding/encodings/{encoding_id}/streams/{stream_id}/inputs";
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
+    public static final String sccCaptions = "encoding/encodings/{encoding_id}/streams/{stream_id}/captions/608-708/scc";
+    public static final String convertSccCaptions = "encoding/encodings/{encoding_id}/captions/scc";
+    public static final String convertSccCaptionsCustomData = "encoding/encodings/{encoding_id}/captions/scc/{caption_id}/customData";
+
     public static final String addFilterToStream = "encoding/encodings/{encoding_id}/streams/{stream_id}/filters";
 
+    public static final String muxings = "encoding/encodings/{encoding_id}/muxings";
     public static final String fmp4muxings = "encoding/encodings/{encoding_id}/muxings/fmp4";
     public static final String progressivetsmuxings = "encoding/encodings/{encoding_id}/muxings/progressive-ts";
     public static final String tsmuxings = "encoding/encodings/{encoding_id}/muxings/ts";
     public static final String mp4muxings = "encoding/encodings/{encoding_id}/muxings/mp4";
     public static final String webmmuxings = "encoding/encodings/{encoding_id}/muxings/webm";
     public static final String progressiveMovMuxings = "encoding/encodings/{encoding_id}/muxings/progressive-mov";
+    public static final String broadcastTsMuxings = "encoding/encodings/{encoding_id}/muxings/broadcast-ts";
+    public static final String broadcastTsMuxingDetails = "encoding/encodings/{encoding_id}/muxings/broadcast-ts/{muxingId}";
+    public static final String mp3Muxings = "encoding/encodings/{encoding_id}/muxings/mp3";
+
+    public static final String progressiveTsMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-ts/{muxing_id}/information";
+    public static final String progressiveMp4MuxingInformation = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/information";
+    public static final String progressiveMovMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-mov/{muxing_id}/information";
 
     public static final String keyframes = "encoding/encodings/{encoding_id}/keyframes";
 

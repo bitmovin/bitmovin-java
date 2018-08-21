@@ -20,6 +20,7 @@ import com.bitmovin.api.resource.encoding.EncodingMuxingResource;
 import com.bitmovin.api.resource.encoding.EncodingSpriteResource;
 import com.bitmovin.api.resource.encoding.EncodingStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingThumbnailResource;
+import com.bitmovin.api.resource.encoding.caption.EncodingConvertSccCaptionResource;
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -43,6 +44,7 @@ public class EncodingResource extends AbstractResource<Encoding>
     public EncodingStreamResource stream;
     public EncodingSpriteResource sprite;
     public EncodingKeyframesResource keyframes;
+    public EncodingConvertSccCaptionResource convertSccCaption;
 
     public EncodingResource(Map<String, String> headers, String url, Class<Encoding> type)
     {
@@ -53,6 +55,7 @@ public class EncodingResource extends AbstractResource<Encoding>
         this.stream = new EncodingStreamResource(headers);
         this.sprite = new EncodingSpriteResource(headers);
         this.keyframes = new EncodingKeyframesResource(headers);
+        this.convertSccCaption = new EncodingConvertSccCaptionResource(headers);
     }
 
     public List<Encoding> getAllEncodings(int limit, int offset) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException

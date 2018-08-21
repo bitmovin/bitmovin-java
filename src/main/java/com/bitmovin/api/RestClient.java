@@ -1,20 +1,22 @@
 package com.bitmovin.api;
 
+import com.bitmovin.api.analytics.query.AnalyticsQuery;
 import com.bitmovin.api.encoding.analysis.AnalysisDetails;
 import com.bitmovin.api.encoding.status.Message;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.AnswerStatus;
 import com.bitmovin.api.exceptions.BitmovinApiException;
-import com.bitmovin.api.resource.AbstractResourcePatch;
-import com.bitmovin.api.rest.ResponseEnvelope;
 import com.bitmovin.api.http.JsonRestClient;
 import com.bitmovin.api.http.RequestMethod;
 import com.bitmovin.api.http.RestException;
+import com.bitmovin.api.resource.AbstractResourcePatch;
+import com.bitmovin.api.rest.ResponseEnvelope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -121,6 +123,12 @@ public class RestClient
         return getDetailsFromResponse(responseEnvelope, expectedClass);
     }
 
+    public static <T> T get(String url, Map<String, String> headers, TypeReference<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
+        ResponseEnvelope responseEnvelope = request(url, headers, null, ResponseEnvelope.class, RequestMethod.GET);
+        return getDetailsFromResponse(responseEnvelope, expectedClass);
+    }
+
     public static <T> T getRaw(String url, Map<String, String> headers, Class<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException
     {
         return request(url, headers, null, expectedClass, RequestMethod.GET);
@@ -156,6 +164,13 @@ public class RestClient
         return request(resource, additionalHeaders, content, classOfT, RequestMethod.POST);
     }
 
+    public static JSONArray postAnalyticsQuery(String resource, Map<String, String> additionalHeaders, AnalyticsQuery query) throws BitmovinApiException, URISyntaxException, UnirestException, JsonProcessingException
+    {
+        ResponseEnvelope responseEnvelope = request(resource, additionalHeaders, query, ResponseEnvelope.class, RequestMethod.POST);
+        JSONObject responseObject = convertToJsonObject(responseEnvelope.getData());
+        return responseObject.getJSONObject("result").getJSONArray("rows");
+    }
+
     public static List<String> getListOfIds(String url, Map<String, String> headers) throws BitmovinApiException, UnirestException, URISyntaxException, JsonProcessingException
     {
         int offset = 0;
@@ -179,6 +194,11 @@ public class RestClient
 
     public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
+        return getItems(url, headers, clazz, limit, offset, null);
+    }
+
+    public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset, ITypeCallback callback) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
         List<T> items = new ArrayList<>();
 
         ResponseEnvelope responseEnvelope = request(String.format("%s?offset=%d&limit=%d", url, offset, limit), headers, null, ResponseEnvelope.class, RequestMethod.GET);
@@ -188,7 +208,10 @@ public class RestClient
         for (int i = 0; i < jsonItems.length(); i++)
         {
             JSONObject idObject = jsonItems.getJSONObject(i);
-            items.add(convertFromJsonObjectToPojo(idObject, clazz));
+            Class<T> tempClass = clazz;
+            if (callback != null)
+                tempClass = callback.getClazz(idObject);
+            items.add(convertFromJsonObjectToPojo(idObject, tempClass));
         }
 
         return items;
@@ -237,7 +260,30 @@ public class RestClient
         return items;
     }
 
+    public static <T extends AbstractApiResponse> List<T> postAndGetResults(Map<String, String> headers, String url, T body, Class<T> classOfT) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
+        List<T> items = new ArrayList<>();
+
+        ResponseEnvelope responseEnvelope = request(url, headers, body, ResponseEnvelope.class, RequestMethod.POST);
+        JSONObject responseObject = convertToJsonObject(responseEnvelope);
+        JSONArray jsonItems = responseObject.getJSONObject("data").getJSONArray("result");
+
+        for (int i = 0; i < jsonItems.length(); i++)
+        {
+            JSONObject idObject = jsonItems.getJSONObject(i);
+            items.add(convertFromJsonObjectToPojo(idObject, classOfT));
+        }
+
+        return items;
+    }
+
+
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
+    {
+        return getAllItemsIterative(url, headers, clazz, null);
+    }
+
+    public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz, ITypeCallback callback) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
     {
         Long totalCount = getTotalCount(url, headers);
         List<T> items = new ArrayList<>();
@@ -246,10 +292,10 @@ public class RestClient
         int offset = 0;
 
         List<T> pageItems;
-        while(items.size() <= totalCount)
+        while (items.size() <= totalCount)
         {
-            pageItems = getItems(url, headers, clazz, limit, offset);
-            if(pageItems.size() > 0)
+            pageItems = getItems(url, headers, clazz, limit, offset, callback);
+            if (pageItems.size() > 0)
             {
                 items.addAll(pageItems);
                 offset += pageItems.size();
@@ -294,15 +340,7 @@ public class RestClient
         JSONObject responseObject = convertToJsonObject(responseEnvelope);
         item.setStatus(AnswerStatus.valueOf(responseObject.getString("status")));
 
-        //read Messages
-        JSONArray messagesArray = responseObject.getJSONObject("data").getJSONArray("messages");
-        List<Message> messages = new ArrayList<>();
-
-        for (int i = 0; i < messagesArray.length(); i++)
-        {
-            JSONObject idObject = messagesArray.getJSONObject(i);
-            messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
-        }
+        List<Message> messages = readMessagesFromResponse(responseObject);
         item.setMessages(messages);
         return item;
     }
@@ -317,14 +355,7 @@ public class RestClient
         JSONObject responseObject = convertToJsonObject(responseEnvelope);
         body.setStatus(AnswerStatus.valueOf(responseObject.getString("status")));
 
-        JSONArray messagesArray = responseObject.getJSONObject("data").getJSONArray("messages");
-        List<Message> messages = new ArrayList<>();
-
-        for (int i = 0; i < messagesArray.length(); i++)
-        {
-            JSONObject idObject = messagesArray.getJSONObject(i);
-            messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
-        }
+        List<Message> messages = readMessagesFromResponse(responseObject);
         body.setMessages(messages);
         return body;
     }
@@ -339,16 +370,32 @@ public class RestClient
         JSONObject responseObject = convertToJsonObject(responseEnvelope);
         item.setStatus(AnswerStatus.valueOf(responseObject.getString("status")));
 
-        JSONArray messagesArray = responseObject.getJSONObject("data").getJSONArray("messages");
-        List<Message> messages = new ArrayList<>();
-
-        for (int i = 0; i < messagesArray.length(); i++)
-        {
-            JSONObject idObject = messagesArray.getJSONObject(i);
-            messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
-        }
+        List<Message> messages = readMessagesFromResponse(responseObject);
         item.setMessages(messages);
         return item;
+    }
+
+    private static List<Message> readMessagesFromResponse(JSONObject responseObject)
+    {
+        List<Message> messages = new ArrayList<>();
+
+        try
+        {
+            JSONArray messagesArray = responseObject.getJSONObject("data").getJSONArray("messages");
+            for (int i = 0; i < messagesArray.length(); i++)
+            {
+                JSONObject idObject = messagesArray.getJSONObject(i);
+                messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
+            }
+        } catch (JSONException e)
+        {
+            // Ignore exception on missing messages field.
+            return messages;
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return messages;
     }
 
 
