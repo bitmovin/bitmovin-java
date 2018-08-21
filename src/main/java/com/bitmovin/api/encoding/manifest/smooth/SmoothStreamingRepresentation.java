@@ -2,9 +2,6 @@ package com.bitmovin.api.encoding.manifest.smooth;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Created by atrattnig on 11/16/16.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SmoothStreamingRepresentation
 {
