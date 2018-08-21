@@ -2,16 +2,16 @@ package com.bitmovin.api.encoding.encodings;
 
 import com.bitmovin.api.AbstractApiResponse;
 
-public class Keyframes extends AbstractApiResponse
+public class Keyframe extends AbstractApiResponse
 {
     private Float time;
     private Boolean segmentCut;
 
-    public Keyframes()
+    public Keyframe()
     {
     }
 
-    public Keyframes(Float time, Boolean segmentCut)
+    public Keyframe(Float time, Boolean segmentCut)
     {
         this.time = time;
         this.segmentCut = segmentCut;

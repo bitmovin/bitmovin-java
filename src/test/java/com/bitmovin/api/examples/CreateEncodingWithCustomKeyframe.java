@@ -9,7 +9,7 @@ import com.bitmovin.api.encoding.codecConfigurations.AACAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.Encoding;
-import com.bitmovin.api.encoding.encodings.Keyframes;
+import com.bitmovin.api.encoding.encodings.Keyframe;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
@@ -45,7 +45,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CreateEncodingWithCustomKeyframes
+public class CreateEncodingWithCustomKeyframe
 {
     private static String ApiKey = "<INSERT YOUR API KEY>";
 
@@ -81,8 +81,8 @@ public class CreateEncodingWithCustomKeyframes
         /*
         Add custom keyframes to encoding
          */
-        Keyframes customKeyframes = new Keyframes(3.0F, true);
-        customKeyframes = bitmovinApi.encoding.keyframes.setKeyframesOfEncoding(encoding.getId(), customKeyframes);
+        Keyframe customKeyframe = new Keyframe(3.0F, true);
+        customKeyframe = bitmovinApi.encoding.keyframes.addKeyframeToEncoding(encoding.getId(), customKeyframe);
 
         HttpsInput input = new HttpsInput();
         input.setHost(HTTPS_INPUT_HOST);
