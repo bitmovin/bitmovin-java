@@ -234,10 +234,7 @@ public class JsonRestClient
         {
             return this.executeHttpRequestWithRetries(httpRequest, responseClass);
         }
-        else
-        {
-            return httpRequest.asObject(responseClass);
-        }
+        return httpRequest.asObject(responseClass);
     }
 
     private <T> HttpResponse<T> executeHttpRequestWithRetries(HttpRequest httpRequest, Class<T> responseClass) throws UnirestException
