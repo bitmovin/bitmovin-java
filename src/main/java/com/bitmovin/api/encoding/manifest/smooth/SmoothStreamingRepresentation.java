@@ -2,9 +2,6 @@ package com.bitmovin.api.encoding.manifest.smooth;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Created by atrattnig on 11/16/16.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SmoothStreamingRepresentation
 {
@@ -12,6 +9,8 @@ public class SmoothStreamingRepresentation
     private String encodingId;
     private String muxingId;
     private String mediaFile;
+    private String language;
+    private String trackName;
 
     public String getId()
     {
@@ -48,4 +47,23 @@ public class SmoothStreamingRepresentation
         this.mediaFile = mediaFile;
     }
 
+    public String getLanguage()
+    {
+        return language;
+    }
+
+    public void setLanguage(String language)
+    {
+        this.language = language;
+    }
+
+    public String getTrackName()
+    {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName)
+    {
+        this.trackName = trackName;
+    }
 }
