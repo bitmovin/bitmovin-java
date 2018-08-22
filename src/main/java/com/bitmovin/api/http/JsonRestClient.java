@@ -111,11 +111,11 @@ public class JsonRestClient
     public <T> T post(URI resource, Map<String, String> headers, Object content, Class<T> classOfT) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.post(resource.toString())
-                                     .headers(headers)
-                                     .body(content)
-                                     .getHttpRequest();
+                .headers(headers)
+                .body(content)
+                .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<T> response =  executeHttpRequest(request, classOfT);
+        HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
@@ -124,7 +124,7 @@ public class JsonRestClient
     public <T> T get(URI resource, Map<String, String> headers, Class<T> classOfT) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.get(resource.toString())
-                                     .headers(headers);
+                .headers(headers);
         this.logHttpRequest(request);
         HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
@@ -135,8 +135,8 @@ public class JsonRestClient
     public <T> T delete(URI resource, Map<String, String> headers, Class<T> classOfT) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.delete(resource.toString())
-                                     .headers(headers)
-                                     .getHttpRequest();
+                .headers(headers)
+                .getHttpRequest();
         this.logHttpRequest(request);
         HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
@@ -147,11 +147,11 @@ public class JsonRestClient
     public void post(URI resource, Map<String, String> headers, Object content) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.post(resource.toString())
-                                     .headers(headers)
-                                     .body(content)
-                                     .getHttpRequest();
+                .headers(headers)
+                .body(content)
+                .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response = executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
@@ -159,11 +159,10 @@ public class JsonRestClient
     public void get(URI resource, Map<String, String> headers) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.get(resource.toString())
-                                     .headers(headers)
-                                     .getHttpRequest()
-                ;
+                .headers(headers)
+                .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response = executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
@@ -171,10 +170,10 @@ public class JsonRestClient
     public <T> T patch(URI resource, Map<String, String> headers, Object content, Class<T> classOfT) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.patch(resource.toString())
-                                     .headers(headers)
-                                     .getHttpRequest();
+                .headers(headers)
+                .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<T> response =  executeHttpRequest(request, classOfT);
+        HttpResponse<T> response = executeHttpRequest(request, classOfT);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
         return response.getBody();
@@ -183,10 +182,10 @@ public class JsonRestClient
     public void delete(URI resource, Map<String, String> headers) throws UnirestException, BitmovinApiException
     {
         HttpRequest request = Unirest.delete(resource.toString())
-                                     .headers(headers)
-                                     .getHttpRequest();
+                .headers(headers)
+                .getHttpRequest();
         this.logHttpRequest(request);
-        HttpResponse<ResponseEnvelope> response =  executeHttpRequest(request, ResponseEnvelope.class);
+        HttpResponse<ResponseEnvelope> response = executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
         this.checkOrThrowError(response);
     }
@@ -199,9 +198,9 @@ public class JsonRestClient
             return;
         }
         HttpRequest request = Unirest.delete(resource.toString())
-                                     .headers(headers)
-                                     .body(content)
-                                     .getHttpRequest();
+                .headers(headers)
+                .body(content)
+                .getHttpRequest();
         this.logHttpRequest(request);
         HttpResponse<ResponseEnvelope> response = executeHttpRequest(request, ResponseEnvelope.class);
         this.logHttpResponse(response);
@@ -241,16 +240,13 @@ public class JsonRestClient
     {
         for (int i = 1; i <= this.maxRetries; i++)
         {
-            try
-            {
-                return httpRequest.asObject(responseClass);
-            }
-            catch (UnirestException e)
+            HttpResponse<String> httpResponse = httpRequest.asString();
+            if (httpResponse.getStatus() >= 500 && httpResponse.getStatus() < 600)
             {
                 if (this.debug)
                 {
                     System.out.println(
-                            String.format("Exception occurred (Retry %d from %d)...: %s", i, this.maxRetries, ExceptionUtils.getStackTrace(e))
+                            String.format("Got an server error response (Http Status Code: %d) (Retry %d from %d)... Response body: %s", httpResponse.getStatus(), i, this.maxRetries, httpResponse.getBody())
                     );
                 }
                 try
@@ -266,10 +262,13 @@ public class JsonRestClient
                         );
                     }
                 }
+                continue;
             }
+
+            return httpRequest.asObject(responseClass);
         }
         throw new UnirestException(
-                String.format("Couldn't successfully perform HttpRequest after %d retries", this.maxRetries)
+                String.format("Couldn't successfully perform HttpRequest after %d retries. Seems there are problems with our infrastructure. Please try again later.", this.maxRetries)
         );
     }
 
