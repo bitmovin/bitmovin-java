@@ -42,7 +42,7 @@ public class CreatePerTitleEncoding
     private static String S3_OUTPUT_ACCESS_KEY = "<INSERT_YOUR_ACCESS_KEY>";
     private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRET_KEY>";
     private static String S3_OUTPUT_BUCKET_NAME = "<INSERT_YOUR_BUCKET_NAME>";
-    private static String OUTPUT_BASE_PATH = "output/bitmovin-java/per-title-encoding-example/";
+    private static String OUTPUT_BASE_PATH = "path/to/output";
 
     @Test
     public void testCreatePerTitleEncoding() throws IOException, BitmovinApiException, UnirestException, URISyntaxException, RestException, InterruptedException
@@ -69,8 +69,6 @@ public class CreatePerTitleEncoding
 
         H264VideoConfiguration videoConfiguration = new H264VideoConfiguration();
         videoConfiguration.setProfile(ProfileH264.HIGH);
-        videoConfiguration = bitmovinApi.configuration.videoH264.create(videoConfiguration);
-
         videoConfiguration = bitmovinApi.configuration.videoH264.create(videoConfiguration);
 
         Stream videoStream = new Stream();
@@ -126,10 +124,5 @@ public class CreatePerTitleEncoding
             Thread.sleep(2500);
             status = bitmovinApi.encoding.getStatus(encoding);
         } while (status.getStatus() != Status.FINISHED && status.getStatus() != Status.ERROR);
-
-
-        List<Stream> perTitleResultStreams = bitmovinApi.encoding.stream.getStreams(encoding);
-        Assert.assertNotNull(perTitleResultStreams);
-        Assert.assertTrue(perTitleResultStreams.size() > 0);
     }
 }
