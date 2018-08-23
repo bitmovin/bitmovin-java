@@ -7,23 +7,31 @@ import com.bitmovin.api.encoding.codecConfigurations.H264VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ProfileH264;
 import com.bitmovin.api.encoding.encodings.AutoRepresentation;
 import com.bitmovin.api.encoding.encodings.Encoding;
+import com.bitmovin.api.encoding.encodings.EncodingMode;
 import com.bitmovin.api.encoding.encodings.StartEncodingRequest;
 import com.bitmovin.api.encoding.encodings.muxing.FMP4Muxing;
+import com.bitmovin.api.encoding.encodings.muxing.Muxing;
 import com.bitmovin.api.encoding.encodings.muxing.MuxingStream;
 import com.bitmovin.api.encoding.encodings.pertitle.H264PerTitleConfiguration;
 import com.bitmovin.api.encoding.encodings.pertitle.PerTitle;
 import com.bitmovin.api.encoding.encodings.streams.Stream;
 import com.bitmovin.api.encoding.encodings.streams.StreamMode;
 import com.bitmovin.api.encoding.enums.CloudRegion;
+import com.bitmovin.api.encoding.enums.DashMuxingType;
 import com.bitmovin.api.encoding.enums.StreamSelectionMode;
 import com.bitmovin.api.encoding.inputs.HttpsInput;
+import com.bitmovin.api.encoding.manifest.dash.DashFmp4Representation;
+import com.bitmovin.api.encoding.manifest.dash.DashManifest;
+import com.bitmovin.api.encoding.manifest.dash.Period;
+import com.bitmovin.api.encoding.manifest.dash.VideoAdaptationSet;
 import com.bitmovin.api.encoding.outputs.S3Output;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.Status;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.junit.Assert;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -48,7 +56,6 @@ public class CreatePerTitleEncoding
     public void testCreatePerTitleEncoding() throws IOException, BitmovinApiException, UnirestException, URISyntaxException, RestException, InterruptedException
     {
         bitmovinApi = new BitmovinApi(API_KEY);
-        bitmovinApi.setDebug(true);
 
         Encoding encoding = new Encoding();
         encoding.setName("PerTitleExampleEncoding");
@@ -116,6 +123,7 @@ public class CreatePerTitleEncoding
 
         StartEncodingRequest startEncodingRequest = new StartEncodingRequest();
         startEncodingRequest.setPerTitle(perTitle);
+        startEncodingRequest.setEncodingMode(EncodingMode.THREE_PASS);
 
         bitmovinApi.encoding.start(encoding, startEncodingRequest);
 
@@ -124,5 +132,100 @@ public class CreatePerTitleEncoding
             Thread.sleep(2500);
             status = bitmovinApi.encoding.getStatus(encoding);
         } while (status.getStatus() != Status.FINISHED && status.getStatus() != Status.ERROR);
+
+        if (status.getStatus() == Status.ERROR)
+        {
+            System.out.println("Error in encoding. Exiting...");
+            return;
+        }
+
+
+        DashManifest dashManifest = new DashManifest();
+        dashManifest.setName("perTitleManifest.mpd");
+        dashManifest.setOutputs(Collections.singletonList(
+                new EncodingOutput(
+                        s3Output.getId(),
+                        OUTPUT_BASE_PATH
+                )
+        ));
+        dashManifest = bitmovinApi.manifest.dash.create(dashManifest);
+
+        Period period = new Period();
+        period = bitmovinApi.manifest.dash.createPeriod(dashManifest, period);
+
+        VideoAdaptationSet videoAdaptationSet = new VideoAdaptationSet();
+        videoAdaptationSet = bitmovinApi.manifest.dash.addVideoAdaptationSetToPeriod(dashManifest, period, videoAdaptationSet);
+
+        List<Muxing> perTitleMuxings = bitmovinApi.encoding.muxing.getMuxings(encoding);
+        for (Muxing muxing : perTitleMuxings)
+        {
+            if (CollectionUtils.isEmpty(muxing.getStreams()))
+            {
+                System.out.println(
+                        String.format("Found muxing with id %s that does not contain a stream...", muxing.getId())
+                );
+                continue;
+            }
+
+            Stream stream = bitmovinApi.encoding.stream.getStream(encoding, muxing.getStreams().get(0).getStreamId());
+            if (stream == null)
+            {
+                System.out.println(
+                        String.format("Could not get stream with id %s", muxing.getStreams().get(0).getStreamId())
+                );
+                continue;
+            }
+
+            if (StringUtils.isBlank(stream.getCodecConfigId()))
+            {
+                System.out.println(
+                        String.format("Could not find codec configuration id in stream with id %s", stream.getId())
+                );
+                continue;
+            }
+
+            H264VideoConfiguration h264VideoConfiguration = bitmovinApi.configuration.videoH264.get(stream.getCodecConfigId());
+            if (h264VideoConfiguration == null || h264VideoConfiguration.getBitrate() == null || h264VideoConfiguration.getBitrate() < 0)
+            {
+                System.out.println(
+                        String.format(
+                                "Could not get codec configuration of stream %s",
+                                stream.getId()
+                        )
+                );
+                continue;
+            }
+
+            DashFmp4Representation representation = new DashFmp4Representation();
+            representation.setMuxingId(muxing.getId());
+            representation.setStreamId(muxing.getStreams().get(0).getStreamId());
+            representation.setEncodingId(encoding.getId());
+            representation.setSegmentPath(
+                    String.format("video/%s/", h264VideoConfiguration.getBitrate())
+            );
+            representation.setType(DashMuxingType.TEMPLATE);
+
+            bitmovinApi.manifest.dash.addRepresentationToAdaptationSet(
+                    dashManifest,
+                    period,
+                    videoAdaptationSet,
+                    representation
+            );
+        }
+
+        bitmovinApi.manifest.dash.startGeneration(dashManifest);
+        Status manifestStatus;
+        do {
+            Thread.sleep(2500);
+            manifestStatus = bitmovinApi.manifest.dash.getGenerationStatus(dashManifest);
+        } while (manifestStatus != Status.FINISHED && manifestStatus != Status.ERROR);
+
+        if (manifestStatus == Status.ERROR)
+        {
+            System.out.println("Error creating manifest...");
+            return;
+        }
+
+        System.out.println("Successfully finished encoding and created manifest!");
     }
 }
