@@ -1,10 +1,17 @@
 package com.bitmovin.api.encoding.encodings.muxing;
 
+import com.bitmovin.api.encoding.encodings.muxing.enums.MuxingType;
+
 public class ProgressiveMOVMuxing extends Muxing
 {
     private String name;
     private String description;
     private String filename;
+
+    public ProgressiveMOVMuxing()
+    {
+        this.type = MuxingType.PROGRESSIVE_MOV;
+    }
 
     public String getName()
     {

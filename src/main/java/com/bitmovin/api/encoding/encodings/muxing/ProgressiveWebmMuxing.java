@@ -1,10 +1,17 @@
 package com.bitmovin.api.encoding.encodings.muxing;
 
+import com.bitmovin.api.encoding.encodings.muxing.enums.MuxingType;
+
 public class ProgressiveWebmMuxing extends Muxing
 {
     private String name;
     private String description;
     private String filename;
+
+    public ProgressiveWebmMuxing()
+    {
+        this.type = MuxingType.WEBM;
+    }
 
     public String getName()
     {
