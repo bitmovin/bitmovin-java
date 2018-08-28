@@ -56,7 +56,7 @@ public class CreateEncodingWithVP9AndWebmProgressiveMuxing
         bitmovinApi = new BitmovinApi(API_KEY);
         Encoding encoding = new Encoding();
         encoding.setName("Encoding JAVA");
-        encoding.setCloudRegion(CLOUD_REGION);
+        encoding.setCloudRegion(CloudRegion.AUTO);
         encoding = bitmovinApi.encoding.create(encoding);
 
         HttpsInput input = new HttpsInput();
