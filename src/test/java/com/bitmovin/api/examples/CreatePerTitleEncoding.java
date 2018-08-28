@@ -60,6 +60,7 @@ public class CreatePerTitleEncoding
         Encoding encoding = new Encoding();
         encoding.setName("PerTitleExampleEncoding");
         encoding.setCloudRegion(CloudRegion.GOOGLE_EUROPE_WEST_1);
+        encoding.setEncoderVersion("BETA");
 
         encoding = bitmovinApi.encoding.create(encoding);
 
