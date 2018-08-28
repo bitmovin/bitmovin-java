@@ -16,6 +16,9 @@ public enum MuxingType
     MP4,
     TS,
     WEBM,
+    MP3,
+    PROGRESSIVE_WEBM,
+    PROGRESSIVE_MOV,
     PROGRESSIVE_TS,
     BROADCAST_TS
 }
