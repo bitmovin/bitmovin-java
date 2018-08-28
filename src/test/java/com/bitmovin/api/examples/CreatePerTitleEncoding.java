@@ -60,7 +60,6 @@ public class CreatePerTitleEncoding
         Encoding encoding = new Encoding();
         encoding.setName("PerTitleExampleEncoding");
         encoding.setCloudRegion(CloudRegion.GOOGLE_EUROPE_WEST_1);
-        encoding.setEncoderVersion("BETA");
 
         encoding = bitmovinApi.encoding.create(encoding);
 
@@ -115,7 +114,6 @@ public class CreatePerTitleEncoding
         H264PerTitleConfiguration perTitleH264Configuration = new H264PerTitleConfiguration();
 
         AutoRepresentation autoRepresentation = new AutoRepresentation();
-        autoRepresentation.setAdoptConfigurationThreshold(0.3);
         perTitleH264Configuration.setAutoRepresentations(autoRepresentation);
 
         PerTitle perTitle = new PerTitle();
@@ -141,7 +139,7 @@ public class CreatePerTitleEncoding
 
 
         DashManifest dashManifest = new DashManifest();
-        dashManifest.setName("perTitleManifest.mpd");
+        dashManifest.setName("stream.mpd");
         dashManifest.setOutputs(Collections.singletonList(
                 new EncodingOutput(
                         s3Output.getId(),
@@ -176,33 +174,40 @@ public class CreatePerTitleEncoding
                 continue;
             }
 
-            if (StringUtils.isBlank(stream.getCodecConfigId()))
-            {
-                System.out.println(
-                        String.format("Could not find codec configuration id in stream with id %s", stream.getId())
-                );
-                continue;
-            }
-
-            H264VideoConfiguration h264VideoConfiguration = bitmovinApi.configuration.videoH264.get(stream.getCodecConfigId());
-            if (h264VideoConfiguration == null || h264VideoConfiguration.getBitrate() == null || h264VideoConfiguration.getBitrate() < 0)
+            if (CollectionUtils.isEmpty(muxing.getOutputs()))
             {
                 System.out.println(
                         String.format(
-                                "Could not get codec configuration of stream %s",
-                                stream.getId()
+                                "Could not get encoding output of muxing with id %s",
+                                muxing.getId()
                         )
                 );
                 continue;
             }
 
+            if (StringUtils.isBlank(muxing.getOutputs().get(0).getOutputPath()))
+            {
+                System.out.println(
+                        String.format(
+                                "Could not determine segment path because output path is not set for muxing with id %s",
+                                muxing.getId()
+                        )
+                );
+                continue;
+            }
+
+            String segmentsPath = StringUtils.removeStart(muxing.getOutputs().get(0).getOutputPath(), OUTPUT_BASE_PATH);
+            if (segmentsPath.contains("{bitrate}"))
+            {
+                continue;
+            }
+            segmentsPath = StringUtils.removeStart(segmentsPath, "/");
+
             DashFmp4Representation representation = new DashFmp4Representation();
             representation.setMuxingId(muxing.getId());
             representation.setStreamId(muxing.getStreams().get(0).getStreamId());
             representation.setEncodingId(encoding.getId());
-            representation.setSegmentPath(
-                    String.format("video/%s/", h264VideoConfiguration.getBitrate())
-            );
+            representation.setSegmentPath(segmentsPath);
             representation.setType(DashMuxingType.TEMPLATE);
 
             bitmovinApi.manifest.dash.addRepresentationToAdaptationSet(
