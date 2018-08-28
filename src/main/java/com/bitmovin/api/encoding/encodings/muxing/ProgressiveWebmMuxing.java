@@ -10,7 +10,7 @@ public class ProgressiveWebmMuxing extends Muxing
 
     public ProgressiveWebmMuxing()
     {
-        this.type = MuxingType.WEBM;
+        this.type = MuxingType.PROGRESSIVE_WEBM;
     }
 
     public String getName()
