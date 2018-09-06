@@ -3,16 +3,13 @@ package com.bitmovin.api.examples.analytics;
 import com.bitmovin.api.BitmovinApi;
 import com.bitmovin.api.analytics.license.AnalyticsLicense;
 import com.bitmovin.api.analytics.license.AnalyticsLicenseDomain;
+import org.apache.commons.collections.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
 
 public class RetrieveAndUpdateAnalyticsLicense
 {
@@ -54,7 +51,7 @@ public class RetrieveAndUpdateAnalyticsLicense
         TimeUnit.SECONDS.sleep(2);
         List<AnalyticsLicenseDomain> domains = bitmovinApi.analytics.licenses.getAnalyticsLicense(analyticsLicenseId).getDomains();
 
-        assertThat(domains, is(not(empty())));
+        Assert.assertTrue(CollectionUtils.isNotEmpty(domains));
         boolean foundDomain = false;
         for (AnalyticsLicenseDomain d: domains)
             if (d.getUrl().equals(newDomainUrl))
