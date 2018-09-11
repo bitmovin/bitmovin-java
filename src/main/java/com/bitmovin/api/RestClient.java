@@ -9,6 +9,8 @@ import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.http.JsonRestClient;
 import com.bitmovin.api.http.RequestMethod;
 import com.bitmovin.api.http.RestException;
+import com.bitmovin.api.http.UnirestRestClient;
+import com.bitmovin.api.http.exceptions.RestClientException;
 import com.bitmovin.api.resource.AbstractResourcePatch;
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -54,22 +56,29 @@ public class RestClient
         return mapper.readValue(object.toString(), clazz);
     }
 
-    private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws UnirestException, URISyntaxException, BitmovinApiException
+    private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug(), isRetry());
-        switch (method)
+        UnirestRestClient unirestClient = new UnirestRestClient(new ObjectMapper(), isDebug(), isRetry());
+        try
         {
-            case POST:
-                return jRest.post(new URI(url), headers, content, classOfT);
-            case GET:
-                return jRest.get(new URI(url), headers, classOfT);
-            case DELETE:
-                return jRest.delete(new URI(url), headers, classOfT);
-            case PATCH:
-                return jRest.patch(new URI(url), headers, content, classOfT);
+            switch (method)
+            {
+                case POST:
+                    return unirestClient.postAsObject(url, headers, content, classOfT);
+                case GET:
+                    return unirestClient.getAsObject(url, headers, classOfT);
+                case DELETE:
+                    return unirestClient.delete(url, headers, classOfT);
+                case PATCH:
+                    return unirestClient.patchAsObject(url, headers, content, classOfT);
+            }
+            throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
         }
-        throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
+        catch (RestClientException e)
+        {
+            throw new BitmovinApiException("There was an error during a http request");
+        }
     }
 
     public static void postAndForget(String resource, Map<String, String> headers, Object content) throws BitmovinApiException, RestException, IOException, UnirestException, URISyntaxException
