@@ -6,17 +6,14 @@ import com.bitmovin.api.encoding.status.Message;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.AnswerStatus;
 import com.bitmovin.api.exceptions.BitmovinApiException;
-import com.bitmovin.api.http.JsonRestClient;
 import com.bitmovin.api.http.RequestMethod;
 import com.bitmovin.api.http.RestException;
 import com.bitmovin.api.http.UnirestRestClient;
 import com.bitmovin.api.http.exceptions.RestClientException;
 import com.bitmovin.api.resource.AbstractResourcePatch;
 import com.bitmovin.api.rest.ResponseEnvelope;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,11 +100,11 @@ public class RestClient
                 throw new BitmovinApiException(e.getStatusCode(), responseEnvelope);
             }
             throw new BitmovinApiException(
-                String.format(
-                        "Got error response from request '%s' to url '%s'",
-                        method.toString(),
-                        url
-                )
+                    String.format(
+                            "Got error response from request '%s' to url '%s'",
+                            method.toString(),
+                            url
+                    )
             );
         }
     }
@@ -266,7 +262,9 @@ public class RestClient
             JSONObject idObject = jsonItems.getJSONObject(i);
             Class<T> tempClass = clazz;
             if (callback != null)
+            {
                 tempClass = callback.getClazz(idObject);
+            }
             items.add(convertFromJsonObjectToPojo(idObject, tempClass));
         }
 
@@ -443,11 +441,13 @@ public class RestClient
                 JSONObject idObject = messagesArray.getJSONObject(i);
                 messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
             }
-        } catch (JSONException e)
+        }
+        catch (JSONException e)
         {
             // Ignore exception on missing messages field.
             return messages;
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
