@@ -47,7 +47,7 @@ public class BitmovinApi
     private static String X_API_CLIENT_VERSION_CONFIGURATION_KEY = "x-api-client-version";
 
     private static String DEFAULT_X_API_CLIENT = "bitmovin-java-api";
-    private static String DEFAULT_X_API_CLIENT_VERSION = "1.35.0";
+    private static String DEFAULT_X_API_CLIENT_VERSION = "1.37.0";
 
     private Properties properties;
 
@@ -152,16 +152,6 @@ public class BitmovinApi
     public boolean isDebug()
     {
         return RestClient.isDebug();
-    }
-
-    public void setRetry(boolean retry)
-    {
-        RestClient.setRetry(retry);
-    }
-
-    public boolean isRetry()
-    {
-        return RestClient.isRetry();
     }
 
     private void setDefaultHeaders() throws IOException

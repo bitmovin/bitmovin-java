@@ -7,24 +7,19 @@ import java.util.Map;
 
 public interface IRestClient
 {
-
-    String getAsString(String uri, Map<String, String> headers)
-            throws RestClientException;
-
     <T> T getAsObject(String uri, Map<String, String> headers, Class<T> responseClass)
             throws RestClientException;
 
-    String postAsString(String uri, Map<String, String> headers, Object object)
-            throws RestClientException;
 
     <T> T postAsObject(String uri, Map<String, String> headers, Object object, Class<T> responseClass)
-            throws RestClientException;
-
-    String patchAsString(String uri, Map<String, String> headers, Object object)
             throws RestClientException;
 
     <T> T patchAsObject(String uri, Map<String, String> headers, Object object, Class<T> responseClass)
             throws RestClientException;
 
-    <T> T delete(String uri, Map<String, String> headers, Class<T> responseClass) throws RestClientException;
+    <T> T deleteAsObject(String uri, Map<String, String> headers, Class<T> responseClass) throws RestClientException;
+
+    void getIgnoreResponse(String uri, Map<String, String> headers) throws RestClientException;
+    void postIgnoreResponse(String uri, Map<String, String> headers, Object body) throws RestClientException;
+    void deleteIgnoreResponse(String uri, Map<String, String> headers) throws RestClientException;
 }

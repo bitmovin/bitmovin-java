@@ -13,10 +13,13 @@ import com.bitmovin.api.http.UnirestRestClient;
 import com.bitmovin.api.http.exceptions.RestClientException;
 import com.bitmovin.api.resource.AbstractResourcePatch;
 import com.bitmovin.api.rest.ResponseEnvelope;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,6 +59,24 @@ public class RestClient
         return mapper.readValue(object.toString(), clazz);
     }
 
+    private static ResponseEnvelope tryToConvertRawBodyToResponseEnvelope(String rawBody)
+    {
+        if (StringUtils.isBlank(rawBody))
+        {
+            return null;
+        }
+
+        try
+        {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(rawBody, ResponseEnvelope.class);
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
+    }
+
     private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
@@ -69,7 +90,7 @@ public class RestClient
                 case GET:
                     return unirestClient.getAsObject(url, headers, classOfT);
                 case DELETE:
-                    return unirestClient.delete(url, headers, classOfT);
+                    return unirestClient.deleteAsObject(url, headers, classOfT);
                 case PATCH:
                     return unirestClient.patchAsObject(url, headers, content, classOfT);
             }
@@ -77,7 +98,18 @@ public class RestClient
         }
         catch (RestClientException e)
         {
-            throw new BitmovinApiException("There was an error during a http request");
+            ResponseEnvelope responseEnvelope = tryToConvertRawBodyToResponseEnvelope(e.getRawBody());
+            if (responseEnvelope != null)
+            {
+                throw new BitmovinApiException(e.getStatusCode(), responseEnvelope);
+            }
+            throw new BitmovinApiException(
+                String.format(
+                        "Got error response from request '%s' to url '%s'",
+                        method.toString(),
+                        url
+                )
+            );
         }
     }
 
@@ -109,22 +141,36 @@ public class RestClient
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug(), isRetry());
+        UnirestRestClient restClient = new UnirestRestClient(new ObjectMapper(), isDebug(), isRetry());
 
-        switch (method)
+        try
         {
-            case POST:
-                jRest.post(new URI(url), headers, content);
-                return;
-            case GET:
-                jRest.get(new URI(url), headers);
-                return;
-            case DELETE:
-                jRest.delete(new URI(url), headers, content);
-                return;
+            switch (method)
+            {
+                case POST:
+                    restClient.postIgnoreResponse(url, headers, content);
+                    return;
+                case GET:
+                    restClient.getIgnoreResponse(url, headers);
+                    return;
+                case DELETE:
+                    restClient.deleteIgnoreResponse(url, headers);
+                    return;
+                default:
+                    throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
+            }
+        }
+        catch (RestClientException e)
+        {
+            throw new BitmovinApiException(
+                    String.format(
+                            "Got error response from request '%s' to url '%s'",
+                            method.toString(),
+                            url
+                    )
+            );
         }
 
-        throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
     }
 
     public static <T> T get(String url, Map<String, String> headers, Class<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
