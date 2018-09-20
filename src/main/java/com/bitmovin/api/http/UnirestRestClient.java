@@ -2,16 +2,15 @@ package com.bitmovin.api.http;
 
 import com.bitmovin.api.http.exceptions.RestClientException;
 import com.bitmovin.api.http.utils.RequestLogger;
+import com.bitmovin.api.http.utils.ResponseLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.mashape.unirest.http.HttpMethod;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class UnirestRestClient implements IRestClient
@@ -91,7 +90,8 @@ public class UnirestRestClient implements IRestClient
         try
         {
             HttpResponse<String> response;
-            switch (httpMethod) {
+            switch (httpMethod)
+            {
                 case GET:
                     response = Unirest.get(uri)
                             .headers(headers)
@@ -121,6 +121,10 @@ public class UnirestRestClient implements IRestClient
 
             }
 
+            if (this.debug)
+            {
+                ResponseLogger.logRawResponse(response);
+            }
             this.checkResponse(response);
             return response.getBody();
         }
@@ -232,27 +236,15 @@ public class UnirestRestClient implements IRestClient
         }
     }
 
-    private void checkResponse(HttpResponse response) throws RestClientException
+    private void checkResponse(HttpResponse<String> response) throws RestClientException
     {
         if (response.getStatus() < 200 || response.getStatus() >= 300)
         {
-            try
-            {
-                String rawBody = IOUtils.toString(response.getRawBody(), StandardCharsets.UTF_8);
-                throw new RestClientException(
-                        "Error response from REST call",
-                        response.getStatus(),
-                        rawBody
-                );
-            }
-            catch (IOException e)
-            {
-                throw new RestClientException(
-                        "Error response from REST call",
-                        response.getStatus(),
-                        "<NOT PARSABLE>"
-                );
-            }
+            throw new RestClientException(
+                    "Error response from REST call",
+                    response.getStatus(),
+                    response.getBody()
+            );
         }
     }
 
