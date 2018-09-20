@@ -36,23 +36,21 @@ public class RestClient
 {
     private static boolean debug = false;
     private static boolean retry = false;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static JSONObject convertToJsonObject(Object object) throws JsonProcessingException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return new JSONObject(mapper.writeValueAsString(object));
+        return new JSONObject(objectMapper.writeValueAsString(object));
     }
 
-    public static <T> T convertFromJsonObjectToPojo(JSONObject object, TypeReference<T> typeReference) throws IOException
+    private static <T> T convertFromJsonObjectToPojo(JSONObject object, TypeReference<T> typeReference) throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(object.toString(), typeReference);
+        return objectMapper.readValue(object.toString(), typeReference);
     }
 
     public static <T> T convertFromJsonObjectToPojo(JSONObject object, Class<T> clazz) throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(object.toString(), clazz);
+        return objectMapper.readValue(object.toString(), clazz);
     }
 
     private static ResponseEnvelope tryToConvertRawBodyToResponseEnvelope(String rawBody)
@@ -64,7 +62,6 @@ public class RestClient
 
         try
         {
-            ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(rawBody, ResponseEnvelope.class);
         }
         catch (IOException e)
@@ -76,7 +73,7 @@ public class RestClient
     private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        UnirestRestClient unirestClient = new UnirestRestClient(new ObjectMapper(), isDebug(), isRetry());
+        UnirestRestClient unirestClient = new UnirestRestClient(objectMapper, isDebug(), isRetry());
         try
         {
             switch (method)
@@ -137,7 +134,7 @@ public class RestClient
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        UnirestRestClient restClient = new UnirestRestClient(new ObjectMapper(), isDebug(), isRetry());
+        UnirestRestClient restClient = new UnirestRestClient(objectMapper, isDebug(), isRetry());
 
         try
         {
@@ -249,7 +246,7 @@ public class RestClient
         return getItems(url, headers, clazz, limit, offset, null);
     }
 
-    public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset, ITypeCallback callback) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    private static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset, ITypeCallback callback) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
         List<T> items = new ArrayList<>();
 
