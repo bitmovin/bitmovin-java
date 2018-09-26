@@ -133,7 +133,12 @@ public class RestClient
 
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
-        String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
+        request(resource, headers, content, method, API_ENDPOINT_WITH_PROTOCOL);
+    }
+
+    private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method, String apiEndpoint) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
+    {
+        String url = apiEndpoint + "/" + resource;
         UnirestRestClient restClient = new UnirestRestClient(objectMapper, isDebug(), isRetry());
 
         try
