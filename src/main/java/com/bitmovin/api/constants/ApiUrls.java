@@ -128,6 +128,7 @@ public class ApiUrls
     public static final String addClearKeyDrmToMP4Muxing = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/drm/clearkey";
 
     public static final String encodingsLimitOffset = "encoding/encodings?limit={limit}&offset={offset}";
+    public static final String encodingsLimitOffsetName = "encoding/encodings?name={name}&limit={limit}&offset={offset}";
     public static final String encodingStart = "encoding/encodings/{encoding_id}/start/";
     public static final String encodingDetailsLive = "encoding/encodings/{encoding_id}/live";
     public static final String encodingStartLive = "encoding/encodings/{encoding_id}/live/start";
