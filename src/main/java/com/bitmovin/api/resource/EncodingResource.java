@@ -24,7 +24,6 @@ import com.bitmovin.api.resource.encoding.caption.EncodingConvertSccCaptionResou
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.codec.StringEncoder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
