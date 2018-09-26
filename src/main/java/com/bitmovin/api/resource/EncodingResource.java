@@ -24,11 +24,13 @@ import com.bitmovin.api.resource.encoding.caption.EncodingConvertSccCaptionResou
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.codec.StringEncoder;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,19 @@ public class EncodingResource extends AbstractResource<Encoding>
         String url = ApiUrls.encodingsLimitOffset.replace("{limit}", String.valueOf(limit));
         url = url.replace("{offset}", String.valueOf(offset));
         return this.getAllEncodings(url);
+    }
+
+    public List<Encoding> getEncodingsByName(String name, int limit, int offset) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String url = ApiUrls.encodingsLimitOffsetName.replace("{limit}", String.valueOf(limit));
+        url = url.replace("{offset}", String.valueOf(offset));
+        url = url.replace("{name}", URLEncoder.encode(name, "UTF-8"));
+        return this.getAllEncodings(url);
+    }
+
+    public List<Encoding> getEncodingsByName(String name) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        return this.getEncodingsByName(name, 100, 0);
     }
 
     public List<Encoding> getAllEncodings() throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
