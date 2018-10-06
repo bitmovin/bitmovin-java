@@ -6,21 +6,22 @@ import com.bitmovin.api.encoding.status.Message;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.enums.AnswerStatus;
 import com.bitmovin.api.exceptions.BitmovinApiException;
-import com.bitmovin.api.http.JsonRestClient;
 import com.bitmovin.api.http.RequestMethod;
 import com.bitmovin.api.http.RestException;
+import com.bitmovin.api.http.UnirestRestClient;
+import com.bitmovin.api.http.exceptions.RestClientException;
 import com.bitmovin.api.resource.AbstractResourcePatch;
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,41 +35,75 @@ import static com.bitmovin.api.constants.ApiUrls.API_ENDPOINT_WITH_PROTOCOL;
 public class RestClient
 {
     private static boolean debug = false;
+    private static boolean retry = false;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static JSONObject convertToJsonObject(Object object) throws JsonProcessingException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return new JSONObject(mapper.writeValueAsString(object));
+        return new JSONObject(objectMapper.writeValueAsString(object));
     }
 
-    public static <T> T convertFromJsonObjectToPojo(JSONObject object, TypeReference<T> typeReference) throws IOException
+    private static <T> T convertFromJsonObjectToPojo(JSONObject object, TypeReference<T> typeReference) throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(object.toString(), typeReference);
+        return objectMapper.readValue(object.toString(), typeReference);
     }
 
     public static <T> T convertFromJsonObjectToPojo(JSONObject object, Class<T> clazz) throws IOException
     {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(object.toString(), clazz);
+        return objectMapper.readValue(object.toString(), clazz);
     }
 
-    private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws UnirestException, URISyntaxException, BitmovinApiException
+    private static ResponseEnvelope tryToConvertRawBodyToResponseEnvelope(String rawBody)
+    {
+        if (StringUtils.isBlank(rawBody))
+        {
+            return null;
+        }
+
+        try
+        {
+            return objectMapper.readValue(rawBody, ResponseEnvelope.class);
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
+    }
+
+    private static <T> T request(String resource, Map<String, String> headers, Object content, Class<T> classOfT, RequestMethod method) throws BitmovinApiException
     {
         String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug());
-        switch (method)
+        UnirestRestClient unirestClient = new UnirestRestClient(objectMapper, isDebug(), isRetry());
+        try
         {
-            case POST:
-                return jRest.post(new URI(url), headers, content, classOfT);
-            case GET:
-                return jRest.get(new URI(url), headers, classOfT);
-            case DELETE:
-                return jRest.delete(new URI(url), headers, classOfT);
-            case PATCH:
-                return jRest.patch(new URI(url), headers, content, classOfT);
+            switch (method)
+            {
+                case POST:
+                    return unirestClient.postAsObject(url, headers, content, classOfT);
+                case GET:
+                    return unirestClient.getAsObject(url, headers, classOfT);
+                case DELETE:
+                    return unirestClient.deleteAsObject(url, headers, classOfT);
+                case PATCH:
+                    return unirestClient.patchAsObject(url, headers, content, classOfT);
+            }
+            throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
         }
-        throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
+        catch (RestClientException e)
+        {
+            ResponseEnvelope responseEnvelope = tryToConvertRawBodyToResponseEnvelope(e.getRawBody());
+            if (responseEnvelope != null)
+            {
+                throw new BitmovinApiException(e.getStatusCode(), responseEnvelope);
+            }
+            throw new BitmovinApiException(
+                    String.format(
+                            "Got error response from request '%s' to url '%s'",
+                            method.toString(),
+                            url
+                    )
+            );
+        }
     }
 
     public static void postAndForget(String resource, Map<String, String> headers, Object content) throws BitmovinApiException, RestException, IOException, UnirestException, URISyntaxException
@@ -98,26 +133,51 @@ public class RestClient
 
     private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
     {
-        String url = API_ENDPOINT_WITH_PROTOCOL + "/" + resource;
-        JsonRestClient jRest = new JsonRestClient(isDebug());
+        request(resource, headers, content, method, API_ENDPOINT_WITH_PROTOCOL);
+    }
 
-        switch (method)
+    private static void request(String resource, Map<String, String> headers, Object content, RequestMethod method, String apiEndpoint) throws URISyntaxException, BitmovinApiException, IOException, RestException, UnirestException
+    {
+        String url = apiEndpoint + "/" + resource;
+        UnirestRestClient restClient = new UnirestRestClient(objectMapper, isDebug(), isRetry());
+
+        try
         {
-            case POST:
-                jRest.post(new URI(url), headers, content);
-                return;
-            case GET:
-                jRest.get(new URI(url), headers);
-                return;
-            case DELETE:
-                jRest.delete(new URI(url), headers, content);
-                return;
+            switch (method)
+            {
+                case POST:
+                    restClient.postIgnoreResponse(url, headers, content);
+                    return;
+                case GET:
+                    restClient.getIgnoreResponse(url, headers);
+                    return;
+                case DELETE:
+                    restClient.deleteIgnoreResponse(url, headers);
+                    return;
+                default:
+                    throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
+            }
+        }
+        catch (RestClientException e)
+        {
+            throw new BitmovinApiException(
+                    String.format(
+                            "Got error response from request '%s' to url '%s'",
+                            method.toString(),
+                            url
+                    )
+            );
         }
 
-        throw new BitmovinApiException("Request method: " + method.name() + " is not supported");
     }
 
     public static <T> T get(String url, Map<String, String> headers, Class<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
+        ResponseEnvelope responseEnvelope = request(url, headers, null, ResponseEnvelope.class, RequestMethod.GET);
+        return getDetailsFromResponse(responseEnvelope, expectedClass);
+    }
+
+    public static <T> T get(String url, Map<String, String> headers, TypeReference<T> expectedClass) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
         ResponseEnvelope responseEnvelope = request(url, headers, null, ResponseEnvelope.class, RequestMethod.GET);
         return getDetailsFromResponse(responseEnvelope, expectedClass);
@@ -188,6 +248,11 @@ public class RestClient
 
     public static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
     {
+        return getItems(url, headers, clazz, limit, offset, null);
+    }
+
+    private static <T> List<T> getItems(String url, Map<String, String> headers, Class<T> clazz, int limit, int offset, ITypeCallback callback) throws BitmovinApiException, UnirestException, URISyntaxException, IOException
+    {
         List<T> items = new ArrayList<>();
 
         ResponseEnvelope responseEnvelope = request(String.format("%s?offset=%d&limit=%d", url, offset, limit), headers, null, ResponseEnvelope.class, RequestMethod.GET);
@@ -197,7 +262,12 @@ public class RestClient
         for (int i = 0; i < jsonItems.length(); i++)
         {
             JSONObject idObject = jsonItems.getJSONObject(i);
-            items.add(convertFromJsonObjectToPojo(idObject, clazz));
+            Class<T> tempClass = clazz;
+            if (callback != null)
+            {
+                tempClass = callback.getClazz(idObject);
+            }
+            items.add(convertFromJsonObjectToPojo(idObject, tempClass));
         }
 
         return items;
@@ -263,7 +333,13 @@ public class RestClient
         return items;
     }
 
+
     public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
+    {
+        return getAllItemsIterative(url, headers, clazz, null);
+    }
+
+    public static <T> List<T> getAllItemsIterative(String url, Map<String, String> headers, Class<T> clazz, ITypeCallback callback) throws IOException, BitmovinApiException, UnirestException, URISyntaxException
     {
         Long totalCount = getTotalCount(url, headers);
         List<T> items = new ArrayList<>();
@@ -274,12 +350,13 @@ public class RestClient
         List<T> pageItems;
         while (items.size() <= totalCount)
         {
-            pageItems = getItems(url, headers, clazz, limit, offset);
+            pageItems = getItems(url, headers, clazz, limit, offset, callback);
             if (pageItems.size() > 0)
             {
                 items.addAll(pageItems);
                 offset += pageItems.size();
-            } else
+            }
+            else
             {
                 return items;
             }
@@ -366,17 +443,28 @@ public class RestClient
                 JSONObject idObject = messagesArray.getJSONObject(i);
                 messages.add(convertFromJsonObjectToPojo(idObject, Message.class));
             }
-        } catch (JSONException e)
+        }
+        catch (JSONException e)
         {
             // Ignore exception on missing messages field.
             return messages;
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
         return messages;
     }
 
+    public static boolean isRetry()
+    {
+        return retry;
+    }
+
+    public static void setRetry(boolean retry)
+    {
+        RestClient.retry = retry;
+    }
 
     public static boolean isDebug()
     {

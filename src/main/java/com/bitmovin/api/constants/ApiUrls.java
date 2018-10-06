@@ -52,6 +52,7 @@ public class ApiUrls
     public static final String codecConfigLimitOffset = "encoding/configurations?offset={offset}&limit={limit}";
     public static final String codecConfigH264 = "encoding/configurations/video/h264";
     public static final String codecConfigH265 = "encoding/configurations/video/h265";
+    public static final String codecConfigAV1 = "encoding/configurations/video/av1";
     public static final String codecConfigVP9 = "encoding/configurations/video/vp9";
     public static final String codecConfigVP8 = "encoding/configurations/video/vp8";
     public static final String codecConfigMjpeg = "encoding/configurations/video/mjpeg";
@@ -72,17 +73,30 @@ public class ApiUrls
     public static final String streamsInputDetails = "encoding/encodings/{encoding_id}/streams/{stream_id}/inputs";
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
+    public static final String sccCaptions = "encoding/encodings/{encoding_id}/streams/{stream_id}/captions/608-708/scc";
+    public static final String convertSccCaptions = "encoding/encodings/{encoding_id}/captions/scc";
+    public static final String convertSccCaptionsCustomData = "encoding/encodings/{encoding_id}/captions/scc/{caption_id}/customData";
+
     public static final String addFilterToStream = "encoding/encodings/{encoding_id}/streams/{stream_id}/filters";
 
+    public static final String muxings = "encoding/encodings/{encoding_id}/muxings";
     public static final String fmp4muxings = "encoding/encodings/{encoding_id}/muxings/fmp4";
     public static final String progressivetsmuxings = "encoding/encodings/{encoding_id}/muxings/progressive-ts";
     public static final String tsmuxings = "encoding/encodings/{encoding_id}/muxings/ts";
     public static final String mp4muxings = "encoding/encodings/{encoding_id}/muxings/mp4";
     public static final String webmmuxings = "encoding/encodings/{encoding_id}/muxings/webm";
     public static final String progressiveMovMuxings = "encoding/encodings/{encoding_id}/muxings/progressive-mov";
+    public static final String progressiveWebmMuxings = "encoding/encodings/{encoding_id}/muxings/progressive-webm";
     public static final String broadcastTsMuxings = "encoding/encodings/{encoding_id}/muxings/broadcast-ts";
     public static final String broadcastTsMuxingDetails = "encoding/encodings/{encoding_id}/muxings/broadcast-ts/{muxingId}";
     public static final String mp3Muxings = "encoding/encodings/{encoding_id}/muxings/mp3";
+
+    public static final String progressiveTsMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-ts/{muxing_id}/information";
+    public static final String progressiveMp4MuxingInformation = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/information";
+    public static final String progressiveMovMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-mov/{muxing_id}/information";
+    public static final String progressiveWebmMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-webm/{muxing_id}/information";
+
+    public static final String keyframes = "encoding/encodings/{encoding_id}/keyframes";
 
     public static final String widevineDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/widevine";
     public static final String playReadyDrms = "encoding/encodings/{encoding_id}/muxings/fmp4/{muxing_id}/drm/playready";
@@ -114,6 +128,7 @@ public class ApiUrls
     public static final String addClearKeyDrmToMP4Muxing = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/drm/clearkey";
 
     public static final String encodingsLimitOffset = "encoding/encodings?limit={limit}&offset={offset}";
+    public static final String encodingsLimitOffsetName = "encoding/encodings?name={name}&limit={limit}&offset={offset}";
     public static final String encodingStart = "encoding/encodings/{encoding_id}/start/";
     public static final String encodingDetailsLive = "encoding/encodings/{encoding_id}/live";
     public static final String encodingStartLive = "encoding/encodings/{encoding_id}/live/start";

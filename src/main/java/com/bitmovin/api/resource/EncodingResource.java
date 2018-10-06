@@ -15,10 +15,12 @@ import com.bitmovin.api.encoding.encodings.live.StopEncodingResponse;
 import com.bitmovin.api.encoding.encodings.live.StopLiveEncodingResponse;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.resource.encoding.EncodingDrmResource;
+import com.bitmovin.api.resource.encoding.EncodingKeyframesResource;
 import com.bitmovin.api.resource.encoding.EncodingMuxingResource;
 import com.bitmovin.api.resource.encoding.EncodingSpriteResource;
 import com.bitmovin.api.resource.encoding.EncodingStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingThumbnailResource;
+import com.bitmovin.api.resource.encoding.caption.EncodingConvertSccCaptionResource;
 import com.bitmovin.api.rest.ResponseEnvelope;
 import com.bitmovin.api.http.RestException;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -27,6 +29,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,8 @@ public class EncodingResource extends AbstractResource<Encoding>
     public EncodingThumbnailResource thumbnail;
     public EncodingStreamResource stream;
     public EncodingSpriteResource sprite;
+    public EncodingKeyframesResource keyframes;
+    public EncodingConvertSccCaptionResource convertSccCaption;
 
     public EncodingResource(Map<String, String> headers, String url, Class<Encoding> type)
     {
@@ -50,6 +55,8 @@ public class EncodingResource extends AbstractResource<Encoding>
         this.thumbnail = new EncodingThumbnailResource(headers);
         this.stream = new EncodingStreamResource(headers);
         this.sprite = new EncodingSpriteResource(headers);
+        this.keyframes = new EncodingKeyframesResource(headers);
+        this.convertSccCaption = new EncodingConvertSccCaptionResource(headers);
     }
 
     public List<Encoding> getAllEncodings(int limit, int offset) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
@@ -57,6 +64,19 @@ public class EncodingResource extends AbstractResource<Encoding>
         String url = ApiUrls.encodingsLimitOffset.replace("{limit}", String.valueOf(limit));
         url = url.replace("{offset}", String.valueOf(offset));
         return this.getAllEncodings(url);
+    }
+
+    public List<Encoding> getEncodingsByName(String name, int limit, int offset) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String url = ApiUrls.encodingsLimitOffsetName.replace("{limit}", String.valueOf(limit));
+        url = url.replace("{offset}", String.valueOf(offset));
+        url = url.replace("{name}", URLEncoder.encode(name, "UTF-8"));
+        return this.getAllEncodings(url);
+    }
+
+    public List<Encoding> getEncodingsByName(String name) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        return this.getEncodingsByName(name, 100, 0);
     }
 
     public List<Encoding> getAllEncodings() throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
