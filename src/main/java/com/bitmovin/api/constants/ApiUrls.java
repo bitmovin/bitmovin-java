@@ -132,6 +132,7 @@ public class ApiUrls
     public static final String encodingStart = "encoding/encodings/{encoding_id}/start/";
     public static final String encodingDetailsLive = "encoding/encodings/{encoding_id}/live";
     public static final String encodingStartLive = "encoding/encodings/{encoding_id}/live/start";
+    public static final String encodingRestartLive = "encoding/encodings/{encoding_id}/live/restart";
     public static final String encodingStopLive = "encoding/encodings/{encoding_id}/live/stop";
     public static final String encodingStartRest = "encoding/encodings/{encoding_id}/startrest";
     public static final String encodingStop = "encoding/encodings/{encoding_id}/stop";

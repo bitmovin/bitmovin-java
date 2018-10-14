@@ -2,6 +2,7 @@ package com.bitmovin.api.resource;
 
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
+import com.bitmovin.api.encoding.encodings.live.RestartLiveEncodingResponse;
 import com.bitmovin.api.encoding.status.Message;
 import com.bitmovin.api.encoding.status.Task;
 import com.bitmovin.api.encoding.encodings.Encoding;
@@ -150,6 +151,12 @@ public class EncodingResource extends AbstractResource<Encoding>
     {
         String newUrl = ApiUrls.encodingStartLive.replace("{encoding_id}", encoding.getId());
         return RestClient.postDetail(newUrl, this.headers, request, StartLiveEncodingResponse.class);
+    }
+
+    public RestartLiveEncodingResponse restartLive(Encoding encoding) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.encodingRestartLive.replace("{encoding_id}", encoding.getId());
+        return RestClient.postDetail(newUrl, this.headers, null, RestartLiveEncodingResponse.class);
     }
 
     public StopLiveEncodingResponse stopLive(String encodingId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
