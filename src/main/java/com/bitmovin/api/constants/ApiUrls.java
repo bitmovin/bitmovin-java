@@ -30,6 +30,7 @@ public class ApiUrls
     public static final String inputLocal = "encoding/inputs/local";
     public static final String inputAkamaiNetstorage = "encoding/inputs/akamai-netstorage";
     public static final String inputZixi = "encoding/inputs/zixi";
+    public static final String inputS3RoleBased = "encoding/inputs/s3-role-based";
 
     public static final String analysisStart = "encoding/inputs/{inputType}/{inputId}/analysis";
     public static final String analysisStatus = "encoding/inputs/{inputType}/{inputId}/analysis/{analysisId}/status";
@@ -47,6 +48,7 @@ public class ApiUrls
     public static final String outputAzure = "encoding/outputs/azure";
     public static final String outputFtp = "encoding/outputs/ftp";
     public static final String outputSftp = "encoding/outputs/sftp";
+    public static final String outputS3RoleBased = "encoding/outputs/s3-role-based";
 
     public static final String codecConfig = "encoding/configurations";
     public static final String codecConfigLimitOffset = "encoding/configurations?offset={offset}&limit={limit}";

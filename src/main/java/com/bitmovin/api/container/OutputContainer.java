@@ -2,18 +2,7 @@ package com.bitmovin.api.container;
 
 import com.bitmovin.api.RestClient;
 import com.bitmovin.api.constants.ApiUrls;
-import com.bitmovin.api.encoding.outputs.AkamaiNetStorageOutput;
-import com.bitmovin.api.encoding.outputs.AzureOutput;
-import com.bitmovin.api.encoding.outputs.BitmovinGcsOutput;
-import com.bitmovin.api.encoding.outputs.BitmovinS3Output;
-import com.bitmovin.api.encoding.outputs.FtpOutput;
-import com.bitmovin.api.encoding.outputs.GcsOutput;
-import com.bitmovin.api.encoding.outputs.GenericS3Output;
-import com.bitmovin.api.encoding.outputs.LocalOutput;
-import com.bitmovin.api.encoding.outputs.Output;
-import com.bitmovin.api.encoding.outputs.OutputType;
-import com.bitmovin.api.encoding.outputs.S3Output;
-import com.bitmovin.api.encoding.outputs.SftpOutput;
+import com.bitmovin.api.encoding.outputs.*;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.resource.OutputResource;
 import com.bitmovin.api.rest.ResponseEnvelope;
@@ -42,6 +31,7 @@ public class OutputContainer
     public OutputResource<S3Output> s3;
     public OutputResource<SftpOutput> sftp;
     public OutputResource<GenericS3Output> genericS3;
+    public OutputResource<S3RoleBasedOutput> s3RoleBased;
     public OutputResource<Output> all;
     private Map<String, String> headers;
 
@@ -59,6 +49,7 @@ public class OutputContainer
         this.sftp = new OutputResource<>(headers, ApiUrls.outputSftp, SftpOutput.class);
         this.all = new OutputResource<>(headers, ApiUrls.outputs, Output.class);
         this.genericS3 = new OutputResource<>(headers, ApiUrls.outputGenericS3, GenericS3Output.class);
+        this.s3RoleBased = new OutputResource<>(headers, ApiUrls.outputS3RoleBased, S3RoleBasedOutput.class);
     }
 
     public OutputType getType(String outputId) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
@@ -97,6 +88,8 @@ public class OutputContainer
                 return new Tuple<OutputType, Output>(outputType, this.bitmovinGcsOutput.get(outputId));
             case BITMOVIN_S3:
                 return new Tuple<OutputType, Output>(outputType, this.bitmovinS3Output.get(outputId));
+            case S3_ROLE_BASED:
+                return new Tuple<OutputType, Output>(outputType, this.s3RoleBased.get(outputId));
         }
         return null;
     }

@@ -21,7 +21,8 @@ public enum InputType
     GENERIC_S3("GENERIC_S3"),
     LOCAL("LOCAL"),
     AKAMAI_NETSTORAGE("AKAMAI_NETSTORAGE"),
-    ZIXI("ZIXI");
+    ZIXI("ZIXI"),
+    S3_ROLE_BASED("S3_ROLE_BASED");
 
     private final String name;
     private static HashMap<String, InputType> map;
@@ -57,5 +58,6 @@ public enum InputType
         map.put("LOCAL", LOCAL);
         map.put("AKAMAI_NETSTORAGE", AKAMAI_NETSTORAGE);
         map.put("ZIXI", ZIXI);
+        map.put("S3_ROLE_BASED", S3_ROLE_BASED);
     }
 }
