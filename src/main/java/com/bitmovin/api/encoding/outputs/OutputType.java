@@ -18,7 +18,8 @@ public enum OutputType
     BITMOVIN_S3("BITMOVIN_S3"),
     BITMOVIN_GCS("BITMOVIN_GCS"),
     LOCAL("LOCAL"),
-    GENERIC_S3("GENERIC_S3");
+    GENERIC_S3("GENERIC_S3"),
+    S3_ROLE_BASED("S3_ROLE_BASED");
 
     private final String name;
     private static HashMap<String, OutputType> map;
@@ -51,6 +52,7 @@ public enum OutputType
         map.put("BITMOVIN_GCS", BITMOVIN_GCS);
         map.put("LOCAL", LOCAL);
         map.put("GENERIC_S3", GENERIC_S3);
+        map.put("S3_ROLE_BASED", S3_ROLE_BASED);
     }
 
 }
