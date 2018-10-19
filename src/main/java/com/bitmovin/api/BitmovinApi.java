@@ -47,12 +47,13 @@ public class BitmovinApi
     private static String X_API_CLIENT_VERSION_CONFIGURATION_KEY = "x-api-client-version";
 
     private static String DEFAULT_X_API_CLIENT = "bitmovin-java-api";
-    private static String DEFAULT_X_API_CLIENT_VERSION = "1.41.0";
+    private static String DEFAULT_X_API_CLIENT_VERSION = "1.42.0";
 
     private Properties properties;
 
     private String apiKey;
     private String apiUrl;
+    private String tenantID;
     private HashMap<String, String> defaultHeaders = new HashMap<>();
 
     private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
@@ -126,21 +127,28 @@ public class BitmovinApi
 
     public BitmovinApi(String apiKey) throws IOException
     {
-        this();
-        this.apiKey = apiKey;
-        this.apiUrl = ApiUrls.API_ENDPOINT_WITH_PROTOCOL + "/v1/";
-        this.setDefaultHeaders();
+        this(apiKey, null, null, true);
+    }
 
-        this.initContainers();
+    public BitmovinApi(String apiKey, String tenantID) throws IOException
+    {
+        this(apiKey, null, tenantID, true);
     }
 
     public BitmovinApi(String apiKey, String apiUrl, boolean useHttps) throws IOException
     {
-        this();
-        this.apiKey = apiKey;
-        this.apiUrl = String.format("%s://%s/", useHttps ? "https" : "http", apiUrl);
-        this.setDefaultHeaders();
+        this(apiKey, apiUrl, null, useHttps);
+    }
 
+    public BitmovinApi(String apiKey, String apiUrl, String tenantID, boolean useHttps) throws IOException
+    {
+        this();
+
+        this.tenantID = tenantID;
+        this.apiKey = apiKey;
+        this.apiUrl = apiUrl == null ? ApiUrls.API_ENDPOINT_WITH_PROTOCOL + "/v1/" : String.format("%s://%s/", useHttps ? "https" : "http", apiUrl);
+
+        this.setDefaultHeaders();
         this.initContainers();
     }
 
@@ -158,6 +166,10 @@ public class BitmovinApi
     {
         this.defaultHeaders.put("Content-Type", "application/json");
         this.defaultHeaders.put("X-Api-Key", this.apiKey);
+        if (this.tenantID != null)
+        {
+            this.defaultHeaders.put("X-Tenant-Org-Id", this.tenantID);
+        }
 
         this.loadProperties();
 

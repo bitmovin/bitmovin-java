@@ -40,7 +40,7 @@ public class CreateMp4DeinterlacedCRF
     private static String API_KEY = "<INSERT_YOUR_APIKEY>";
 
     private static CloudRegion CLOUD_REGION = CloudRegion.AWS_EU_WEST_1;
-    private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_HOST>"; // ex.: storage.googleapis.com/
+    private static String HTTPS_INPUT_HOST = "<INSERT_YOUR_HTTP_HOST>"; // ex.: storage.googleapis.com
     private static String S3_OUTPUT_ACCESSKEY = "<INSERT_YOUR_ACCESSKEY>";
     private static String S3_OUTPUT_SECRET_KEY = "<INSERT_YOUR_SECRETKEY>";
     private static String S3_OUTPUT_BUCKET_NAME = "<INSERT_YOUR_BUCKET_NAME>";
