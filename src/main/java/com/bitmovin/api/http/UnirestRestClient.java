@@ -215,11 +215,11 @@ public class UnirestRestClient implements IRestClient
     {
         if (this.retry)
         {
-            this.performRequestWithRetries(uri, headers, HttpMethod.POST);
+            this.performRequestWithRetries(uri, headers, HttpMethod.POST, body);
         }
         else
         {
-            this.performRequest(uri, headers, HttpMethod.POST);
+            this.performRequest(uri, headers, HttpMethod.POST, body);
         }
     }
 
