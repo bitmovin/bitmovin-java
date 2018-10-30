@@ -9,6 +9,7 @@ import com.bitmovin.api.container.InputContainer;
 import com.bitmovin.api.container.ManifestContainer;
 import com.bitmovin.api.container.NotificationContainer;
 import com.bitmovin.api.container.OutputContainer;
+import com.bitmovin.api.container.StatisticsContainer;
 import com.bitmovin.api.container.StorageContainer;
 import com.bitmovin.api.container.TransferContainer;
 import com.bitmovin.api.encoding.encodings.Encoding;
@@ -70,6 +71,7 @@ public class BitmovinApi
     public TransferContainer transfer;
     public NotificationContainer notifications;
     public InfrastructureContainer infrastructure;
+    public StatisticsContainer statistics;
 
     private BitmovinApi() throws IOException
     {
@@ -206,6 +208,7 @@ public class BitmovinApi
         this.transfer = new TransferContainer(this.defaultHeaders);
         this.notifications = new NotificationContainer(this.defaultHeaders);
         this.infrastructure = new InfrastructureContainer(this.defaultHeaders);
+        this.statistics = new StatisticsContainer(this.defaultHeaders);
     }
 
     public String getKey()

@@ -209,4 +209,11 @@ public class ApiUrls
     public static final String infrastructureAws = "encoding/infrastructure/aws";
     public static final String infrastructureAwsRegionSettings = "encoding/infrastructure/aws/{awsAccountId}/regions";
 
+    public static final String encodingStatistics = "encoding/statistics/encodings/{encoding_id}";
+    public static final String liveEncodingStatistics = "encoding/statistics/encodings/{encoding_id}/live-statistics";
+    public static final String liveEncodingEvents = "encoding/statistics/encodings/{encoding_id}/live-statistics/events";
+    public static final String summaryVodEncodingStatistics = "encoding/statistics/encodings/vod";
+    public static final String summaryLiveEncodingStatistics = "encoding/statistics/encodings/live";
+    public static final String dailyEncodingStatistics = "encoding/statistics/daily";
+
 }
