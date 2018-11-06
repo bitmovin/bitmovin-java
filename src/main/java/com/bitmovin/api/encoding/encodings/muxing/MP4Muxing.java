@@ -1,5 +1,6 @@
 package com.bitmovin.api.encoding.encodings.muxing;
 
+import com.bitmovin.api.encoding.encodings.muxing.enums.FragmentedMP4MuxingManifestType;
 import com.bitmovin.api.encoding.encodings.muxing.enums.MuxingType;
 
 /**
@@ -12,6 +13,8 @@ public class MP4Muxing extends Muxing
     private String filename;
 
     private Integer fragmentDuration;
+
+    private FragmentedMP4MuxingManifestType fragmentedMP4MuxingManifestType;
 
     private TimeCode timeCode;
 
@@ -48,6 +51,16 @@ public class MP4Muxing extends Muxing
     public void setFragmentDuration(Integer fragmentDuration)
     {
         this.fragmentDuration = fragmentDuration;
+    }
+
+    public FragmentedMP4MuxingManifestType getFragmentedMP4MuxingManifestType()
+    {
+        return this.fragmentedMP4MuxingManifestType;
+    }
+
+    public void setFragmentedMP4MuxingManifestType(FragmentedMP4MuxingManifestType fragmentedMP4MuxingManifestType)
+    {
+        this.fragmentedMP4MuxingManifestType = fragmentedMP4MuxingManifestType;
     }
 
     public TimeCode getTimeCode()
