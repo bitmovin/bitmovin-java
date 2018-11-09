@@ -22,6 +22,53 @@ public class ManifestHlsResource extends ManifestResource<HlsManifest>
         super(headers, url, type, status, start);
     }
 
+    public CustomTag createCustomTag(HlsManifest hlsManifest, StreamInfo streamInfo, CustomTag customTag) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsCreateCustomStreamInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{streamId}", streamInfo.getId());
+        return RestClient.postDetail(newUrl, this.headers, customTag, CustomTag.class);
+    }
+
+    public CustomTag createCustomTag(HlsManifest hlsManifest, MediaInfo mediaInfo, CustomTag customTag) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsCreateCustomMediaInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{mediaId}", mediaInfo.getId());
+        return RestClient.postDetail(newUrl, this.headers, customTag, CustomTag.class);
+    }
+
+    public CustomTag getCustomTag(HlsManifest hlsManifest, MediaInfo mediaInfo, CustomTag customTag) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsGetCustomMediaInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{mediaId}", mediaInfo.getId()).replace("{customTagId}", customTag.getId());
+        return RestClient.getDetailsFromResponse(newUrl, this.headers, CustomTag.class);
+    }
+
+    public CustomTag getCustomTag(HlsManifest hlsManifest, StreamInfo streamInfo, CustomTag customTag) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsGetCustomStreamInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{streamId}", streamInfo.getId()).replace("{customTagId}", customTag.getId());
+        return RestClient.getDetailsFromResponse(newUrl, this.headers, CustomTag.class);
+    }
+
+    public List<CustomTag> listCustomTag(HlsManifest hlsManifest, MediaInfo mediaInfo) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsListCustomMediaInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{mediaId}", mediaInfo.getId());
+        return RestClient.getItems(newUrl, this.headers, CustomTag.class);
+    }
+
+    public List<CustomTag> listCustomTag(HlsManifest hlsManifest, StreamInfo streamInfo) throws BitmovinApiException, UnirestException, IOException, URISyntaxException
+    {
+        String newUrl = ApiUrls.manifestHlsListCustomMediaInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{streamId}", streamInfo.getId());
+        return RestClient.getItems(newUrl, this.headers, CustomTag.class);
+    }
+
+    public void deleteCustomTag(HlsManifest hlsManifest, MediaInfo mediaInfo, CustomTag customTag) throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException
+    {
+        String newUrl = ApiUrls.manifestHlsDeleteCustomMediaInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{mediaId}", mediaInfo.getId()).replace("{customTagId}", customTag.getId());
+        RestClient.delete(newUrl, this.headers);
+    }
+
+    public void deleteCustomTag(HlsManifest hlsManifest, StreamInfo streamInfo, CustomTag customTag) throws BitmovinApiException, URISyntaxException, RestException, UnirestException, IOException
+    {
+        String newUrl = ApiUrls.manifestHlsDeleteCustomStreamInfoTag.replace("{manifestId}", hlsManifest.getId()).replace("{streamId}", streamInfo.getId()).replace("{customTagId}", customTag.getId());
+        RestClient.delete(newUrl, this.headers);
+    }
 
     public MediaInfo createMediaInfo(HlsManifest hlsManifest, MediaInfo mediaInfo) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
