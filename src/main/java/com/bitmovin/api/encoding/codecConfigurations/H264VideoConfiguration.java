@@ -68,6 +68,8 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private H264BPyramid bPyramid;
 
+    private boolean openGop;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
@@ -312,4 +314,8 @@ public class H264VideoConfiguration extends VideoConfiguration
     {
         this.bPyramid = bPyramid;
     }
+
+    public boolean isOpenGop() { return openGop; }
+
+    public void setOpenGop(boolean openGop) { this.openGop = openGop; }
 }
