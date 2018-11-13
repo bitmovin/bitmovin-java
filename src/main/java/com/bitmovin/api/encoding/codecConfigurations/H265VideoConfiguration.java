@@ -66,6 +66,8 @@ public class H265VideoConfiguration extends VideoConfiguration
 
     private Integer sceneCutThreshold;
 
+    private Boolean openGop;
+
     public H265VideoConfiguration()
     {
         this.setType(ConfigType.H265);
@@ -303,5 +305,15 @@ public class H265VideoConfiguration extends VideoConfiguration
     public void setSceneCutThreshold(Integer sceneCutThreshold)
     {
         this.sceneCutThreshold = sceneCutThreshold;
+    }
+
+    public Boolean getOpenGop()
+    {
+        return this.openGop;
+    }
+
+    public void setOpenGop(Boolean openGop)
+    {
+        this.openGop = openGop;
     }
 }

@@ -3,6 +3,7 @@ package com.bitmovin.api.encoding.status;
 import com.bitmovin.api.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -19,6 +20,11 @@ public class Task
 
     private Set<Subtask> subtasks;
     private Set<Message> messages;
+
+    private Date createdAt;
+    private Date queuedAt;
+    private Date runningAt;
+    private Date finishedAt;
 
     public Task()
     {
@@ -72,5 +78,45 @@ public class Task
     public void setMessages(Set<Message> messages)
     {
         this.messages = messages;
+    }
+
+    public Date getCreatedAt()
+    {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(Date date)
+    {
+        this.createdAt = date;
+    }
+
+    public Date getQueuedAt()
+    {
+        return this.queuedAt;
+    }
+
+    public void setQueuedAt(Date date)
+    {
+        this.queuedAt = date;
+    }
+
+    public Date getRunningAt()
+    {
+        return this.runningAt;
+    }
+
+    public void setRunningAt(Date date)
+    {
+        this.runningAt = date;
+    }
+
+    public Date getFinishedAt()
+    {
+        return this.finishedAt;
+    }
+
+    public void setFinishedAt(Date date)
+    {
+        this.finishedAt = date;
     }
 }

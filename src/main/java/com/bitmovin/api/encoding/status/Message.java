@@ -2,6 +2,7 @@ package com.bitmovin.api.encoding.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class Message
     private String field;
 
     private String more;
+
+    private Date date;
 
     public Message()
     {
@@ -44,4 +47,8 @@ public class Message
     public String getMore() { return this.more; }
 
     public void setMore(String more) { this.more = more; }
+
+    public Date getDate() { return this.date; }
+
+    public void setDate(Date date) { this.date = date; }
 }

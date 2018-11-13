@@ -170,6 +170,16 @@ public class ApiUrls
     public static final String manifestHlsStart = "encoding/manifests/hls/{manifestId}/start";
     public static final String manifestHlsStatus = "encoding/manifests/hls/{manifestId}/status";
 
+    public static final String manifestHlsCreateCustomStreamInfoTag = "encoding/manifests/hls/{manifestId}/streams/{streamId}/custom-tags";
+    public static final String manifestHlsCreateCustomMediaInfoTag = "encoding/manifests/hls/{manifestId}/media/{mediaId}/custom-tags";
+    public static final String manifestHlsGetCustomMediaInfoTag = "encoding/manifests/hls/{manifestId}/media/{mediaId}/custom-tags/{customTagId}";
+    public static final String manifestHlsGetCustomStreamInfoTag = "encoding/manifests/hls/{manifestId}/streams/{streamId}/custom-tags/{customTagId}";
+    public static final String manifestHlsListCustomStreamInfoTag = "encoding/manifests/hls/{manifestId}/streams/{streamId}/custom-tags";
+    public static final String manifestHlsListCustomMediaInfoTag = "encoding/manifests/hls/{manifestId}/media/{mediaId}/custom-tags";
+    public static final String manifestHlsDeleteCustomStreamInfoTag = "encoding/manifests/hls/{manifestId}/streams/{streamId}/custom-tags/{customTagId}";
+    public static final String manifestHlsDeleteCustomMediaInfoTag = "encoding/manifests/hls/{manifestId}/media/{mediaId}/custom-tags/{customTagId}";
+
+
     public static final String manifestSmooth = "encoding/manifests/smooth";
     public static final String manifestSmoothStart = "encoding/manifests/smooth/{manifestId}/start";
     public static final String manifestSmoothStatus = "encoding/manifests/smooth/{manifestId}/status";
