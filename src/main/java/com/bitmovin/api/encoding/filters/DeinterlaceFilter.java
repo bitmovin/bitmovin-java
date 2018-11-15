@@ -11,6 +11,12 @@ public class DeinterlaceFilter extends Filter
     PictureFieldParity parity;
     DeinterlaceMode mode;
 
+    public DeinterlaceFilter()
+    {
+        super();
+        this.setType(FilterType.DEINTERLACE);
+    }
+
     public PictureFieldParity getParity()
     {
         return this.parity;
