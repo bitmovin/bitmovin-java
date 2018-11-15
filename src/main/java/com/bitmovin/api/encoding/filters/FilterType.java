@@ -10,7 +10,12 @@ public enum FilterType
     CROP("CROP"),
     WATERMARK("WATERMARK"),
     ROTATE("ROTATE"),
-    AUDIO_MIX("AUDIO_MIX");
+    AUDIO_MIX("AUDIO_MIX"),
+    DEINTERLACE("DEINTERLACE"),
+    SCALE("SCALE"),
+    TEXT("TEXT"),
+    UNSHARP("UNSHARP"),
+    INTERLACE("INTERLACE");
 
     private final String name;
     private static HashMap<String, FilterType> map;
@@ -37,5 +42,10 @@ public enum FilterType
         map.put("WATERMARK", WATERMARK);
         map.put("ROTATE", ROTATE);
         map.put("AUDIO_MIX", AUDIO_MIX);
+        map.put("DEINTERLACE", DEINTERLACE);
+        map.put("SCALE", SCALE);
+        map.put("TEXT", TEXT);
+        map.put("UNSHARP", UNSHARP);
+        map.put("INTERLACE", INTERLACE);
     }
 }

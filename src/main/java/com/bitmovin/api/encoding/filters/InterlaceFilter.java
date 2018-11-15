@@ -10,6 +10,12 @@ public class InterlaceFilter extends Filter {
     private InterleaveMode mode;
     private VerticalLowPassFilteringMode verticalLowPassFilteringMode;
 
+    public InterlaceFilter()
+    {
+        super();
+        this.setType(FilterType.INTERLACE);
+    }
+
     public InterleaveMode getInterleaveMode()
     {
         return this.mode;

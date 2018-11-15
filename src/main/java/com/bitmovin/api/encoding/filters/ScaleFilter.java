@@ -10,6 +10,12 @@ public class ScaleFilter extends Filter {
     private Integer height;
     private ScalingAlgorithm scalingAlgorithm;
 
+    public ScaleFilter()
+    {
+        super();
+        this.setType(FilterType.SCALE);
+    }
+
     public Integer getWidth()
     {
         return width;

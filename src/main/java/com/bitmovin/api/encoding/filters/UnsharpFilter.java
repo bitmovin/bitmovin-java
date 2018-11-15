@@ -6,10 +6,16 @@ package com.bitmovin.api.encoding.filters;
 public class UnsharpFilter extends Filter {
     private Integer lumaMatrixHorizontalSize;
     private Integer lumaMatrixVerticalSize;
-    private Integer lumaEffectStrength;
+    private Float lumaEffectStrength;
     private Integer chromaMatrixHorizontalSize;
     private Integer chromaMatrixVerticalSize;
-    private Integer chromaEffectStrength;
+    private Float chromaEffectStrength;
+
+    public UnsharpFilter()
+    {
+        super();
+        this.setType(FilterType.UNSHARP);
+    }
 
     public Integer getLumaMatrixHorizontalSize()
     {
@@ -31,12 +37,12 @@ public class UnsharpFilter extends Filter {
         this.lumaMatrixVerticalSize = lumaMatrixVerticalSize;
     }
 
-    public Integer getLumaEffectStrength()
+    public Float getLumaEffectStrength()
     {
         return lumaEffectStrength;
     }
 
-    public void setLumaEffectStrength(Integer lumaEffectStrength)
+    public void setLumaEffectStrength(Float lumaEffectStrength)
     {
         this.lumaEffectStrength= lumaEffectStrength;
     }
@@ -61,12 +67,12 @@ public class UnsharpFilter extends Filter {
         this.chromaMatrixVerticalSize = chromaMatrixVerticalSize;
     }
 
-    public Integer getChromaEffectStrength()
+    public Float getChromaEffectStrength()
     {
         return chromaEffectStrength;
     }
 
-    public void setChromaEffectStrength(Integer chromaEffectStrength)
+    public void setChromaEffectStrength(Float chromaEffectStrength)
     {
         this.chromaEffectStrength= chromaEffectStrength;
     }
