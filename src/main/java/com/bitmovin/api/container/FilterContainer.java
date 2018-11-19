@@ -6,8 +6,11 @@ import com.bitmovin.api.encoding.filters.AudioMixFilter;
 import com.bitmovin.api.encoding.filters.CropFilter;
 import com.bitmovin.api.encoding.filters.DeinterlaceFilter;
 import com.bitmovin.api.encoding.filters.Filter;
+import com.bitmovin.api.encoding.filters.InterlaceFilter;
 import com.bitmovin.api.encoding.filters.RotateFilter;
+import com.bitmovin.api.encoding.filters.ScaleFilter;
 import com.bitmovin.api.encoding.filters.TextFilter;
+import com.bitmovin.api.encoding.filters.UnsharpFilter;
 import com.bitmovin.api.encoding.filters.WatermarkFilter;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.resource.FilterResource;
@@ -32,6 +35,9 @@ public class FilterContainer
     public FilterResource<DeinterlaceFilter> deinterlace;
     public FilterResource<AudioMixFilter> audioMix;
     public FilterResource<TextFilter> text;
+    public FilterResource<InterlaceFilter> interlace;
+    public FilterResource<UnsharpFilter> unsharp;
+    public FilterResource<ScaleFilter> scale;
     public FilterResource<Filter> all;
     private Map<String, String> headers;
 
@@ -45,6 +51,9 @@ public class FilterContainer
         this.deinterlace = new FilterResource<>(headers, ApiUrls.filterDeinterlace, DeinterlaceFilter.class);
         this.audioMix = new FilterResource<>(headers, ApiUrls.filterAudioMix, AudioMixFilter.class);
         this.text = new FilterResource<>(headers, ApiUrls.filterText, TextFilter.class);
+        this.interlace = new FilterResource<>(headers, ApiUrls.filterInterlace, InterlaceFilter.class);
+        this.unsharp = new FilterResource<>(headers, ApiUrls.filterUnsharp, UnsharpFilter.class);
+        this.scale = new FilterResource<>(headers, ApiUrls.filterScale, ScaleFilter.class);
         this.all = new FilterResource<>(headers, ApiUrls.filters, Filter.class);
     }
 

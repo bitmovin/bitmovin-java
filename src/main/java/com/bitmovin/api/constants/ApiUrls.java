@@ -196,6 +196,9 @@ public class ApiUrls
     public static final String filterDeinterlace = "encoding/filters/deinterlace";
     public static final String filterAudioMix = "encoding/filters/audio-mix";
     public static final String filterText = "encoding/filters/text";
+    public static final String filterInterlace = "encoding/filters/interlace";
+    public static final String filterUnsharp = "encoding/filters/unsharp";
+    public static final String filterScale = "encoding/filters/scale";
 
     public static final String customDataSuffix = "/customData";
 

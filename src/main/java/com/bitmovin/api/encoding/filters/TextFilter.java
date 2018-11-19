@@ -22,6 +22,12 @@ public class TextFilter extends Filter
     private String x;
     private String y;
 
+    public TextFilter()
+    {
+        super();
+        this.setType(FilterType.TEXT);
+    }
+
     public TextFilterFont getFont()
     {
         return font;

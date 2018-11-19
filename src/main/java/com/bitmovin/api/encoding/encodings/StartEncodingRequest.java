@@ -12,6 +12,7 @@ import java.util.List;
 public class StartEncodingRequest
 {
     private Trimming trimming;
+    private Tweaks tweaks;
     private List<LiveHlsManifest>  hlsManifests  = new ArrayList<>();
     private List<LiveDashManifest> dashManifests = new ArrayList<>();
     private PerTitle perTitle;
@@ -29,6 +30,16 @@ public class StartEncodingRequest
     public void setTrimming(Trimming trimming)
     {
         this.trimming = trimming;
+    }
+
+    public Tweaks getTweaks()
+    {
+        return this.tweaks;
+    }
+
+    public void setTweaks(Tweaks tweaks)
+    {
+        this.tweaks = tweaks;
     }
 
     public List<LiveHlsManifest> getHlsManifests()
