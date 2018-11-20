@@ -1,13 +1,13 @@
 package com.bitmovin.api.encoding.filters;
 
-import com.bitmovin.api.encoding.filters.enums.InterleaveMode;
+import com.bitmovin.api.encoding.filters.enums.InterlaceMode;
 import com.bitmovin.api.encoding.filters.enums.VerticalLowPassFilteringMode;
 
 /**
  * Created by jyeh on 11/14/18.
  */
 public class InterlaceFilter extends Filter {
-    private InterleaveMode mode;
+    private InterlaceMode mode;
     private VerticalLowPassFilteringMode verticalLowPassFilteringMode;
 
     public InterlaceFilter()
@@ -16,12 +16,12 @@ public class InterlaceFilter extends Filter {
         this.setType(FilterType.INTERLACE);
     }
 
-    public InterleaveMode getInterleaveMode()
+    public InterlaceMode getInterleaveMode()
     {
         return this.mode;
     }
 
-    public void setInterleaveMode(InterleaveMode mode)
+    public void setInterleaveMode(InterlaceMode mode)
     {
         this.mode = mode;
     }
