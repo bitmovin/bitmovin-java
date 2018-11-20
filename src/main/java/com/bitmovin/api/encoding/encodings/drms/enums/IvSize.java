@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public enum IvSize
 {
     EIGHT_BYTES("8_BYTES"),
