@@ -16,7 +16,7 @@ public class InterlaceFilter extends Filter {
         this.setType(FilterType.INTERLACE);
     }
 
-    public InterlaceMode getInterleaveMode()
+    public InterlaceMode getInterlaceMode()
     {
         return this.mode;
     }
