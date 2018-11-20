@@ -70,7 +70,7 @@ public class CreateAndStartLiveEncodingWithHls
     private static BitmovinApi bitmovinApi;
 
     @Test
-    public void testCreateAndStartLiveStreamWithVP9() throws IOException, BitmovinApiException, UnirestException,
+    public void testCreateAndStartLiveStreamWithHls() throws IOException, BitmovinApiException, UnirestException,
             URISyntaxException, RestException, InterruptedException
     {
         bitmovinApi = new BitmovinApi(API_KEY);
