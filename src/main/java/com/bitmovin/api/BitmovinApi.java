@@ -148,7 +148,7 @@ public class BitmovinApi
 
         this.tenantID = tenantID;
         this.apiKey = apiKey;
-        this.apiUrl = apiUrl == null ? ApiUrls.API_ENDPOINT_WITH_PROTOCOL + "/v1/" : String.format("%s://%s/", useHttps ? "https" : "http", apiUrl);
+        this.apiUrl = apiUrl == null ? ApiUrls.API_ENDPOINT_WITH_PROTOCOL + "/v1/" : String.format("%s://%s", useHttps ? "https" : "http", apiUrl);
         ApiUrls.API_ENDPOINT_WITH_PROTOCOL = this.apiUrl;
 
         this.setDefaultHeaders();
