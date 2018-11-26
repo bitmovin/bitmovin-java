@@ -25,6 +25,9 @@ public class ColorConfig
     private ColorRange colorRange;
     private ColorTransfer colorTransfer;
 
+    private ColorSpace inputColorSpace;
+    private ColorRange inputColorRange;
+
     public Boolean getCopyChromaLocationFlag()
     {
         return this.copyChromaLocationFlag;
@@ -104,5 +107,22 @@ public class ColorConfig
     public void setColorTransfer(ColorTransfer colorTransfer)
     {
         this.colorTransfer = colorTransfer;
+    }
+
+    public ColorSpace getInputColorSpace()
+    {
+        return this.inputColorSpace;
+    }
+    public void setInputColorSpace(ColorSpace inputColorSpace)
+    {
+        this.inputColorSpace = inputColorSpace;
+    }
+    public ColorRange getInputColorRange()
+    {
+        return this.inputColorRange;
+    }
+    public void setInputColorRange(ColorRange inputColorRange)
+    {
+        this.inputColorRange = inputColorRange;
     }
 }
