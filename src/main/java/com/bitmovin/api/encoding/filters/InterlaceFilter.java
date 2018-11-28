@@ -16,12 +16,12 @@ public class InterlaceFilter extends Filter {
         this.setType(FilterType.INTERLACE);
     }
 
-    public InterlaceMode getInterlaceMode()
+    public InterlaceMode getMode()
     {
         return this.mode;
     }
 
-    public void setInterlaceMode(InterlaceMode mode)
+    public void setMode(InterlaceMode mode)
     {
         this.mode = mode;
     }
