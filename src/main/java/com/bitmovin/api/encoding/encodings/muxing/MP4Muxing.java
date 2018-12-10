@@ -18,6 +18,8 @@ public class MP4Muxing extends Muxing
 
     private TimeCode timeCode;
 
+    private InternalChunkLength internalChunkLength;
+
     public MP4Muxing()
     {
         this.type = MuxingType.MP4;
@@ -71,5 +73,15 @@ public class MP4Muxing extends Muxing
     public void setTimeCode(TimeCode timeCode)
     {
         this.timeCode = timeCode;
+    }
+
+    public InternalChunkLength getInternalChunkLength()
+    {
+        return this.internalChunkLength;
+    }
+
+    public void setInternalChunkLength(InternalChunkLength internalChunkLength)
+    {
+        this.internalChunkLength = internalChunkLength;
     }
 }
