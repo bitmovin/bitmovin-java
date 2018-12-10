@@ -7,6 +7,7 @@ public class ProgressiveWebmMuxing extends Muxing
     private String name;
     private String description;
     private String filename;
+    private InternalChunkLength internalChunkLength;
 
     public ProgressiveWebmMuxing()
     {
@@ -41,5 +42,15 @@ public class ProgressiveWebmMuxing extends Muxing
     public void setFilename(String filename)
     {
         this.filename = filename;
+    }
+
+    public InternalChunkLength getInternalChunkLength()
+    {
+        return this.internalChunkLength;
+    }
+
+    public void setInternalChunkLength(InternalChunkLength internalChunkLength)
+    {
+        this.internalChunkLength = internalChunkLength;
     }
 }
