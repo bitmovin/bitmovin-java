@@ -15,6 +15,7 @@ import com.bitmovin.api.encoding.encodings.live.StartLiveEncodingResponse;
 import com.bitmovin.api.encoding.encodings.live.StopEncodingResponse;
 import com.bitmovin.api.encoding.encodings.live.StopLiveEncodingResponse;
 import com.bitmovin.api.exceptions.BitmovinApiException;
+import com.bitmovin.api.resource.encoding.EncodingConcatenationInputStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingDrmResource;
 import com.bitmovin.api.resource.encoding.EncodingIngestInputStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingKeyframesResource;
@@ -48,6 +49,7 @@ public class EncodingResource extends AbstractResource<Encoding>
     public EncodingThumbnailResource thumbnail;
     public EncodingStreamResource stream;
     public EncodingIngestInputStreamResource ingestInputStream;
+    public EncodingConcatenationInputStreamResource concatenationInputStream;
     public EncodingTimeBasedTrimmingInputStreamResource timeBasedTrimmingInputStreamResource;
     public EncodingTimecodeTrackTrimmingInputStreamResource timecodeTrackTrimmingInputStreamResource;
     public EncodingSpriteResource sprite;
@@ -62,6 +64,7 @@ public class EncodingResource extends AbstractResource<Encoding>
         this.thumbnail = new EncodingThumbnailResource(headers);
         this.stream = new EncodingStreamResource(headers);
         this.ingestInputStream = new EncodingIngestInputStreamResource(headers);
+        this.concatenationInputStream = new EncodingConcatenationInputStreamResource(headers);
         this.timeBasedTrimmingInputStreamResource = new EncodingTimeBasedTrimmingInputStreamResource(headers);
         this.timecodeTrackTrimmingInputStreamResource = new EncodingTimecodeTrackTrimmingInputStreamResource(headers);
         this.sprite = new EncodingSpriteResource(headers);
