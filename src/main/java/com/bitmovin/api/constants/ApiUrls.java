@@ -73,14 +73,14 @@ public class ApiUrls
     public static final String streams = "encoding/encodings/{encoding_id}/streams";
     public static final String streamsWithId = "encoding/encodings/{encoding_id}/streams/{stream_id}";
     public static final String streamsInputDetails = "encoding/encodings/{encoding_id}/streams/{stream_id}/inputs";
-    public static final String ingestInputStreams = "encoding/encodings/encoding_id/input-streams/ingest";
-    public static final String ingestInputStreamsWithId = "encoding/encodings/encoding_id/input-streams/ingest/{ingest_input_stream_id}";
-    public static final String concatenationInputStreams = "encoding/encodings/encoding_id/input-streams/concatenation";
-    public static final String concatenationInputStreamsWithId = "encoding/encodings/encoding_id/input-streams/concatenation/{concatenation_input_stream_id}";
-    public static final String timeBasedTrimmingInputStreams = "encoding/encodings/encoding_id/input-streams/trimming/time-based";
-    public static final String timeBasedTrimmingInputStreamsWithId = "encoding/encodings/encoding_id/input-streams/trimming/time-based/{time_based_trimming_input_stream_id}";
-    public static final String timecodeTrackTrimmingInputStreams = "encoding/encodings/encoding_id/input-streams/trimming/timecode-track";
-    public static final String timecodeTrackTrimmingInputStreamsWithId = "encoding/encodings/encoding_id/input-streams/trimming/timecode-track/{timecode_track_trimming_input_stream_id}";
+    public static final String ingestInputStreams = "encoding/encodings/{encoding_id}/input-streams/ingest";
+    public static final String ingestInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/ingest/{ingest_input_stream_id}";
+    public static final String concatenationInputStreams = "encoding/encodings/{encoding_id}/input-streams/concatenation";
+    public static final String concatenationInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/concatenation/{concatenation_input_stream_id}";
+    public static final String timeBasedTrimmingInputStreams = "encoding/encodings/{encoding_id}/input-streams/trimming/time-based";
+    public static final String timeBasedTrimmingInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/trimming/time-based/{time_based_trimming_input_stream_id}";
+    public static final String timecodeTrackTrimmingInputStreams = "encoding/encodings/{encoding_id}/input-streams/trimming/timecode-track";
+    public static final String timecodeTrackTrimmingInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/trimming/timecode-track/{timecode_track_trimming_input_stream_id}";
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
     public static final String sccCaptions = "encoding/encodings/{encoding_id}/streams/{stream_id}/captions/608-708/scc";
