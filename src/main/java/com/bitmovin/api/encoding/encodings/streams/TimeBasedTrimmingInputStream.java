@@ -8,9 +8,9 @@ public class TimeBasedTrimmingInputStream extends AbstractApiResponse
 
     private String inputStreamId;
 
-    private Integer offset;
+    private Double offset;
 
-    private Integer duration;
+    private Double duration;
 
     public TimeBasedTrimmingInputStream() {
     }
@@ -20,22 +20,22 @@ public class TimeBasedTrimmingInputStream extends AbstractApiResponse
         return this.inputStreamId;
     }
 
-    public void setInputStreamId(String inputId)
+    public void setInputStreamId(String inputStreamId)
     {
         this.inputStreamId= inputStreamId;
     }
 
-    public Integer getOffset()
+    public Double getOffset()
     {
         return this.offset;
     }
 
-    public void setOffset(Integer offset)
+    public void setOffset(Double offset)
     {
         this.offset= offset;
     }
 
-    public Integer getDuration() { return this.duration; }
+    public Double getDuration() { return this.duration; }
 
-    public void setDuration(Integer duration) { this.duration= duration; }
+    public void setDuration(Double duration) { this.duration= duration; }
 }
