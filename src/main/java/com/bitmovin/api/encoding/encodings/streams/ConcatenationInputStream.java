@@ -1,8 +1,8 @@
 package com.bitmovin.api.encoding.encodings.streams;
 
 import com.bitmovin.api.AbstractApiResponse;
-import com.bitmovin.api.encoding.enums.StreamSelectionMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConcatenationInputStream extends AbstractApiResponse
@@ -11,6 +11,7 @@ public class ConcatenationInputStream extends AbstractApiResponse
     private List<ConcatenationConfiguration> concatenation;
 
     public ConcatenationInputStream() {
+        this.concatenation = new ArrayList<>();
     }
 
     public List<ConcatenationConfiguration> getConcatenation()
