@@ -124,7 +124,7 @@ public class CreateMp4EncodingWithLabels
             videoStream.setInputStreams(Collections.singleton(inputStreamVideo));
             videoStream = bitmovinApi.encoding.stream.addStream(encoding, videoStream);
 
-            this.createMP4Muxing(encoding, output, videoStream, audioStream, String.format("video_audio_%sp_%s.mp4", videoConfig.getHeight()));
+            this.createMP4Muxing(encoding, output, videoStream, audioStream, String.format("video_audio_%sp.mp4", videoConfig.getHeight()));
         }
 
         bitmovinApi.encoding.start(encoding);
