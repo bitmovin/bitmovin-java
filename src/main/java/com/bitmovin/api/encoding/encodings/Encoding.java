@@ -35,6 +35,8 @@ public class Encoding extends AbstractApiResponse
 
     private String orgId;
 
+    private List<String> labels;
+
     public Encoding() {
         this.streams = new ArrayList<>();
         this.muxings = new ArrayList<>();
@@ -132,5 +134,15 @@ public class Encoding extends AbstractApiResponse
     public void setInfrastructure(InfrastructureSettings infrastructure)
     {
         this.infrastructure = infrastructure;
+    }
+
+    public List<String> getLabels()
+    {
+        return this.labels;
+    }
+
+    public void setLabels(List<String> labels)
+    {
+        this.labels = labels;
     }
 }
