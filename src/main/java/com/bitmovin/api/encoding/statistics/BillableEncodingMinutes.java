@@ -1,12 +1,14 @@
 package com.bitmovin.api.encoding.statistics;
 
 import com.bitmovin.api.encoding.encodings.EncodingMode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BillableEncodingMinutes
 {
     private EncodingMode encodingMode;

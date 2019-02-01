@@ -1,11 +1,13 @@
 package com.bitmovin.api.encoding.statistics;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.sql.Date;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SummaryEncodingStatistics
 {
     @JsonFormat(pattern = "yyyy-MM-dd")

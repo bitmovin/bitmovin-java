@@ -17,6 +17,8 @@ public class InputStream
     StreamSelectionMode selectionMode;
     Integer position;
 
+    private String inputStreamId;
+
     public InputStream() {
     }
 
@@ -50,5 +52,15 @@ public class InputStream
 
     public void setInputId(String inputId) {
         this.inputId = inputId;
+    }
+
+    public String getInputStreamId()
+    {
+        return this.inputStreamId;
+    }
+
+    public void setInputStreamId(String inputStreamId)
+    {
+        this.inputStreamId = inputStreamId;
     }
 }
