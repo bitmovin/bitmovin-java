@@ -1,0 +1,29 @@
+package com.bitmovin.api.encoding.inputs.zixi;
+
+import feign.Param;
+import feign.QueryMap;
+import feign.RequestLine;
+import feign.Body;
+import feign.Headers;
+
+import com.bitmovin.api.common.BitmovinException;
+import com.bitmovin.api.model.*;
+
+import java.util.List;
+import java.util.Map;
+
+
+public interface ZixiClient {
+    
+    @RequestLine("POST /encoding/inputs/zixi")
+    ZixiInput create(ZixiInput zixiInput) throws BitmovinException;
+    
+    @RequestLine("DELETE /encoding/inputs/zixi/{input_id}")
+    ZixiInput delete(@Param("input_id") String inputId) throws BitmovinException;
+    
+    @RequestLine("GET /encoding/inputs/zixi/{input_id}")
+    ZixiInput get(@Param("input_id") String inputId) throws BitmovinException;
+    
+    @RequestLine("GET /encoding/inputs/zixi")
+    List<ZixiInput> list(@QueryMap Map<String, Object> queryParams) throws BitmovinException;
+}
