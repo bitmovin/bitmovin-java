@@ -333,18 +333,20 @@ public class H264VideoConfiguration extends VideoConfiguration
     {
         this.adaptiveQuantizationMode = adaptiveQuantizationMode;
     }
+
     public H264AdaptiveQuantizationMode getAdaptiveQuantizationMode()
     {
         return this.adaptiveQuantizationMode;
     }
+
     public void setAdaptiveQuantizationStrength(Double adaptiveQuantizationStrength)
     {
         this.adaptiveQuantizationStrength = adaptiveQuantizationStrength;
     }
+
     public Double getAdaptiveQuantizationStrength()
     {
         return this.adaptiveQuantizationStrength;
     }
-
 
 }
