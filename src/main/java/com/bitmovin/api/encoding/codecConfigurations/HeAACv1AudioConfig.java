@@ -2,6 +2,7 @@ package com.bitmovin.api.encoding.codecConfigurations;
 
 import com.bitmovin.api.encoding.codecConfigurations.enums.ChannelLayout;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ConfigType;
+import com.bitmovin.api.encoding.codecConfigurations.enums.SBRSignaling;
 
 public class HeAACv1AudioConfig extends AudioConfiguration
 {
@@ -10,6 +11,8 @@ public class HeAACv1AudioConfig extends AudioConfiguration
     private Integer volumeAdjust;
 
     private boolean normalize;
+
+    private SBRSignaling sbrSignaling;
 
     public HeAACv1AudioConfig()
     {
@@ -45,4 +48,9 @@ public class HeAACv1AudioConfig extends AudioConfiguration
     {
         this.normalize = normalize;
     }
+
+    public SBRSignaling getSBRSignaling() { return this.sbrSignaling; }
+
+    public void setSBRSignaling(SBRSignaling sbrSignaling) { this.sbrSignaling = sbrSignaling; }
+
 }
