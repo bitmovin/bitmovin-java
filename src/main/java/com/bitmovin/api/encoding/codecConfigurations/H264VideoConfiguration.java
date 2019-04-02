@@ -70,6 +70,10 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private Boolean openGop;
 
+    private H264AdaptiveQuantizationMode adaptiveQuantizationMode;
+
+    private Double adaptiveQuantizationStrength;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
