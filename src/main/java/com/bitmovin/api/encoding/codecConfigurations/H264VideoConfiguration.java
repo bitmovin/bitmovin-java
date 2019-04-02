@@ -70,6 +70,10 @@ public class H264VideoConfiguration extends VideoConfiguration
 
     private Boolean openGop;
 
+    private H264AdaptiveQuantizationMode adaptiveQuantizationMode;
+
+    private Double adaptiveQuantizationStrength;
+
     public H264VideoConfiguration()
     {
         this.setType(ConfigType.H264);
@@ -324,4 +328,25 @@ public class H264VideoConfiguration extends VideoConfiguration
     {
         this.openGop = openGop;
     }
+
+    public void setAdaptiveQuantizationMode(H264AdaptiveQuantizationMode adaptiveQuantizationMode)
+    {
+        this.adaptiveQuantizationMode = adaptiveQuantizationMode;
+    }
+
+    public H264AdaptiveQuantizationMode getAdaptiveQuantizationMode()
+    {
+        return this.adaptiveQuantizationMode;
+    }
+
+    public void setAdaptiveQuantizationStrength(Double adaptiveQuantizationStrength)
+    {
+        this.adaptiveQuantizationStrength = adaptiveQuantizationStrength;
+    }
+
+    public Double getAdaptiveQuantizationStrength()
+    {
+        return this.adaptiveQuantizationStrength;
+    }
+
 }
