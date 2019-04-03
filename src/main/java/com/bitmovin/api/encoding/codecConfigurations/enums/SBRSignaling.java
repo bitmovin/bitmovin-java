@@ -8,6 +8,6 @@ public enum SBRSignaling
     DEFAULT,
     IMPLICIT,
     EXPLICIT_SBR,
-    EXPLICIT_HIERACHICAL
+    EXPLICIT_HIERARCHICAL
 }
 
