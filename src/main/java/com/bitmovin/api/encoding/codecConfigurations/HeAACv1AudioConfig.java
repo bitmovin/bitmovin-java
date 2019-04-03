@@ -12,7 +12,7 @@ public class HeAACv1AudioConfig extends AudioConfiguration
 
     private boolean normalize;
 
-    private SBRSignaling sbrSignaling;
+    private SBRSignaling signaling;
 
     public HeAACv1AudioConfig()
     {
@@ -49,8 +49,8 @@ public class HeAACv1AudioConfig extends AudioConfiguration
         this.normalize = normalize;
     }
 
-    public SBRSignaling getSBRSignaling() { return this.sbrSignaling; }
+    public SBRSignaling getSignaling() { return this.signaling; }
 
-    public void setSBRSignaling(SBRSignaling sbrSignaling) { this.sbrSignaling = sbrSignaling; }
+    public void setSignaling(SBRSignaling signaling) { this.signaling = signaling; }
 
 }
