@@ -168,7 +168,7 @@ public class H264CodecConfigHelper
         config.setCabac(true);
         config.setRcLookahead(60);
         config.setRefFrames(16);
-        config.setSubMe(H264SubMe.QPRD);
+        config.setSubMe(H264SubMe.RD_REF_ALL);
         config.setTrellis(H264Trellis.ENABLED_ALL);
         config.setPartitions(new ArrayList<H264Partition>()
         {{
