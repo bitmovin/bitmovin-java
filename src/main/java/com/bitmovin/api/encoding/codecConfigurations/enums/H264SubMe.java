@@ -14,7 +14,5 @@ public enum H264SubMe
     RD_IP,
     RD_ALL,
     RD_REF_IP,
-    RD_REF_ALL,
-    QPRD,
-    FULL_RD
+    RD_REF_ALL
 }
