@@ -13,6 +13,8 @@ public class S3Output extends Output
 
     private String secretKey;
 
+    private String md5MetaTag;
+
     public S3Output()
     {
         super();
@@ -48,4 +50,15 @@ public class S3Output extends Output
     {
         this.secretKey = secretKey;
     }
+
+    public String getMd5MetaTag()
+    {
+        return this.md5MetaTag;
+    }
+
+    public void setMd5MetaTag(String md5MetaTag)
+    {
+        this.md5MetaTag = md5MetaTag;
+    }
+
 }
