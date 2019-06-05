@@ -1,5 +1,6 @@
 package com.bitmovin.api.encoding.encodings.drms;
 
+import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencFairPlay;
 import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencMarlin;
 import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencPlayReady;
 import com.bitmovin.api.encoding.encodings.drms.cencSystems.CencWidevine;
@@ -12,6 +13,7 @@ public class CencDrm extends Drm
     private CencWidevine widevine;
     private CencPlayReady playReady;
     private CencMarlin marlin;
+    private CencFairPlay fairPlay;
     private IvSize ivSize;
     private Boolean enablePiffCompatibility;
 
@@ -41,6 +43,16 @@ public class CencDrm extends Drm
     public void setMarlin(CencMarlin marlin)
     {
         this.marlin = marlin;
+    }
+
+    public CencFairPlay getFairPlay()
+    {
+        return this.fairPlay;
+    }
+
+    public void setFairPlay(CencFairPlay fairPlay)
+    {
+        this.fairPlay = fairPlay;
     }
 
     public String getKey()
