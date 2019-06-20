@@ -17,6 +17,8 @@ public class DashManifest extends Manifest
 
     private List<EncodingOutput> outputs = new ArrayList<>();
 
+    private DashProfile profile;
+
     public String getName()
     {
         return this.name;
@@ -43,5 +45,15 @@ public class DashManifest extends Manifest
             this.outputs = new ArrayList<>();
 
         this.outputs.add(output);
+    }
+
+    public DashProfile getProfile()
+    {
+        return this.profile;
+    }
+
+    public void setProfile(DashProfile profile)
+    {
+        this.profile = profile;
     }
 }

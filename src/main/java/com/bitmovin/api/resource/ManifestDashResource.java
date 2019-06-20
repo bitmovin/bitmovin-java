@@ -71,6 +71,17 @@ public class ManifestDashResource extends ManifestResource<DashManifest>
         return RestClient.postDetail(newUrl, this.headers, dashRepresentation, dashRepresentation.getClass());
     }
 
+    public DashMP4Representation addRepresentationToAdaptationSet(DashManifest manifestDash, Period period, AdaptationSet adaptationSet,
+                                                                  DashMP4Representation dashRepresentation) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.manifestDashAddMp4Representation;
+
+        newUrl = newUrl.replace("{manifestId}", manifestDash.getId());
+        newUrl = newUrl.replace("{periodId}", period.getId());
+        newUrl = newUrl.replace("{adaptionsetId}", adaptationSet.getId());
+        return RestClient.postDetail(newUrl, this.headers, dashRepresentation, dashRepresentation.getClass());
+    }
+
     public DashDRMRepresentation addDrmRepresentationToAdaptationSet(DashManifest manifestDash, Period period, AdaptationSet adaptationSet, DashDRMRepresentation muxing) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
     {
         String newUrl = ApiUrls.manifestDashAddFmp4Representation.replace("{manifestId}", manifestDash.getId()) + "/drm";
