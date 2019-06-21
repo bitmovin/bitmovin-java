@@ -159,6 +159,7 @@ public class ApiUrls
     public static final String manifestDashAddAudioAdaptionSet = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/audio";
     public static final String manifestDashAddSubtitleAdaptionSet = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/subtitle";
     public static final String manifestDashAddFmp4Representation = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/{adaptionsetId}/representations/fmp4";
+    public static final String manifestDashAddMp4Representation = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/{adaptionsetId}/representations/mp4";
     public static final String manifestDashAddVttRepresentation = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/{adaptionsetId}/representations/vtt";
     public static final String manifestDashAddContentProtectionToAdaptationSet = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/{adaptionsetId}/contentprotection";
     public static final String manifestDashAddContentProtectionTofMP4Representation = "encoding/manifests/dash/{manifestId}/periods/{periodId}/adaptationsets/{adaptionsetId}/representations/fmp4/{representationId}/contentprotection";
