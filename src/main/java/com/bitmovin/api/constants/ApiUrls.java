@@ -67,6 +67,7 @@ public class ApiUrls
     public static final String codecConfigMP3 = "encoding/configurations/audio/mp3";
     public static final String codecConfigOpus = "encoding/configurations/audio/opus";
     public static final String codecConfigVorbis = "encoding/configurations/audio/vorbis";
+    public static final String codecConfigSubtitlesWebVtt = "encoding/configurations/subtitles/webvtt";
 
     public static final String encodings = "encoding/encodings/";
     public static final String encodingInformation = "encoding/encodings/{encoding_id}/information";
@@ -81,6 +82,10 @@ public class ApiUrls
     public static final String timeBasedTrimmingInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/trimming/time-based/{time_based_trimming_input_stream_id}";
     public static final String timecodeTrackTrimmingInputStreams = "encoding/encodings/{encoding_id}/input-streams/trimming/timecode-track";
     public static final String timecodeTrackTrimmingInputStreamsWithId = "encoding/encodings/{encoding_id}/input-streams/trimming/timecode-track/{timecode_track_trimming_input_stream_id}";
+
+    public static final String cea608CaptionInputStreams = "encoding/encodings/{encoding_id}/input-streams/captions/cea608";
+    public static final String cea608CaptionInputStreamWithId = "encoding/encodings/{encoding_id}/input-streams/captions/cea608/{input_stream_id}";
+
     public static final String encodingReport = "encoding/encodings/{encoding_id}/report";
 
     public static final String sccCaptions = "encoding/encodings/{encoding_id}/streams/{stream_id}/captions/608-708/scc";
@@ -100,6 +105,7 @@ public class ApiUrls
     public static final String broadcastTsMuxings = "encoding/encodings/{encoding_id}/muxings/broadcast-ts";
     public static final String broadcastTsMuxingDetails = "encoding/encodings/{encoding_id}/muxings/broadcast-ts/{muxingId}";
     public static final String mp3Muxings = "encoding/encodings/{encoding_id}/muxings/mp3";
+    public static final String textMuxings = "encoding/encodings/{encoding_id}/muxings/text";
 
     public static final String progressiveTsMuxingInformation = "encoding/encodings/{encoding_id}/muxings/progressive-ts/{muxing_id}/information";
     public static final String progressiveMp4MuxingInformation = "encoding/encodings/{encoding_id}/muxings/mp4/{muxing_id}/information";
