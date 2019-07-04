@@ -18,6 +18,7 @@ import com.bitmovin.api.encoding.codecConfigurations.OpusAudioConfig;
 import com.bitmovin.api.encoding.codecConfigurations.VP8VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VP9VideoConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.VorbisAudioConfig;
+import com.bitmovin.api.encoding.codecConfigurations.WebVttConfiguration;
 import com.bitmovin.api.encoding.codecConfigurations.enums.ConfigType;
 import com.bitmovin.api.exceptions.BitmovinApiException;
 import com.bitmovin.api.resource.ConfigurationResource;
@@ -51,6 +52,7 @@ public class ConfigurationContainer
     public ConfigurationResource<MP3AudioConfig> audioMP3;
     public ConfigurationResource<OpusAudioConfig> audioOpus;
     public ConfigurationResource<VorbisAudioConfig> audioVorbis;
+    public ConfigurationResource<WebVttConfiguration> webVtt;
     public ConfigurationResource<CodecConfig> all;
     private Map<String, String> headers;
 
@@ -72,6 +74,7 @@ public class ConfigurationContainer
         this.audioMP3 = new ConfigurationResource<>(headers, ApiUrls.codecConfigMP3, MP3AudioConfig.class);
         this.audioOpus = new ConfigurationResource<>(headers, ApiUrls.codecConfigOpus, OpusAudioConfig.class);
         this.audioVorbis = new ConfigurationResource<>(headers, ApiUrls.codecConfigVorbis, VorbisAudioConfig.class);
+        this.webVtt = new ConfigurationResource<>(headers, ApiUrls.codecConfigSubtitlesWebVtt, WebVttConfiguration.class);
         this.all = new ConfigurationResource<>(headers, ApiUrls.codecConfig, CodecConfig.class);
     }
 

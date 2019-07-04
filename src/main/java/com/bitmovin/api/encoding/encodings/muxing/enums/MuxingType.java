@@ -20,5 +20,6 @@ public enum MuxingType
     PROGRESSIVE_WEBM,
     PROGRESSIVE_MOV,
     PROGRESSIVE_TS,
-    BROADCAST_TS
+    BROADCAST_TS,
+    TEXT
 }
