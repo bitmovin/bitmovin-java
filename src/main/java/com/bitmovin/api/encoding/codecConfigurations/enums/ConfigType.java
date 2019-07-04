@@ -18,5 +18,6 @@ public enum ConfigType
     AC3,
     EAC3,
     OPUS,
-    VORBIS
+    VORBIS,
+    WEBVTT
 }

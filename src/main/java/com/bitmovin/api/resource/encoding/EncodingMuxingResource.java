@@ -21,6 +21,7 @@ import com.bitmovin.api.encoding.encodings.muxing.ProgressiveMOVMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveTSMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.ProgressiveWebmMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.TSMuxing;
+import com.bitmovin.api.encoding.encodings.muxing.TextMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.WebmMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.broadcastTs.BroadcastTsMuxing;
 import com.bitmovin.api.encoding.encodings.muxing.information.MP4MuxingInformation;
@@ -380,5 +381,11 @@ public class EncodingMuxingResource
     {
         String newUrl = ApiUrls.mp3Muxings.replace("{encoding_id}", encoding.getId());
         return RestClient.post(this.headers, newUrl, muxing);
+    }
+
+    public TextMuxing addTextMuxingToEncoding(Encoding encoding, TextMuxing textMuxing) throws BitmovinApiException, IOException, RestException, URISyntaxException, UnirestException
+    {
+        String newUrl = ApiUrls.textMuxings.replace("{encoding_id}", encoding.getId());
+        return RestClient.post(this.headers, newUrl, textMuxing, TextMuxing.class);
     }
 }

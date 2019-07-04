@@ -15,6 +15,7 @@ import com.bitmovin.api.encoding.encodings.live.StartLiveEncodingResponse;
 import com.bitmovin.api.encoding.encodings.live.StopEncodingResponse;
 import com.bitmovin.api.encoding.encodings.live.StopLiveEncodingResponse;
 import com.bitmovin.api.exceptions.BitmovinApiException;
+import com.bitmovin.api.resource.encoding.EncodingCea608CaptionInputStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingConcatenationInputStreamResource;
 import com.bitmovin.api.resource.encoding.EncodingDrmResource;
 import com.bitmovin.api.resource.encoding.EncodingIngestInputStreamResource;
@@ -52,6 +53,7 @@ public class EncodingResource extends AbstractResource<Encoding>
     public EncodingConcatenationInputStreamResource concatenationInputStream;
     public EncodingTimeBasedTrimmingInputStreamResource timeBasedTrimmingInputStreamResource;
     public EncodingTimecodeTrackTrimmingInputStreamResource timecodeTrackTrimmingInputStreamResource;
+    public EncodingCea608CaptionInputStreamResource cea608CaptionInputStreamResource;
     public EncodingSpriteResource sprite;
     public EncodingKeyframesResource keyframes;
     public EncodingConvertSccCaptionResource convertSccCaption;
@@ -67,6 +69,7 @@ public class EncodingResource extends AbstractResource<Encoding>
         this.concatenationInputStream = new EncodingConcatenationInputStreamResource(headers);
         this.timeBasedTrimmingInputStreamResource = new EncodingTimeBasedTrimmingInputStreamResource(headers);
         this.timecodeTrackTrimmingInputStreamResource = new EncodingTimecodeTrackTrimmingInputStreamResource(headers);
+        this.cea608CaptionInputStreamResource = new EncodingCea608CaptionInputStreamResource(headers);
         this.sprite = new EncodingSpriteResource(headers);
         this.keyframes = new EncodingKeyframesResource(headers);
         this.convertSccCaption = new EncodingConvertSccCaptionResource(headers);
