@@ -1,10 +1,8 @@
-*DEPRECATED* Java client for the Bitmovin API, see https://github.com/bitmovin/bitmovin-api-sdk-java
-
 # [![bitmovin](http://bitmovin-a.akamaihd.net/webpages/bitmovin-logo-github.png)](http://www.bitmovin.com)
 
 # New API Client (Recommended)
 
-`bitmovin-java` is the legacy Bihttps://github.com/bitmovin/bitmovin-java/blob/master/README.mdtmovin API client for Java. 
+`bitmovin-java` is the legacy Bitmovin API client for Java. 
 
 We recommend using the new client, which you can find at [bitmovin-api-sdk-java](https://github.com/bitmovin/bitmovin-api-sdk-java). Using the new client guarantees 100% specification conformity at any given time and access to all features of the API as soon as they are released.
 
