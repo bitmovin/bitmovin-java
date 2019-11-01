@@ -17,6 +17,7 @@ public class StartEncodingRequest
     private List<LiveDashManifest> dashManifests = new ArrayList<>();
     private PerTitle perTitle;
     private EncodingMode encodingMode = EncodingMode.STANDARD;
+    private Boolean handleVariableInputFps;
 
     public StartEncodingRequest()
     {
@@ -40,6 +41,16 @@ public class StartEncodingRequest
     public void setTweaks(Tweaks tweaks)
     {
         this.tweaks = tweaks;
+    }
+
+    public Boolean getHandleVariableInputFps()
+    {
+        return this.handleVariableInputFps;
+    }
+
+    public void setHandleVariableInputFps(Boolean handleVariableInputFps)
+    {
+        this.handleVariableInputFps = handleVariableInputFps;
     }
 
     public List<LiveHlsManifest> getHlsManifests()
