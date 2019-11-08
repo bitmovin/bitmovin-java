@@ -22,7 +22,7 @@ Add this to your pom.xml:
 <dependency>
       <groupId>com.bitmovin.api</groupId>
       <artifactId>bitmovin-java</artifactId>
-      <version>1.58.0</version>
+      <version>1.59.0</version>
 </dependency>
 ```
 
