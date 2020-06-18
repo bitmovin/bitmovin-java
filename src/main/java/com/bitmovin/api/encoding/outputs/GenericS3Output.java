@@ -10,6 +10,7 @@ public class GenericS3Output extends Output
     private String bucketName;
     private String host;
     private Integer port;
+    private boolean ssl;
 
     public GenericS3Output()
     {
@@ -64,5 +65,15 @@ public class GenericS3Output extends Output
     public void setPort(Integer port)
     {
         this.port = port;
+    }
+
+    public boolean getSsl()
+    {
+        return ssl;
+    }
+
+    public void setSsl(boolean ssl)
+    {
+        this.ssl = ssl;
     }
 }
