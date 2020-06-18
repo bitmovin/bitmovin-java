@@ -7,8 +7,8 @@ package com.bitmovin.api.constants;
  */
 public class ApiUrls
 {
-    public static final String API_ENDPOINT = "api.bitmovin.com/v1";
-    public static final String API_ENDPOINT_WITH_PROTOCOL = "https://" + API_ENDPOINT;
+    public static String API_ENDPOINT = "api.bitmovin.com/v1";
+    public static String API_ENDPOINT_WITH_PROTOCOL = "https://" + API_ENDPOINT;
 
     public static final String analyticsQuery = "analytics/queries";
     public static final String analyticsLicenses = "analytics/licenses";
